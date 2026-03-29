@@ -1,0 +1,2618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1628">
+<meta name="description" content="JKBOSE Class 12 Business Studies Interactive Learning App by Mateen Yousuf">
+<title>Class 12 Business Studies | JKBOSE</title>
+<link rel="manifest" href="manifest.json">
+<style>
+/* ===== CSS VARIABLES & RESET ===== */
+:root {
+  --navy: #0a1628;
+  --navy2: #0f2040;
+  --blue: #1a3a6b;
+  --accent: #f0a500;
+  --accent2: #e8c46a;
+  --gold: #d4a017;
+  --teal: #0d7377;
+  --teal2: #14a085;
+  --light: #f0f4ff;
+  --white: #ffffff;
+  --card: #0f2040;
+  --card2: #132850;
+  --text: #cdd6f4;
+  --muted: #8899bb;
+  --green: #2ecc71;
+  --red: #e74c3c;
+  --radius: 14px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+button{cursor:pointer;border:none;outline:none;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--navy);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px;}
+
+/* ===== SCREENS ===== */
+.screen{display:none;min-height:100vh;animation:fadeIn .4s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ===== SPLASH SCREEN ===== */
+#splash{
+  background: linear-gradient(135deg, #0a1628 0%, #0f2a5a 40%, #0a1628 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;text-align:center;padding:20px;position:relative;overflow:hidden;
+}
+#splash.active{display:flex;}
+
+/* Animated background particles */
+.particles{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none;}
+.particle{
+  position:absolute;border-radius:50%;
+  animation:float linear infinite;
+  opacity:0.15;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0deg);}
+  100%{transform:translateY(-100px) rotate(360deg);}
+}
+
+.splash-logo{
+  width:100px;height:100px;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin-bottom:24px;
+  box-shadow:0 0 40px rgba(240,165,0,0.4);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+
+.splash-title{
+  font-size:clamp(24px,6vw,42px);
+  font-weight:900;
+  color:var(--white);
+  letter-spacing:1px;
+  line-height:1.2;
+  margin-bottom:8px;
+}
+.splash-sub{
+  font-size:clamp(14px,3.5vw,20px);
+  color:var(--accent2);
+  font-weight:600;
+  margin-bottom:4px;
+}
+.jkbose-badge{
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);
+  font-weight:800;
+  padding:6px 20px;
+  border-radius:50px;
+  font-size:14px;
+  letter-spacing:2px;
+  margin:16px 0 32px;
+  display:inline-block;
+}
+
+/* Business icons row */
+.icon-row{
+  display:flex;gap:16px;margin-bottom:32px;flex-wrap:wrap;justify-content:center;
+}
+.biz-icon{
+  width:56px;height:56px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  animation:iconBounce .6s ease forwards;
+  opacity:0;
+}
+@keyframes iconBounce{to{opacity:1;transform:translateY(0);}from{opacity:0;transform:translateY(20px);}}
+
+/* Author Card on Splash */
+.author-card-splash{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(240,165,0,0.25);
+  border-radius:16px;
+  padding:20px 32px;
+  margin-bottom:32px;
+  display:flex;align-items:center;gap:16px;
+  max-width:360px;
+}
+.author-avatar-splash{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  overflow:hidden;
+  border:3px solid var(--accent);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+}
+.author-avatar-splash img{width:100%;height:100%;object-fit:cover;}
+.author-info-splash{text-align:left;}
+.author-info-splash .name{color:var(--white);font-weight:700;font-size:16px;}
+.author-info-splash .role{color:var(--accent2);font-size:13px;margin-top:2px;}
+.author-info-splash .dept{color:var(--muted);font-size:11px;margin-top:2px;}
+
+.start-btn{
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);
+  font-size:18px;font-weight:800;
+  padding:16px 48px;
+  border-radius:50px;
+  letter-spacing:1px;
+  box-shadow:0 8px 32px rgba(240,165,0,0.4);
+  transition:all .3s;
+  animation:glow 2s ease-in-out infinite;
+  text-transform:uppercase;
+}
+.start-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(240,165,0,0.6);}
+@keyframes glow{0%,100%{box-shadow:0 8px 32px rgba(240,165,0,0.4);}50%{box-shadow:0 8px 48px rgba(240,165,0,0.7);}}
+
+/* ===== TOP NAV ===== */
+.topnav{
+  background:rgba(10,22,40,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+  position:sticky;top:0;z-index:100;
+}
+.back-btn{
+  background:rgba(255,255,255,0.08);
+  color:var(--text);
+  padding:8px 14px;border-radius:8px;font-size:14px;
+  transition:.2s;
+}
+.back-btn:hover{background:rgba(255,255,255,0.15);}
+.nav-title{font-weight:700;font-size:16px;color:var(--white);flex:1;}
+.nav-badge{
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;
+}
+
+/* ===== HOME SCREEN ===== */
+#home{background:linear-gradient(160deg,#0a1628 0%,#0d1f3d 100%);}
+.home-header{
+  background:linear-gradient(135deg,var(--navy2),var(--blue));
+  padding:24px 20px 28px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.home-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.home-logo{
+  width:48px;height:48px;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+.home-title{font-size:18px;font-weight:800;color:var(--white);}
+.home-sub{font-size:12px;color:var(--accent2);font-weight:600;}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}
+.stat-box{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:10px;text-align:center;
+}
+.stat-num{font-size:22px;font-weight:800;color:var(--accent);}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* Section headers */
+.section-header{
+  padding:20px 20px 10px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title{font-size:16px;font-weight:700;color:var(--white);}
+.section-icon{font-size:18px;}
+
+/* Chapter cards */
+.chapters-grid{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;}
+.chapter-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;
+  transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.chapter-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--accent),var(--teal2));
+  border-radius:4px 0 0 4px;
+}
+.chapter-card:hover{background:var(--card2);transform:translateX(4px);}
+.ch-num{
+  width:40px;height:40px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:14px;color:var(--navy);
+  flex-shrink:0;
+}
+.ch-info{flex:1;}
+.ch-title{font-size:14px;font-weight:600;color:var(--white);line-height:1.3;}
+.ch-meta{font-size:11px;color:var(--muted);margin-top:3px;}
+.ch-arrow{font-size:18px;color:var(--muted);}
+.ch-done{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:white;
+}
+
+/* Quick actions */
+.quick-actions{padding:0 16px 16px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.quick-btn{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:16px;
+  text-align:center;cursor:pointer;transition:.25s;
+}
+.quick-btn:hover{background:var(--card2);transform:translateY(-2px);}
+.qb-icon{font-size:28px;margin-bottom:8px;}
+.qb-title{font-size:13px;font-weight:600;color:var(--white);}
+.qb-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Progress bar */
+.progress-bar-wrap{background:rgba(255,255,255,0.08);border-radius:4px;height:6px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal2));border-radius:4px;transition:width .5s ease;}
+
+/* ===== CHAPTER SCREEN ===== */
+#chapter{background:var(--navy);}
+.chapter-hero{
+  padding:24px 20px;
+  background:linear-gradient(135deg,var(--navy2),var(--blue));
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.ch-hero-num{
+  width:56px;height:56px;border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:20px;color:var(--navy);
+  margin-bottom:14px;
+}
+.ch-hero-title{font-size:22px;font-weight:800;color:var(--white);margin-bottom:8px;}
+.ch-hero-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* Chapter tabs */
+.ch-tabs{
+  display:flex;overflow-x:auto;gap:0;
+  background:var(--navy2);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  scrollbar-width:none;
+}
+.ch-tabs::-webkit-scrollbar{display:none;}
+.ch-tab{
+  padding:12px 18px;font-size:13px;font-weight:600;
+  color:var(--muted);white-space:nowrap;cursor:pointer;
+  border-bottom:3px solid transparent;transition:.2s;
+  background:none;
+}
+.ch-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.ch-tab:hover{color:var(--text);}
+
+.ch-content{padding:20px;}
+.ch-panel{display:none;}
+.ch-panel.active{display:block;}
+
+/* Concept boxes */
+.concept-box{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:18px;margin-bottom:14px;
+}
+.concept-box h3{
+  font-size:15px;font-weight:700;color:var(--accent2);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.concept-box p{font-size:13px;color:var(--text);line-height:1.7;}
+.concept-box ul{padding-left:18px;margin-top:8px;}
+.concept-box ul li{font-size:13px;color:var(--text);line-height:1.8;margin-bottom:2px;}
+
+/* Key points */
+.key-point{
+  background:rgba(240,165,0,0.08);
+  border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  padding:12px 16px;margin-bottom:10px;
+}
+.key-point strong{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+.key-point p{font-size:13px;color:var(--text);margin-top:4px;line-height:1.6;}
+
+/* Diagram */
+.diagram-box{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:18px;margin-bottom:14px;
+  text-align:center;
+}
+.diagram-title{font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:14px;}
+
+/* Case study */
+.case-study{
+  background:linear-gradient(135deg,rgba(13,115,119,0.15),rgba(20,160,133,0.1));
+  border:1px solid rgba(13,115,119,0.3);
+  border-radius:var(--radius);
+  padding:18px;margin-bottom:14px;
+}
+.case-label{font-size:11px;font-weight:700;color:var(--teal2);letter-spacing:2px;margin-bottom:8px;}
+.case-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.case-body{font-size:13px;color:var(--text);line-height:1.7;}
+.case-question{
+  background:rgba(255,255,255,0.05);
+  border-radius:8px;padding:12px;margin-top:10px;
+}
+.case-question strong{color:var(--accent2);font-size:12px;}
+.case-question p{font-size:13px;color:var(--text);margin-top:4px;}
+
+/* ===== QUIZ SCREEN ===== */
+#quiz{background:var(--navy);}
+.quiz-hero{
+  padding:24px 20px;
+  background:linear-gradient(135deg,#0f2040,#1a3a6b);
+  text-align:center;
+}
+.quiz-hero h2{font-size:22px;font-weight:800;color:var(--white);}
+.quiz-hero p{color:var(--muted);font-size:13px;margin-top:6px;}
+
+.quiz-progress{
+  padding:16px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.quiz-prog-num{font-size:13px;font-weight:600;color:var(--accent);white-space:nowrap;}
+.quiz-prog-bar{flex:1;background:rgba(255,255,255,0.1);border-radius:4px;height:6px;overflow:hidden;}
+.quiz-prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal2));border-radius:4px;transition:width .4s;}
+.quiz-score-badge{
+  background:rgba(240,165,0,0.15);
+  border:1px solid rgba(240,165,0,0.3);
+  padding:4px 10px;border-radius:50px;
+  font-size:12px;font-weight:700;color:var(--accent);
+}
+
+.quiz-card{padding:20px;}
+.quiz-q-box{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:20px;margin-bottom:16px;
+}
+.quiz-q-type{font-size:11px;color:var(--teal2);font-weight:700;letter-spacing:1px;margin-bottom:8px;}
+.quiz-q-text{font-size:15px;color:var(--white);font-weight:600;line-height:1.6;}
+.quiz-q-case{
+  background:rgba(255,255,255,0.04);
+  border-radius:8px;padding:12px;margin-top:10px;
+  font-size:13px;color:var(--muted);line-height:1.6;
+  font-style:italic;
+}
+
+.quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.quiz-opt{
+  background:var(--card);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:14px 16px;
+  text-align:left;font-size:14px;color:var(--text);
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;
+}
+.quiz-opt:hover:not(:disabled){background:var(--card2);border-color:var(--accent);}
+.quiz-opt.correct{border-color:var(--green);background:rgba(46,204,113,0.1);color:var(--white);}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(231,76,60,0.1);color:var(--white);}
+.quiz-opt:disabled{cursor:default;}
+.opt-letter{
+  width:28px;height:28px;border-radius:8px;
+  background:rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;flex-shrink:0;
+}
+.quiz-opt.correct .opt-letter{background:var(--green);color:white;}
+.quiz-opt.wrong .opt-letter{background:var(--red);color:white;}
+
+.feedback-box{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:16px;margin-bottom:16px;
+  display:none;
+}
+.feedback-box.show{display:block;}
+.feedback-correct{border:1px solid var(--green);background:rgba(46,204,113,0.08);}
+.feedback-wrong{border:1px solid var(--red);background:rgba(231,76,60,0.08);}
+.feedback-title{font-size:15px;font-weight:700;margin-bottom:6px;}
+.feedback-correct .feedback-title{color:var(--green);}
+.feedback-wrong .feedback-title{color:var(--red);}
+.feedback-explanation{font-size:13px;color:var(--text);line-height:1.6;}
+
+.quiz-next-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);font-weight:800;font-size:15px;
+  padding:15px;border-radius:12px;transition:.2s;
+}
+.quiz-next-btn:hover{transform:translateY(-2px);}
+
+/* Quiz Result */
+.quiz-result{
+  padding:40px 20px;text-align:center;
+}
+.result-circle{
+  width:140px;height:140px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  box-shadow:0 0 60px rgba(240,165,0,0.4);
+}
+.result-pct{font-size:40px;font-weight:900;color:var(--navy);}
+.result-lbl{font-size:12px;font-weight:700;color:var(--navy);opacity:.8;}
+.result-title{font-size:24px;font-weight:800;color:var(--white);margin-bottom:8px;}
+.result-msg{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.res-btn{
+  padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px;transition:.2s;cursor:pointer;
+}
+.res-btn-primary{background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--navy);}
+.res-btn-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:var(--text);}
+.res-btn:hover{transform:translateY(-2px);}
+
+/* ===== SIMULATIONS ===== */
+#simulations{background:var(--navy);}
+.sim-header{
+  padding:24px 20px;
+  background:linear-gradient(135deg,var(--navy2),var(--blue));
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.sim-header h2{font-size:22px;font-weight:800;color:var(--white);}
+.sim-header p{color:var(--muted);font-size:13px;margin-top:6px;}
+
+.sim-cards{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.sim-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:.25s;
+}
+.sim-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.sim-card-header{
+  padding:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.sim-icon{
+  width:52px;height:52px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.sim-icon-mgmt{background:linear-gradient(135deg,#e74c3c,#c0392b);}
+.sim-icon-org{background:linear-gradient(135deg,#3498db,#2980b9);}
+.sim-icon-mkt{background:linear-gradient(135deg,var(--teal),var(--teal2));}
+.sim-icon-biz{background:linear-gradient(135deg,#9b59b6,#8e44ad);}
+.sim-icon-fin{background:linear-gradient(135deg,var(--accent),var(--gold));}
+.sim-info{flex:1;}
+.sim-title{font-size:15px;font-weight:700;color:var(--white);}
+.sim-desc{font-size:12px;color:var(--muted);margin-top:3px;}
+.sim-launch{
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);font-size:11px;font-weight:700;
+  padding:5px 14px;border-radius:50px;
+}
+
+/* Simulation active panels */
+.sim-panel{display:none;padding:20px;}
+.sim-panel.active{display:block;}
+
+/* Management Sim */
+.mgmt-scenario{
+  background:var(--card);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);padding:18px;margin-bottom:16px;
+}
+.mgmt-scenario h3{font-size:15px;color:var(--white);font-weight:700;margin-bottom:8px;}
+.mgmt-scenario p{font-size:13px;color:var(--muted);line-height:1.6;}
+.mgmt-choices{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+.mgmt-choice{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:12px 16px;
+  text-align:left;font-size:13px;color:var(--text);
+  cursor:pointer;transition:.2s;
+}
+.mgmt-choice:hover{border-color:var(--accent);background:rgba(240,165,0,0.08);}
+.mgmt-choice.selected{border-color:var(--teal2);background:rgba(20,160,133,0.1);}
+.mgmt-result{
+  background:rgba(13,115,119,0.15);
+  border:1px solid rgba(13,115,119,0.3);
+  border-radius:var(--radius);padding:16px;
+  display:none;margin-top:12px;
+}
+.mgmt-result.show{display:block;}
+.mgmt-result h4{color:var(--teal2);font-size:14px;margin-bottom:6px;}
+.mgmt-result p{font-size:13px;color:var(--text);line-height:1.6;}
+
+/* Org Builder */
+.org-chart{
+  background:var(--card);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);padding:20px;margin-bottom:16px;
+  overflow-x:auto;
+}
+.org-node-row{display:flex;justify-content:center;gap:16px;margin-bottom:10px;position:relative;}
+.org-node{
+  background:linear-gradient(135deg,var(--blue),#1a4080);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:10px;padding:10px 16px;text-align:center;
+  font-size:12px;font-weight:600;color:var(--white);
+  min-width:100px;position:relative;white-space:nowrap;
+}
+.org-node.ceo{background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--navy);}
+.org-node.mgr{background:linear-gradient(135deg,var(--teal),var(--teal2));}
+.org-connector{
+  display:flex;justify-content:center;
+  height:20px;
+}
+.org-connector::before{
+  content:'';width:2px;background:rgba(255,255,255,0.2);
+}
+.org-h-line{height:2px;background:rgba(255,255,255,0.2);margin:0 auto;}
+
+/* Marketing Mix */
+.mix-sliders{display:flex;flex-direction:column;gap:16px;margin-bottom:20px;}
+.mix-row{
+  background:var(--card);border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;padding:16px;
+}
+.mix-label{font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;display:flex;justify-content:space-between;}
+.mix-label span{color:var(--accent);font-size:14px;}
+.mix-slider{
+  width:100%;-webkit-appearance:none;appearance:none;
+  height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;
+}
+.mix-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));cursor:pointer;
+}
+.mix-result{
+  background:var(--card);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);padding:16px;
+}
+.mix-result-title{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:12px;}
+.mix-metric{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.mix-metric-lbl{font-size:12px;color:var(--muted);}
+.mix-metric-val{font-size:14px;font-weight:700;}
+
+/* Finance Sim */
+.fin-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.fin-opt{
+  background:var(--card);border:2px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:.2s;
+}
+.fin-opt:hover{border-color:var(--accent);}
+.fin-opt.selected{border-color:var(--accent);background:rgba(240,165,0,0.08);}
+.fin-opt-icon{font-size:28px;margin-bottom:8px;}
+.fin-opt-title{font-size:12px;font-weight:700;color:var(--white);}
+.fin-opt-desc{font-size:11px;color:var(--muted);margin-top:3px;}
+.fin-meter{
+  background:var(--card);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);padding:16px;
+}
+.fin-meter-title{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:12px;}
+.fin-bar-row{margin-bottom:10px;}
+.fin-bar-label{font-size:12px;color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between;}
+.fin-bar{background:rgba(255,255,255,0.08);border-radius:4px;height:8px;overflow:hidden;}
+.fin-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+
+/* ===== PROGRESS SCREEN ===== */
+#progress-screen{background:var(--navy);}
+.prog-header{
+  padding:24px 20px;
+  background:linear-gradient(135deg,var(--navy2),var(--blue));
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+}
+.prog-circle{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 0 40px rgba(240,165,0,0.3);
+}
+.prog-pct{font-size:36px;font-weight:900;color:var(--navy);}
+.prog-lbl{font-size:11px;color:var(--navy);opacity:.8;font-weight:700;}
+.prog-title{font-size:20px;font-weight:800;color:var(--white);}
+.prog-subtitle{font-size:13px;color:var(--muted);margin-top:4px;}
+
+.prog-chapters{padding:16px;}
+.prog-ch-item{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;padding:14px 16px;
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;
+}
+.prog-ch-icon{font-size:20px;}
+.prog-ch-info{flex:1;}
+.prog-ch-title{font-size:13px;font-weight:600;color:var(--white);}
+.prog-ch-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.prog-ch-status{font-size:20px;}
+
+/* ===== THINKERS GALLERY ===== */
+#thinkers{background:var(--navy);}
+.thinker-cards{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.thinker-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex;gap:14px;
+}
+.thinker-avatar{
+  width:60px;height:60px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.thinker-info h3{font-size:15px;font-weight:700;color:var(--white);}
+.thinker-info .era{font-size:11px;color:var(--accent2);margin-bottom:6px;}
+.thinker-info p{font-size:13px;color:var(--text);line-height:1.6;}
+.thinker-contrib{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;
+}
+.contrib-tag{
+  background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.25);
+  border-radius:50px;padding:2px 10px;font-size:11px;color:var(--accent2);
+}
+
+/* ===== UTILITY ===== */
+.spacer{height:80px;}
+.center{text-align:center;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:0 20px 20px;}
+.action-btn{
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--navy);font-weight:700;font-size:14px;
+  padding:12px 24px;border-radius:50px;cursor:pointer;transition:.2s;
+}
+.action-btn:hover{transform:translateY(-2px);}
+.outline-btn{
+  background:transparent;border:2px solid var(--accent);
+  color:var(--accent);font-weight:700;font-size:14px;
+  padding:10px 24px;border-radius:50px;cursor:pointer;transition:.2s;
+}
+.outline-btn:hover{background:rgba(240,165,0,0.1);}
+
+/* Floating bottom nav */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(10,22,40,0.97);
+  backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  display:flex;padding:8px 0;
+  z-index:100;
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 4px;cursor:pointer;transition:.2s;
+  background:none;border:none;
+}
+.bnav-icon{font-size:20px;}
+.bnav-lbl{font-size:9px;color:var(--muted);font-weight:600;}
+.bnav-item.active .bnav-lbl{color:var(--accent);}
+.bnav-item.active .bnav-icon{filter:drop-shadow(0 0 6px rgba(240,165,0,0.6));}
+
+/* SVG Diagrams */
+svg{max-width:100%;height:auto;}
+
+/* Responsive */
+@media(min-width:600px){
+  .chapters-grid,.sim-cards,.thinker-cards,.prog-chapters{max-width:700px;margin:0 auto;}
+  .quick-actions{max-width:700px;margin:0 auto;grid-template-columns:repeat(4,1fr);}
+  .stats-row{max-width:700px;margin:16px auto 0;}
+  .home-header{padding:28px;}
+  .fin-options{grid-template-columns:repeat(4,1fr);}
+  .quiz-card{max-width:700px;margin:0 auto;}
+  .ch-content{max-width:700px;margin:0 auto;}
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(46,204,113,0.95);color:white;
+  padding:10px 24px;border-radius:50px;
+  font-size:13px;font-weight:600;
+  opacity:0;transition:.3s;pointer-events:none;z-index:999;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div class="screen active" id="splash">
+  <div class="particles" id="particles"></div>
+  
+  <div class="splash-logo">📚</div>
+  
+  <div class="splash-title">Business Studies</div>
+  <div class="splash-sub">Class 12 Interactive Learning</div>
+  <div class="jkbose-badge">JKBOSE</div>
+
+  <!-- Business Icons -->
+  <div class="icon-row">
+    <div class="biz-icon" style="animation-delay:.1s">📊</div>
+    <div class="biz-icon" style="animation-delay:.2s">🏢</div>
+    <div class="biz-icon" style="animation-delay:.3s">💹</div>
+    <div class="biz-icon" style="animation-delay:.4s">🤝</div>
+    <div class="biz-icon" style="animation-delay:.5s">📋</div>
+    <div class="biz-icon" style="animation-delay:.6s">💡</div>
+  </div>
+
+  <!-- Author Card -->
+  <div class="author-card-splash">
+    <div class="author-avatar-splash">
+      <img src="author.jpg" alt="Mateen Yousuf" onerror="this.parentElement.innerHTML='👨‍🏫'">
+    </div>
+    <div class="author-info-splash">
+      <div class="name">Mateen Yousuf</div>
+      <div class="role">Teacher</div>
+      <div class="dept">School Education Department<br>Jammu & Kashmir</div>
+    </div>
+  </div>
+
+  <button class="start-btn" onclick="showScreen('home')">🚀 Start Learning</button>
+</div>
+
+<!-- ===== HOME SCREEN ===== -->
+<div class="screen" id="home">
+  <div class="home-header">
+    <div class="home-top">
+      <div class="home-logo">📚</div>
+      <div>
+        <div class="home-title">Business Studies</div>
+        <div class="home-sub">Class 12 | JKBOSE Curriculum</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-chapters">14</div>
+        <div class="stat-lbl">Chapters</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-done">0</div>
+        <div class="stat-lbl">Completed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-score">0%</div>
+        <div class="stat-lbl">Avg Score</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Overall Progress</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="overall-progress" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="section-header">
+    <span class="section-icon">⚡</span>
+    <span class="section-title">Quick Access</span>
+  </div>
+  <div class="quick-actions">
+    <div class="quick-btn" onclick="showScreen('simulations')">
+      <div class="qb-icon">🧪</div>
+      <div class="qb-title">Simulations</div>
+      <div class="qb-sub">Business Labs</div>
+    </div>
+    <div class="quick-btn" onclick="startQuizAll()">
+      <div class="qb-icon">📝</div>
+      <div class="qb-title">Full Quiz</div>
+      <div class="qb-sub">All Chapters</div>
+    </div>
+    <div class="quick-btn" onclick="showScreen('thinkers')">
+      <div class="qb-icon">🧠</div>
+      <div class="qb-title">Thinkers</div>
+      <div class="qb-sub">Management Icons</div>
+    </div>
+    <div class="quick-btn" onclick="showScreen('progress-screen')">
+      <div class="qb-icon">📈</div>
+      <div class="qb-title">Progress</div>
+      <div class="qb-sub">Track Learning</div>
+    </div>
+  </div>
+
+  <!-- Chapters -->
+  <div class="section-header">
+    <span class="section-icon">📖</span>
+    <span class="section-title">All Chapters</span>
+  </div>
+  <div class="chapters-grid" id="chapters-list"></div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== CHAPTER SCREEN ===== -->
+<div class="screen" id="chapter">
+  <div class="topnav">
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+    <span class="nav-title" id="chapter-nav-title">Chapter</span>
+    <span class="nav-badge">JKBOSE</span>
+  </div>
+  <div class="chapter-hero">
+    <div class="ch-hero-num" id="ch-num">01</div>
+    <div class="ch-hero-title" id="ch-title">Chapter Title</div>
+    <div class="ch-hero-desc" id="ch-desc">Description</div>
+  </div>
+  <div class="ch-tabs" id="ch-tabs">
+    <button class="ch-tab active" onclick="showChTab('concepts',this)">📖 Concepts</button>
+    <button class="ch-tab" onclick="showChTab('diagrams',this)">📊 Diagrams</button>
+    <button class="ch-tab" onclick="showChTab('cases',this)">💼 Case Studies</button>
+    <button class="ch-tab" onclick="showChTab('quiz',this)">📝 Quiz</button>
+  </div>
+  <div class="ch-content">
+    <div class="ch-panel active" id="panel-concepts"></div>
+    <div class="ch-panel" id="panel-diagrams"></div>
+    <div class="ch-panel" id="panel-cases"></div>
+    <div class="ch-panel" id="panel-quiz"></div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== QUIZ SCREEN ===== -->
+<div class="screen" id="quiz">
+  <div class="topnav">
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+    <span class="nav-title" id="quiz-nav-title">Quiz Mode</span>
+    <span class="quiz-score-badge" id="live-score">Score: 0</span>
+  </div>
+  <div class="quiz-hero">
+    <h2 id="quiz-hero-title">📝 Business Studies Quiz</h2>
+    <p id="quiz-hero-sub">Test your knowledge</p>
+  </div>
+  <div class="quiz-progress">
+    <span class="quiz-prog-num" id="q-counter">Q 1/10</span>
+    <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="q-prog-fill" style="width:10%"></div></div>
+  </div>
+  <div class="quiz-card" id="quiz-card">
+    <div class="quiz-q-box">
+      <div class="quiz-q-type" id="q-type">MCQ</div>
+      <div class="quiz-q-case" id="q-case" style="display:none"></div>
+      <div class="quiz-q-text" id="q-text">Question here</div>
+    </div>
+    <div class="quiz-options" id="quiz-options"></div>
+    <div class="feedback-box" id="feedback-box">
+      <div class="feedback-title" id="feedback-title">✅ Correct!</div>
+      <div class="feedback-explanation" id="feedback-exp"></div>
+    </div>
+    <button class="quiz-next-btn" id="quiz-next-btn" onclick="nextQuestion()" style="display:none">Next Question →</button>
+  </div>
+  <div id="quiz-result" style="display:none">
+    <div class="quiz-result">
+      <div class="result-circle">
+        <div class="result-pct" id="res-pct">0%</div>
+        <div class="result-lbl">Score</div>
+      </div>
+      <div class="result-title" id="res-title">Well Done!</div>
+      <div class="result-msg" id="res-msg">Keep up the great work!</div>
+      <div class="result-actions">
+        <button class="res-btn res-btn-primary" onclick="restartQuiz()">🔄 Try Again</button>
+        <button class="res-btn res-btn-secondary" onclick="showScreen('home')">🏠 Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIMULATIONS SCREEN ===== -->
+<div class="screen" id="simulations">
+  <div class="topnav">
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+    <span class="nav-title">Business Simulations</span>
+    <span class="nav-badge">LAB</span>
+  </div>
+  <div class="sim-header">
+    <h2>🧪 Business Simulation Lab</h2>
+    <p>Interactive tools to understand real-world business decisions</p>
+  </div>
+  
+  <!-- Sim list -->
+  <div class="sim-cards" id="sim-list">
+    <div class="sim-card" onclick="launchSim('mgmt')">
+      <div class="sim-card-header">
+        <div class="sim-icon sim-icon-mgmt">🎯</div>
+        <div class="sim-info">
+          <div class="sim-title">Management Decision Simulator</div>
+          <div class="sim-desc">Choose management strategies & see outcomes</div>
+        </div>
+        <div class="sim-launch">LAUNCH →</div>
+      </div>
+    </div>
+    <div class="sim-card" onclick="launchSim('org')">
+      <div class="sim-card-header">
+        <div class="sim-icon sim-icon-org">🏗️</div>
+        <div class="sim-info">
+          <div class="sim-title">Organizational Structure Builder</div>
+          <div class="sim-desc">Design company hierarchy visually</div>
+        </div>
+        <div class="sim-launch">LAUNCH →</div>
+      </div>
+    </div>
+    <div class="sim-card" onclick="launchSim('mkt')">
+      <div class="sim-card-header">
+        <div class="sim-icon sim-icon-mkt">📢</div>
+        <div class="sim-info">
+          <div class="sim-title">Marketing Mix Simulator (4Ps)</div>
+          <div class="sim-desc">Set price, product, promotion, place</div>
+        </div>
+        <div class="sim-launch">LAUNCH →</div>
+      </div>
+    </div>
+    <div class="sim-card" onclick="launchSim('biz')">
+      <div class="sim-card-header">
+        <div class="sim-icon sim-icon-biz">🌍</div>
+        <div class="sim-info">
+          <div class="sim-title">Business Environment Analyzer</div>
+          <div class="sim-desc">SWOT & PESTLE analysis tool</div>
+        </div>
+        <div class="sim-launch">LAUNCH →</div>
+      </div>
+    </div>
+    <div class="sim-card" onclick="launchSim('fin')">
+      <div class="sim-card-header">
+        <div class="sim-icon sim-icon-fin">💰</div>
+        <div class="sim-info">
+          <div class="sim-title">Financial Decision Simulator</div>
+          <div class="sim-desc">Investment, leverage & funding choices</div>
+        </div>
+        <div class="sim-launch">LAUNCH →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sim Panels -->
+  <div class="sim-panel" id="sim-mgmt"></div>
+  <div class="sim-panel" id="sim-org"></div>
+  <div class="sim-panel" id="sim-mkt"></div>
+  <div class="sim-panel" id="sim-biz"></div>
+  <div class="sim-panel" id="sim-fin"></div>
+
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== THINKERS SCREEN ===== -->
+<div class="screen" id="thinkers">
+  <div class="topnav">
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+    <span class="nav-title">Management Thinkers</span>
+    <span class="nav-badge">Gallery</span>
+  </div>
+  <div style="padding:20px 20px 10px;background:linear-gradient(135deg,var(--navy2),var(--blue));border-bottom:1px solid rgba(255,255,255,0.08);">
+    <h2 style="font-size:20px;font-weight:800;color:var(--white)">🧠 Management Thinkers Gallery</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:6px">Pioneers who shaped modern management</p>
+  </div>
+  <div class="thinker-cards" id="thinkers-list"></div>
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== PROGRESS SCREEN ===== -->
+<div class="screen" id="progress-screen">
+  <div class="topnav">
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+    <span class="nav-title">My Progress</span>
+  </div>
+  <div class="prog-header">
+    <div class="prog-circle">
+      <div class="prog-pct" id="prog-pct">0%</div>
+      <div class="prog-lbl">COMPLETE</div>
+    </div>
+    <div class="prog-title">Learning Progress</div>
+    <div class="prog-subtitle" id="prog-sub">Start learning to track your progress</div>
+  </div>
+  <div class="prog-chapters" id="prog-chapters-list"></div>
+  <div class="btn-row">
+    <button class="action-btn" onclick="resetProgress()">🔄 Reset Progress</button>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- BOTTOM NAV (shown on app screens) -->
+<div class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="bnav-item active" onclick="showScreen('home');setNav(this)">
+    <span class="bnav-icon">🏠</span>
+    <span class="bnav-lbl">Home</span>
+  </button>
+  <button class="bnav-item" onclick="showScreen('simulations');setNav(this)">
+    <span class="bnav-icon">🧪</span>
+    <span class="bnav-lbl">Labs</span>
+  </button>
+  <button class="bnav-item" onclick="startQuizAll();setNav(this)">
+    <span class="bnav-icon">📝</span>
+    <span class="bnav-lbl">Quiz</span>
+  </button>
+  <button class="bnav-item" onclick="showScreen('thinkers');setNav(this)">
+    <span class="bnav-icon">🧠</span>
+    <span class="bnav-lbl">Thinkers</span>
+  </button>
+  <button class="bnav-item" onclick="showScreen('progress-screen');setNav(this)">
+    <span class="bnav-icon">📈</span>
+    <span class="bnav-lbl">Progress</span>
+  </button>
+</div>
+
+<script>
+/* ============================
+   DATA: JKBOSE CLASS 12 CHAPTERS
+   ============================ */
+const CHAPTERS = [
+{
+  id:1, emoji:'🎯',
+  title:'Nature and Significance of Management',
+  theme:'Principles & Functions of Management',
+  desc:'Understanding management as a process, its characteristics, importance, and levels.',
+  concepts:[
+    {title:'What is Management?',icon:'📋',
+     body:'Management is the process of planning, organising, staffing, directing and controlling to achieve organisational goals effectively and efficiently.',
+     points:['Management is a goal-oriented process','It involves working with and through people','Management is all-pervasive across all organisations','It is a continuous, dynamic process']
+    },
+    {title:'Characteristics of Management',icon:'✨',
+     body:'Management has several distinguishing features that define its nature.',
+     points:['Goal-oriented: Aims to achieve specific targets','Continuous process: Never stops, always ongoing','Multidimensional: Manages work, people, and operations','Collective activity: Achieved through group effort','Dynamic function: Adapts to changing environment','Intangible force: Invisible but results are felt']
+    },
+    {title:'Levels of Management',icon:'🏗️',
+     body:'Management operates at three distinct levels, each with specific roles and responsibilities.',
+     points:['Top Level: Board of Directors, CEO — policy-making','Middle Level: Departmental Managers — implementing policies','Lower/Supervisory Level: Foremen, Supervisors — direct operations']
+    },
+    {title:'Importance of Management',icon:'⭐',
+     body:'Management is vital for organisational success and societal development.',
+     points:['Helps achieve group goals efficiently','Optimum utilisation of resources','Reduces costs through planning','Establishes sound organisation','Brings about coordination','Creates a dynamic organisation','Develops society by creating employment and prosperity']
+    },
+    {title:'Management as Science, Art & Profession',icon:'🔬',
+     body:'Management has characteristics of science (systematic body of knowledge), art (application of skill), and a profession (ethical code of conduct).',
+     points:['Science: Tested principles, cause-effect relationship','Art: Personalised application, constant practice','Profession: Formal education, code of ethics']
+    }
+  ],
+  keypoints:[
+    {title:'Henri Fayol',body:'Defined management as "to forecast and plan, to organise, to command, to coordinate and to control."'},
+    {title:'Peter Drucker',body:'Called management "a multi-purpose organ that manages a business, manages managers, and manages workers."'}
+  ],
+  diagram:'mgmt-levels',
+  cases:[
+    {title:'Infosys: Management Excellence',
+     body:'Infosys, founded in 1981 by Narayana Murthy and 6 engineers with $250, grew into a $18 billion global IT company. The key was excellent management — clear vision, sound planning, ethical governance, and continuous learning culture.',
+     question:'What management principles helped Infosys achieve such phenomenal growth?',
+     answer:'Infosys succeeded through: (1) Goal-oriented management with clear vision; (2) Effective planning of resources; (3) Ethical professional management; (4) Continuous adaptation to business environment.'
+    }
+  ],
+  quiz:[
+    {type:'MCQ',q:'Which of the following is NOT a characteristic of management?',opts:['Goal-oriented','Continuous process','Static function','All-pervasive'],ans:'Static function',exp:'Management is a dynamic, not static, function. It continuously adapts to changing business environments.'},
+    {type:'MCQ',q:'Management is called "all-pervasive" because:',opts:['It manages all assets','It is required in all types of organisations','It is present everywhere in nature','It manages all problems'],ans:'It is required in all types of organisations',exp:'Management is needed in all organisations — business, government, NGOs, hospitals, schools — hence it is all-pervasive.'},
+    {type:'Scenario',case:'Riya is the CEO of a startup. She sets quarterly targets, allocates budget, and reviews performance monthly.',q:'Which level of management does Riya belong to?',opts:['Top Level Management','Middle Level Management','Supervisory Level Management','Operational Management'],ans:'Top Level Management',exp:'The CEO is at the top level, responsible for overall direction, policy-making and long-term goals.'},
+    {type:'MCQ',q:'The function of management that involves keeping activities on track is:',opts:['Planning','Organising','Controlling','Staffing'],ans:'Controlling',exp:'Controlling involves measuring actual performance against standards and taking corrective action.'}
+  ]
+},
+{
+  id:2, emoji:'📐',
+  title:'Principles of Management',
+  theme:'Principles & Functions of Management',
+  desc:'Fayol\'s 14 principles and Taylor\'s scientific management techniques.',
+  concepts:[
+    {title:'Fayol\'s 14 Principles of Management',icon:'🏛️',
+     body:'Henri Fayol, the "Father of General Management," gave 14 universal principles that guide managerial thinking.',
+     points:['Division of Work: Specialisation increases efficiency','Authority and Responsibility: Must be balanced','Discipline: Essential for smooth functioning','Unity of Command: One boss per employee','Unity of Direction: One head, one plan per activity','Subordination: Individual interest < organisational interest','Remuneration: Fair pay motivates workers','Centralisation vs Decentralisation: Balance based on situation','Scalar Chain: Line of authority top to bottom (Gang Plank)','Order: Right person, right place','Equity: Fair and kind treatment','Stability of Tenure: Reduces employee turnover','Initiative: Employees should be encouraged to take initiative','Esprit de Corps: Team spirit and harmony']
+    },
+    {title:'Taylor\'s Scientific Management',icon:'⚙️',
+     body:'F.W. Taylor, the "Father of Scientific Management," replaced rule-of-thumb methods with scientific study of work.',
+     points:['Science not Rule of Thumb: Study, measure, standardise work','Harmony not Discord: Cooperation between management and workers','Mental Revolution: Change in attitude of both parties','Maximum Output: Not just reasonable output','Development of Workers: Train and develop each worker to their best potential']
+    },
+    {title:'Techniques of Scientific Management',icon:'🔧',
+     body:'Taylor developed specific tools to implement scientific management.',
+     points:['Time Study: Determine standard time for each task','Motion Study: Eliminate unnecessary movements','Fatigue Study: Determine rest intervals','Method Study: Best way to do a job','Functional Foremanship: 8 specialists oversee different aspects','Differential Piece Wage System: Higher pay for efficient workers','Standardisation: Standard tools, methods, conditions']
+    }
+  ],
+  keypoints:[
+    {title:'Fayol vs Taylor',body:'Fayol focused on top management (general management approach); Taylor focused on shop floor/production level (scientific approach).'},
+    {title:'Gang Plank',body:'Fayol\'s Gang Plank allows direct horizontal communication between equal levels in emergency, bypassing scalar chain with superior\'s permission.'}
+  ],
+  diagram:'fayol-principles',
+  cases:[
+    {title:'McDonald\'s: Scientific Management in Action',
+     body:'McDonald\'s uses time study (each burger in 60 seconds), motion study (ergonomic kitchen layout), standardisation (same taste worldwide), and specialisation (each worker has a specific role). This is Taylor\'s scientific management in practice.',
+     question:'How does McDonald\'s apply Taylor\'s principles?',
+     answer:'McDonald\'s applies: Time Study (timed cooking procedures), Standardisation (uniform processes worldwide), Division of Work (specialised roles), and Method Study (efficient kitchen design).'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Who is called the "Father of Scientific Management"?',opts:['Henri Fayol','F.W. Taylor','Peter Drucker','Elton Mayo'],ans:'F.W. Taylor',exp:'F.W. Taylor gave the theory of Scientific Management, earning him the title "Father of Scientific Management."'},
+    {type:'MCQ',q:'Fayol\'s principle of "Unity of Command" states that:',opts:['All workers should have one common goal','An employee should receive orders from only one superior','There should be one plan for one activity','Commands should be standardised'],ans:'An employee should receive orders from only one superior',exp:'Unity of Command means each employee should have only one boss to avoid confusion and conflict.'},
+    {type:'MCQ',q:'Under Differential Piece Wage System, who gets higher wages?',opts:['All workers equally','Inefficient workers','Efficient workers who meet standards','Senior workers'],ans:'Efficient workers who meet standards',exp:'Taylor\'s differential piece wage gives higher rates to workers who meet/exceed standard output, incentivising efficiency.'},
+    {type:'Scenario',case:'A factory manager implements time study, motion study and standardised tools. Workers are trained scientifically.',q:'This factory is applying concepts of:',opts:['Fayol\'s General Management','Taylor\'s Scientific Management','Maslow\'s Theory','Weber\'s Bureaucracy'],ans:'Taylor\'s Scientific Management',exp:'Time study, motion study, standardisation and worker training are core techniques of F.W. Taylor\'s Scientific Management.'}
+  ]
+},
+{
+  id:3, emoji:'🌍',
+  title:'Business Environment',
+  theme:'Principles & Functions of Management',
+  desc:'Understanding internal and external forces that influence business decisions.',
+  concepts:[
+    {title:'Meaning of Business Environment',icon:'🌐',
+     body:'Business environment refers to all internal and external forces/factors that affect business decisions, performance, and survival.',
+     points:['Totality of all external forces affecting business','Includes economic, social, political, technological, legal factors','Businesses must continuously monitor and adapt to it','Environment is dynamic — constantly changing']
+    },
+    {title:'Features of Business Environment',icon:'✨',
+     body:'The business environment has key characteristics.',
+     points:['Totality of external forces: All factors together','Specific and general forces: Industry-specific + general','Inter-relatedness: All factors are connected','Dynamic nature: Keeps changing','Uncertainty: Cannot predict with certainty','Complexity: Difficult to comprehend completely','Relativity: Differs from country to country']
+    },
+    {title:'PESTLE Analysis',icon:'📊',
+     body:'PESTLE framework identifies key macro-environmental factors affecting business.',
+     points:['Political: Government policies, taxation, stability','Economic: GDP, inflation, interest rates, employment','Social: Demographics, culture, lifestyle, education','Technological: Innovation, R&D, automation','Legal: Consumer law, employment law, regulations','Environmental: Climate, sustainability, carbon footprint']
+    },
+    {title:'Liberalisation, Privatisation & Globalisation (1991)',icon:'🚀',
+     body:'India\'s 1991 economic reforms fundamentally changed the business environment.',
+     points:['Liberalisation: Removal of unnecessary controls and regulations','Privatisation: Transfer of public sector to private ownership','Globalisation: Integration with world economy','Effects: FDI inflow, competition, technology transfer, consumer benefits']
+    }
+  ],
+  keypoints:[
+    {title:'Demonetisation Impact',body:'2016 demonetisation was an external political-economic environmental change that affected cash-based businesses significantly.'},
+    {title:'COVID-19 Effect',body:'The pandemic transformed business environment — accelerating digital transformation, remote work, e-commerce growth.'}
+  ],
+  diagram:'pestle',
+  cases:[
+    {title:'Jio: Disrupting the Telecom Environment',
+     body:'Reliance Jio\'s 2016 launch disrupted the entire telecom sector. It offered free voice calls and cheap data, using technology (4G LTE) and aggressive pricing. Competitors like Aircel had to exit; others merged. The technological and economic environment changed completely.',
+     question:'Which PESTLE factors did Jio leverage to disrupt the market?',
+     answer:'Jio leveraged: Technological (4G LTE infrastructure), Economic (cheap pricing strategy), Political (spectrum allocation policies), and Social (India\'s growing smartphone adoption) factors.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'The term "Business Environment" refers to:',opts:['The office space of a business','All external forces affecting business decisions','Only the economic conditions','The internal culture of an organisation'],ans:'All external forces affecting business decisions',exp:'Business environment encompasses all external forces — economic, social, political, technological, legal — that impact business decisions.'},
+    {type:'MCQ',q:'Liberalisation means:',opts:['Government taking over private businesses','Removal of unnecessary restrictions on businesses','Integration with the world economy','Transfer of public enterprises to private sector'],ans:'Removal of unnecessary restrictions on businesses',exp:'Liberalisation refers to the relaxation/removal of government controls and restrictions to allow free market operations.'},
+    {type:'Scenario',case:'A company faces new pollution control regulations and changing consumer preferences for eco-friendly products.',q:'Which environmental forces are primarily at work?',opts:['Political and Social','Economic and Technological','Legal and Social','Political and Economic'],ans:'Legal and Social',exp:'Pollution regulations are Legal forces; changing consumer preferences for eco-friendly products represent Social forces in PESTLE.'},
+    {type:'MCQ',q:'India\'s 1991 economic reforms included:',opts:['Only Privatisation','Only Liberalisation','LPG - Liberalisation, Privatisation and Globalisation','Only Globalisation'],ans:'LPG - Liberalisation, Privatisation and Globalisation',exp:'India\'s 1991 reforms are collectively known as LPG reforms — Liberalisation (reducing controls), Privatisation (public to private), and Globalisation (opening to world economy).'}
+  ]
+},
+{
+  id:4, emoji:'🗺️',
+  title:'Planning',
+  theme:'Principles & Functions of Management',
+  desc:'The primary function of management — setting objectives and determining action plans.',
+  concepts:[
+    {title:'Meaning and Importance of Planning',icon:'🗺️',
+     body:'Planning is the process of setting objectives and deciding in advance the best course of action to achieve them. It bridges the gap between where we are and where we want to be.',
+     points:['Primary function of management','Focuses on future activities','Involves selection from alternatives','Pervasive — done at all levels','Continuous process','Mental exercise — requires intellectual effort']
+    },
+    {title:'Importance of Planning',icon:'⭐',
+     body:'Planning is crucial for organisational success.',
+     points:['Provides direction to all activities','Reduces risk and uncertainty','Reduces overlapping and wasteful activities','Promotes innovative thinking','Facilitates decision making','Establishes standards for controlling','Helps in achieving objectives']
+    },
+    {title:'Limitations of Planning',icon:'⚠️',
+     body:'Planning has certain limitations that managers must be aware of.',
+     points:['Rigidity: Strict plans may limit adaptation','May not work in dynamic environment','Reduces creativity in subordinates','Involves huge cost (time and money)','Time-consuming process','Does not guarantee success']
+    },
+    {title:'Types of Plans',icon:'📋',
+     body:'Plans are classified based on their nature, scope, and time horizon.',
+     points:['Objectives: End results to be achieved','Strategies: Long-term competitive plans','Policies: General guidelines for decision making','Procedures: Step-by-step sequence','Methods: Prescribed ways of doing a task','Rules: Specific do\'s and don\'ts','Programmes: Combination of plans for a specific activity','Budgets: Plans expressed in numerical/financial terms']
+    },
+    {title:'Planning Process',icon:'🔄',
+     body:'Planning follows a systematic process to ensure effectiveness.',
+     points:['Setting objectives','Developing premises (assumptions)','Identifying alternative courses of action','Evaluating alternatives','Selecting an alternative','Implementing the plan','Follow-up action']
+    }
+  ],
+  keypoints:[
+    {title:'Planning Premise',body:'A planning premise is an assumed future condition (internal or external) upon which plans are based. E.g., assuming 10% market growth next year.'},
+    {title:'Goal vs Objective',body:'Goals are general statements of intent. Objectives are specific, measurable, time-bound targets derived from goals.'}
+  ],
+  diagram:'planning-process',
+  cases:[
+    {title:'Indian Railways: Five Year Planning',
+     body:'Indian Railways uses long-term strategic planning to expand its network. Plans include new routes, electrification targets, speed upgrades, and budget allocation. The Gatimaan Express and Vande Bharat trains resulted from planned technological upgrades with clear timelines and budgets.',
+     question:'What types of plans does Indian Railways use?',
+     answer:'Indian Railways uses: Strategies (expansion plans), Budgets (financial allocations), Programmes (route-specific projects), Objectives (specific targets like electrification %), and Policies (fare structures).'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Planning is called the "primary" function of management because:',opts:['It is done first in time','All other functions depend on it','It is the most important function','Both (a) and (b)'],ans:'Both (a) and (b)',exp:'Planning is primary because it is done first chronologically AND because all other management functions (organising, staffing, directing, controlling) depend on plans.'},
+    {type:'MCQ',q:'Which of the following is NOT a type of plan?',opts:['Policy','Procedure','Personnel','Budget'],ans:'Personnel',exp:'Personnel is not a type of plan. Plans include: Objectives, Strategies, Policies, Procedures, Methods, Rules, Programmes, and Budgets.'},
+    {type:'Scenario',case:'A company\'s finance department is preparing quarterly cash flow forecasts and annual financial plans.',q:'This represents which type of plan?',opts:['Policies','Strategies','Budgets','Procedures'],ans:'Budgets',exp:'Budgets are plans expressed in numerical/financial terms covering a specific period, exactly as described.'},
+    {type:'MCQ',q:'Which of the following is a limitation of planning?',opts:['Provides direction','Reduces uncertainty','May reduce creativity of subordinates','Facilitates decision making'],ans:'May reduce creativity of subordinates',exp:'Planning can reduce creativity because when everything is pre-planned, subordinates have less freedom to think independently.'}
+  ]
+},
+{
+  id:5, emoji:'🏗️',
+  title:'Organising',
+  theme:'Principles & Functions of Management',
+  desc:'Creating organisational structure, delegation, and decentralisation.',
+  concepts:[
+    {title:'Meaning of Organising',icon:'🏗️',
+     body:'Organising is the process of defining and grouping activities and establishing authority relationships among them to attain organisational goals.',
+     points:['Identifies and divides work','Groups activities into departments','Assigns duties and responsibilities','Establishes authority-responsibility relationships','Creates coordination mechanisms']
+    },
+    {title:'Organisational Structure',icon:'📐',
+     body:'Organisational structure defines how activities are coordinated and controlled.',
+     points:['Functional Structure: Based on functions (production, finance, HR, marketing)','Divisional Structure: Based on products/geography/customers','Formal Organisation: Officially planned and documented','Informal Organisation: Emerges naturally from social interactions']
+    },
+    {title:'Span of Management',icon:'📏',
+     body:'Span of management refers to the number of subordinates a manager can effectively supervise.',
+     points:['Narrow Span: Few subordinates, more levels, tall structure','Wide Span: Many subordinates, fewer levels, flat structure','Factors: Manager\'s ability, subordinate competence, complexity of work']
+    },
+    {title:'Delegation of Authority',icon:'🤝',
+     body:'Delegation means entrusting responsibility and authority to subordinates while remaining accountable.',
+     points:['Elements: Authority + Responsibility + Accountability','Authority can be delegated; accountability cannot','Creates superior-subordinate relationships','Benefits: Reduces manager\'s burden, develops subordinates','Principles: Parity of authority and responsibility']
+    },
+    {title:'Decentralisation',icon:'🌐',
+     body:'Decentralisation is systematic delegation of authority to the lowest appropriate level.',
+     points:['Delegation is for individuals; Decentralisation is for the whole organisation','Relieves top management of routine decisions','Develops initiative at lower levels','Faster decision-making at local level','Facilitates growth and diversification']
+    }
+  ],
+  keypoints:[
+    {title:'Delegation Principle',body:'Authority can be delegated down the hierarchy, but accountability always remains with the superior who delegated.'},
+    {title:'Centralisation vs Decentralisation',body:'No organisation is fully centralised or fully decentralised. The right balance depends on size, nature of business, and competence of employees.'}
+  ],
+  diagram:'org-structure',
+  cases:[
+    {title:'Amazon: Decentralised "Two Pizza Teams"',
+     body:'Amazon founder Jeff Bezos introduced "Two Pizza Teams" — teams small enough to be fed by two pizzas. Each team operates autonomously with decision-making authority. This extreme decentralisation allows Amazon\'s 1.5 million employees to innovate rapidly without bureaucratic approval chains.',
+     question:'What are the benefits of Amazon\'s decentralised structure?',
+     answer:'Amazon\'s decentralisation benefits: (1) Faster decision-making; (2) Encourages innovation at team level; (3) Develops leadership skills; (4) Reduces top management burden; (5) Allows experimentation and risk-taking.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'What cannot be delegated in the process of delegation?',opts:['Authority','Responsibility','Accountability','Both Responsibility and Accountability'],ans:'Accountability',exp:'In delegation, a manager can delegate authority and responsibility to subordinates, but accountability always remains with the delegating manager.'},
+    {type:'MCQ',q:'In a Functional Organisational Structure, departments are created based on:',opts:['Products','Geography','Business functions','Customer segments'],ans:'Business functions',exp:'Functional structure groups employees by specialised functions like Finance, Marketing, Production, HR, etc.'},
+    {type:'MCQ',q:'Decentralisation differs from delegation because:',opts:['Delegation is for everyone; decentralisation is for individuals','Decentralisation is a philosophy; delegation is a process','They are the same thing','Delegation reduces workload; decentralisation increases it'],ans:'Decentralisation is a philosophy; delegation is a process',exp:'Delegation is a specific act of transferring authority to a subordinate. Decentralisation is an organisation-wide philosophy of distributing authority throughout all levels.'},
+    {type:'Scenario',case:'A retail chain gives each store manager full authority to hire staff, set local prices, and run promotions independently.',q:'This is an example of:',opts:['Delegation only','Centralisation','Decentralisation','Functional authority'],ans:'Decentralisation',exp:'Giving comprehensive decision-making authority to managers at the lowest levels across the whole organisation is decentralisation.'}
+  ]
+},
+{
+  id:6, emoji:'👥',
+  title:'Staffing',
+  theme:'Principles & Functions of Management',
+  desc:'Filling and keeping filled the positions in organisational structure.',
+  concepts:[
+    {title:'Meaning and Importance of Staffing',icon:'👥',
+     body:'Staffing involves filling positions in the organisational structure with the right people at the right time.',
+     points:['Ensures right person for right job','Involves recruitment, selection, training, placement, appraisal','Critical in human resource management','Continuous process as organisations grow','Determines organisational effectiveness']
+    },
+    {title:'Staffing Process',icon:'🔄',
+     body:'Staffing follows a systematic 8-step process.',
+     points:['Estimating manpower requirements','Recruitment: Attracting candidates','Selection: Choosing the best candidate','Placement and Orientation','Training and Development','Performance Appraisal','Promotion and Career Planning','Compensation']
+    },
+    {title:'Recruitment',icon:'🎯',
+     body:'Recruitment is the process of finding and attracting capable applicants for employment.',
+     points:['Internal Sources: Promotions, transfers, employee referrals','External Sources: Advertisement, campus recruitment, employment agencies, labour contractors','Internal: Motivating, cheaper but limited pool','External: Fresh talent, more options but costly and risky']
+    },
+    {title:'Selection Process',icon:'✅',
+     body:'Selection is choosing the most suitable candidate from the pool of applicants.',
+     points:['Preliminary Screening','Application Form review','Selection Tests (Intelligence, Aptitude, Personality)','Employment Interview','Reference and Background Checks','Medical Examination','Job Offer']
+    },
+    {title:'Training and Development',icon:'📚',
+     body:'Training provides specific skills; Development is for future roles.',
+     points:['On-the-Job Training: Apprenticeship, job rotation, internship','Off-the-Job Training: Classroom, simulation, vestibule','Benefits: Improves performance, reduces supervision, improves morale','Development: Broadens perspective for leadership roles']
+    }
+  ],
+  keypoints:[
+    {title:'Selection vs Recruitment',body:'Recruitment is a positive process (attracting candidates). Selection is a negative process (rejecting unsuitable candidates).'},
+    {title:'Placement vs Orientation',body:'Placement is assigning a specific job. Orientation (induction) is introducing the new employee to the organisation, colleagues, and culture.'}
+  ],
+  diagram:'staffing-process',
+  cases:[
+    {title:'Google\'s Innovative Hiring Process',
+     body:'Google receives over 3 million applications per year. Its selection process includes: structured interviews (minimising bias), work sample tests, peer interviews, and a hiring committee review. Google\'s hiring prioritises "general cognitive ability" over experience, and "leadership" demonstrated outside formal authority. The result: innovative teams that built Gmail, Android, and Maps.',
+     question:'How does Google\'s selection process reflect best staffing practices?',
+     answer:'Google follows best practices: (1) Structured interviews reduce bias; (2) Work samples test actual ability; (3) Multiple interviewers ensure comprehensive evaluation; (4) Committee review prevents individual bias; (5) Focus on cognitive ability over just credentials.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Which of the following is an external source of recruitment?',opts:['Promotions','Transfers','Campus Recruitment','Employee Referrals'],ans:'Campus Recruitment',exp:'Campus recruitment (hiring fresh graduates from colleges) is an external source. Promotions, transfers, and employee referrals are internal sources.'},
+    {type:'MCQ',q:'Selection is called a "negative process" because:',opts:['It harms existing employees','It rejects unsuitable candidates','It is a discouraging process','It reduces the workforce'],ans:'It rejects unsuitable candidates',exp:'Selection involves rejecting most applicants and selecting only the most suitable one(s), which is why it is called a negative or elimination process.'},
+    {type:'MCQ',q:'In "On-the-Job" training, training is given:',opts:['In a separate training room','At the actual workplace during regular work','In a simulated environment','Through distance learning'],ans:'At the actual workplace during regular work',exp:'On-the-job training takes place at the actual job site, where employees learn by doing under guidance of experienced colleagues.'},
+    {type:'Scenario',case:'A company needs 50 engineers. HR creates a job description, advertises on job portals, and receives 5,000 applications.',q:'What stage of the staffing process is described?',opts:['Selection','Training','Recruitment','Performance Appraisal'],ans:'Recruitment',exp:'Creating a job description and attracting applicants through advertising is the Recruitment stage — attracting and building a pool of candidates.'}
+  ]
+},
+{
+  id:7, emoji:'🧭',
+  title:'Directing',
+  theme:'Principles & Functions of Management',
+  desc:'Guiding, motivating, leading, and communicating with employees.',
+  concepts:[
+    {title:'Meaning and Elements of Directing',icon:'🧭',
+     body:'Directing is the managerial function of guiding, inspiring, overseeing, and instructing people to accomplish organisational goals.',
+     points:['Initiates action in the organisation','Integrates all other management functions','Directly deals with people','Continuous process','Pervades all levels of management','Elements: Supervision, Motivation, Leadership, Communication']
+    },
+    {title:'Motivation',icon:'🔥',
+     body:'Motivation is the process of stimulating people to action to accomplish desired goals.',
+     points:['Maslow\'s Hierarchy: Physiological → Safety → Social → Esteem → Self-Actualisation','Financial Incentives: Salary, bonus, profit sharing','Non-Financial: Recognition, responsibility, promotion','Theory X & Y (McGregor): Negative vs positive assumptions about workers','Herzberg\'s Two-Factor Theory: Hygiene factors vs Motivators']
+    },
+    {title:'Leadership',icon:'👑',
+     body:'Leadership is the ability to influence others to willingly follow and work towards goals.',
+     points:['Autocratic: Leader makes all decisions alone','Democratic/Participative: Involves team in decisions','Laissez-Faire: Free-rein, minimal supervision','Traits: Intelligence, initiative, self-confidence, adaptability','Situational leadership: Style varies with situation']
+    },
+    {title:'Communication',icon:'💬',
+     body:'Communication is the transfer of information, ideas, or feelings to create mutual understanding.',
+     points:['Formal Communication: Through official channels','Informal Communication (Grapevine): Unofficial channels','Downward: Boss to subordinates','Upward: Subordinates to boss','Horizontal: Between peers','Barriers: Noise, semantic, psychological, organisational']
+    }
+  ],
+  keypoints:[
+    {title:'Maslow\'s Peak',body:'Self-actualisation is the highest need — realising one\'s full potential. Once lower needs are satisfied, higher needs emerge as motivators.'},
+    {title:'Grapevine',body:'The informal communication network (grapevine) spreads fast and can be positive (builds camaraderie) or negative (spreads rumours).'}
+  ],
+  diagram:'maslow',
+  cases:[
+    {title:'Tata Group: Leadership and Values',
+     body:'Ratan Tata, former Chairman of Tata Group, was known for democratic leadership and empathy. When Tata Nano was launched in Singur, West Bengal amid political controversy, he relocated the plant to Gujarat while ensuring workers were compensated. His ethical leadership and communication during crisis strengthened Tata\'s brand reputation globally.',
+     question:'What leadership style and communication approach did Ratan Tata demonstrate?',
+     answer:'Ratan Tata demonstrated: (1) Democratic leadership (consulting stakeholders); (2) Ethical decision-making under pressure; (3) Transparent communication with workers and public; (4) Empathy towards affected communities — all hallmarks of transformational leadership.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'According to Maslow, which need must be satisfied first?',opts:['Safety needs','Esteem needs','Physiological needs','Social needs'],ans:'Physiological needs',exp:'Maslow\'s hierarchy begins with physiological needs (food, water, shelter) as the most basic. Only when these are satisfied do higher needs emerge.'},
+    {type:'MCQ',q:'Which leadership style gives maximum freedom to subordinates?',opts:['Autocratic','Democratic','Laissez-faire','Bureaucratic'],ans:'Laissez-faire',exp:'Laissez-faire (free-rein) leadership gives complete freedom to subordinates, with minimal supervision, suitable for highly skilled and motivated teams.'},
+    {type:'MCQ',q:'Herzberg\'s "Hygiene Factors" include:',opts:['Recognition and Achievement','Company policy and salary','Responsibility and growth','Interesting work'],ans:'Company policy and salary',exp:'Hygiene factors (dissatisfiers) include salary, working conditions, company policy, job security. Their presence prevents dissatisfaction but doesn\'t motivate.'},
+    {type:'Scenario',case:'A manager holds weekly team meetings, encourages ideas from all members, and acts on suggestions received.',q:'This manager uses which communication and leadership approach?',opts:['Autocratic leadership with downward communication','Democratic leadership with upward and horizontal communication','Laissez-faire with no formal communication','Bureaucratic with only formal communication'],ans:'Democratic leadership with upward and horizontal communication',exp:'Encouraging ideas from team members involves upward communication (subordinates to manager) and democratic leadership (involving team in decisions).'}
+  ]
+},
+{
+  id:8, emoji:'🎛️',
+  title:'Controlling',
+  theme:'Principles & Functions of Management',
+  desc:'Measuring performance against standards and taking corrective action.',
+  concepts:[
+    {title:'Meaning and Importance of Controlling',icon:'🎛️',
+     body:'Controlling is the management function that measures actual performance, compares with planned standards, and takes corrective actions.',
+     points:['Ensures plans are implemented correctly','Systematic process — not a one-time activity','Forward-looking — prevents future errors','Both negative (correction) and positive (reinforcement) role','Links to planning — creates a closed loop']
+    },
+    {title:'Controlling Process',icon:'🔄',
+     body:'Controlling follows a 5-step systematic process.',
+     points:['Setting performance standards','Measurement of actual performance','Comparison with standards','Analysis of deviations','Taking corrective action']
+    },
+    {title:'Techniques of Control',icon:'🔧',
+     body:'Management uses various techniques to implement effective control.',
+     points:['Budgetary Control: Financial performance vs budget','Break-Even Analysis: Finding profit-neutral point','Return on Investment (ROI)','Ratio Analysis: Financial ratios','PERT and CPM: Project scheduling and monitoring','Management Audit: Comprehensive review','MIS (Management Information System): Data-driven decisions']
+    },
+    {title:'Relationship: Planning and Controlling',icon:'🔗',
+     body:'Planning and Controlling are the two sides of management\'s coin.',
+     points:['Planning sets standards → Controlling measures against them','Controlling finds deviations → Planning revises plans','They are inseparable twins','Without planning, controlling has no base; without controlling, planning is incomplete']
+    }
+  ],
+  keypoints:[
+    {title:'Management by Exception',body:'Managers focus attention only on significant deviations (exceptions) from standards, ignoring minor variations. This saves time for strategic thinking.'},
+    {title:'Critical Point Control',body:'Not all activities need equal attention. Managers control "critical points" that have the greatest impact on performance.'}
+  ],
+  diagram:'controlling-process',
+  cases:[
+    {title:'Toyota: Quality Control Excellence',
+     body:'Toyota\'s production system uses "Kaizen" (continuous improvement) and "Jidoka" (automation with human touch). Every employee can stop the production line if a defect is detected. Monthly quality reports compare actual vs target defect rates. This controlling system made Toyota one of the most reliable car manufacturers globally.',
+     question:'How does Toyota\'s system reflect the controlling process?',
+     answer:'Toyota demonstrates: (1) Standards (zero defect targets); (2) Measurement (monthly quality reports); (3) Comparison (actual vs target defects); (4) Analysis (root cause identification); (5) Corrective action (Kaizen improvements and line stops).'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'The controlling process begins with:',opts:['Taking corrective action','Measuring actual performance','Setting performance standards','Comparing with standards'],ans:'Setting performance standards',exp:'The first step in controlling is setting clear, measurable performance standards against which actual performance will be compared.'},
+    {type:'MCQ',q:'"Management by Exception" means:',opts:['Only exceptional managers control','Managers focus only on significant deviations','All deviations are controlled equally','Management is exceptional in nature'],ans:'Managers focus only on significant deviations',exp:'Management by Exception means managers direct attention only to significant variances from standards, not every minor deviation.'},
+    {type:'MCQ',q:'Which of the following best shows the relationship between planning and controlling?',opts:['They are opposite functions','Controlling makes planning irrelevant','They are interdependent — planning sets standards, controlling measures against them','Controlling replaces planning'],ans:'They are interdependent — planning sets standards, controlling measures against them',exp:'Planning and controlling are inseparable. Planning establishes the standards and controlling checks whether plans are being fulfilled.'},
+    {type:'Scenario',case:'A sales manager sets a monthly target of ₹50 lakh. Actual sales are ₹42 lakh. The manager analyses the gap and retrains the sales team.',q:'Which steps of the controlling process are illustrated?',opts:['Only measurement','Setting standards and measuring only','All 5 steps of the controlling process','Only corrective action'],ans:'All 5 steps of the controlling process',exp:'This example shows: Setting standards (₹50 lakh target), Measurement (₹42 lakh actual), Comparison (₹8 lakh shortfall), Analysis (gap analysis) and Corrective action (retraining).'}
+  ]
+},
+{
+  id:9, emoji:'💰',
+  title:'Financial Management',
+  theme:'Business Finance and Marketing',
+  desc:'Financial planning, capital structure, working capital and financial decisions.',
+  concepts:[
+    {title:'Meaning and Objectives of Financial Management',icon:'💰',
+     body:'Financial management involves planning, organising, directing and controlling financial activities like procurement and utilisation of funds.',
+     points:['Primary objective: Maximisation of shareholder wealth','Secondary objective: Profit maximisation','Ensures adequate returns to shareholders','Ensures optimum funds utilisation','Minimises risks through balanced capital structure']
+    },
+    {title:'Financial Planning',icon:'📋',
+     body:'Financial planning ensures adequate funds at the right time and right cost.',
+     points:['Estimating capital requirements (fixed and working capital)','Determining capital structure','Framing policies for procurement and utilisation','Importance: Ensures financial stability, reduces uncertainty']
+    },
+    {title:'Capital Structure',icon:'🏗️',
+     body:'Capital structure refers to the mix of debt and equity used to finance a business.',
+     points:['Equity: Ordinary shares, retained earnings — no obligation to pay','Debt: Loans, debentures — fixed interest obligation','Trading on Equity: Using debt to increase ROE','Factors: Cash flow, cost, risk, flexibility, control','Optimal: Minimises WACC (Weighted Average Cost of Capital)']
+    },
+    {title:'Fixed vs Working Capital',icon:'⚖️',
+     body:'Understanding two types of capital needs is fundamental.',
+     points:['Fixed Capital: Long-term assets (land, building, machinery)','Working Capital: Current assets minus current liabilities','Gross Working Capital: Total current assets','Net Working Capital: Current Assets - Current Liabilities','Factors affecting working capital: Nature of business, scale, credit policy, production cycle']
+    }
+  ],
+  keypoints:[
+    {title:'Leverage',body:'Financial leverage (trading on equity) means using borrowed funds to increase returns to equity shareholders — works well when ROI > interest rate.'},
+    {title:'Liquidity vs Profitability',body:'Higher liquidity (more cash) reduces profitability (idle funds earn nothing). Financial management must balance both.'}
+  ],
+  diagram:'capital-structure',
+  cases:[
+    {title:'Flipkart: Funding Journey',
+     body:'Flipkart was founded in 2007 with equity capital from founders. As it grew, it raised venture capital (equity) and later private equity funding. It avoided excessive debt to maintain flexibility. Walmart acquired Flipkart for $16 billion in 2018 — making it India\'s largest foreign acquisition. Its careful capital structure management enabled growth while managing risk.',
+     question:'What financial management decisions enabled Flipkart\'s success?',
+     answer:'Flipkart\'s financial success came from: (1) Equity funding (VC/PE) avoiding high debt burden; (2) Working capital management for massive inventory; (3) Reinvesting profits for growth; (4) Strategic capital structure maintaining flexibility for investors.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'The primary goal of financial management is:',opts:['Profit maximisation','Sales maximisation','Wealth maximisation of shareholders','Cost minimisation'],ans:'Wealth maximisation of shareholders',exp:'Modern financial management aims at wealth maximisation of shareholders (reflected in share price) rather than just short-term profit maximisation.'},
+    {type:'MCQ',q:'Trading on Equity means:',opts:['Trading company shares on stock exchange','Using debt to enhance return on equity shareholders','Equity shareholders trading among themselves','Converting equity to debt'],ans:'Using debt to enhance return on equity shareholders',exp:'Trading on equity means using borrowed funds (debt with fixed interest) to earn higher returns for equity shareholders when ROI exceeds interest rate.'},
+    {type:'MCQ',q:'Net Working Capital = ?',opts:['Current Assets + Current Liabilities','Current Assets - Current Liabilities','Fixed Assets - Current Liabilities','Total Assets - Total Liabilities'],ans:'Current Assets - Current Liabilities',exp:'Net Working Capital = Current Assets - Current Liabilities. It measures a company\'s short-term liquidity position.'},
+    {type:'Scenario',case:'A company has ₹10 crore equity. It borrows ₹5 crore at 8% interest. ROI on total assets is 15%.',q:'The decision to borrow is:',opts:['Unwise — debt is always bad','Wise — ROI (15%) > Interest rate (8%), increasing equity returns','Neutral — no impact','Unwise — more debt means more risk always'],ans:'Wise — ROI (15%) > Interest rate (8%), increasing equity returns',exp:'When ROI > Interest rate, using debt (trading on equity) increases returns for equity shareholders. 15% > 8%, so borrowing is financially beneficial.'}
+  ]
+},
+{
+  id:10, emoji:'📈',
+  title:'Financial Markets',
+  theme:'Business Finance and Marketing',
+  desc:'Money markets, capital markets, stock exchanges, and SEBI.',
+  concepts:[
+    {title:'Meaning and Functions of Financial Markets',icon:'📈',
+     body:'Financial markets are markets where financial instruments (shares, bonds, currency) are traded. They connect savers with investors.',
+     points:['Mobilisation of savings and channelising into productive use','Facilitate price discovery','Provide liquidity to financial assets','Reduce transaction costs','Distribute risk through diversification']
+    },
+    {title:'Money Market',icon:'💵',
+     body:'Money market deals with short-term funds (up to 1 year) for meeting temporary cash shortages.',
+     points:['Instruments: Treasury Bills, Commercial Paper, Certificate of Deposit, Call Money','Treasury Bills: Government short-term borrowing (91, 182, 364 days)','Commercial Paper: Short-term promissory note by creditworthy companies','Participants: RBI, commercial banks, financial institutions']
+    },
+    {title:'Capital Market',icon:'🏦',
+     body:'Capital market deals with long-term funds (more than 1 year) for investment.',
+     points:['Primary Market: New securities issued for the first time (IPO, FPO)','Secondary Market (Stock Exchange): Trading of existing securities','NSE (National Stock Exchange) and BSE (Bombay Stock Exchange)','NIFTY 50 (NSE) and SENSEX (BSE) are key indices']
+    },
+    {title:'SEBI (Securities and Exchange Board of India)',icon:'🏛️',
+     body:'SEBI was established in 1988 and given statutory powers in 1992 to regulate the securities market.',
+     points:['Protect interests of investors','Promote development of securities market','Regulate securities market','Powers: Quasi-legislative (rule-making), Quasi-judicial (penalties), Quasi-executive (investigation)']
+    }
+  ],
+  keypoints:[
+    {title:'Primary vs Secondary Market',body:'Primary market creates new securities (capital raised by companies). Secondary market provides liquidity through trading of existing securities (no new capital to companies).'},
+    {title:'Demat Account',body:'Demat (Dematerialised) account holds shares in electronic form. Required for trading on stock exchanges in India.'}
+  ],
+  diagram:'financial-markets',
+  cases:[
+    {title:'Zomato IPO: Primary Market in Action',
+     body:'Zomato launched its IPO in July 2021, raising ₹9,375 crore from the primary market. Retail investors could apply for shares. After listing on NSE and BSE, shares were traded in the secondary market. SEBI ensured proper disclosures and investor protection throughout the process.',
+     question:'How did Zomato\'s IPO demonstrate the functioning of financial markets?',
+     answer:'Zomato\'s IPO showed: (1) Primary market role in raising capital; (2) SEBI ensuring compliance and investor protection; (3) Secondary market providing post-listing liquidity; (4) Price discovery mechanism through market forces; (5) Demat accounts enabling electronic share trading.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Which market deals with short-term financial instruments?',opts:['Capital Market','Money Market','Stock Market','Commodity Market'],ans:'Money Market',exp:'Money market deals with short-term instruments (maturity up to 1 year) like Treasury Bills, Commercial Paper, and Call Money.'},
+    {type:'MCQ',q:'SENSEX is the index of which stock exchange?',opts:['NSE','BSE','MCX','NCDEX'],ans:'BSE',exp:'SENSEX (Sensitive Index) comprises the top 30 companies listed on the Bombay Stock Exchange (BSE). NSE\'s index is NIFTY 50.'},
+    {type:'MCQ',q:'An IPO (Initial Public Offering) belongs to:',opts:['Secondary Market','Money Market','Primary Market','Derivatives Market'],ans:'Primary Market',exp:'IPO is when a company sells its shares to the public for the first time, raising new capital — this happens in the Primary Market.'},
+    {type:'MCQ',q:'SEBI\'s primary role is to:',opts:['Manage RBI monetary policy','Protect investors and regulate securities markets','Handle foreign exchange','Control banking operations'],ans:'Protect investors and regulate securities markets',exp:'SEBI (Securities and Exchange Board of India) was established to protect investor interests and promote orderly development of securities markets.'}
+  ]
+},
+{
+  id:11, emoji:'📢',
+  title:'Marketing Management',
+  theme:'Business Finance and Marketing',
+  desc:'Marketing concepts, mix (4Ps), functions and strategies.',
+  concepts:[
+    {title:'Meaning and Concept of Marketing',icon:'📢',
+     body:'Marketing is the process of identifying, anticipating, and satisfying customer needs profitably.',
+     points:['Production Concept: Produce more, costs will be low','Product Concept: Better quality products sell themselves','Selling Concept: Push products through aggressive sales','Marketing Concept: Customer needs are central','Societal Marketing Concept: Balance profit, customer needs, and society\'s welfare']
+    },
+    {title:'Marketing Mix: 4 Ps',icon:'🎯',
+     body:'Marketing Mix is the combination of variables a company controls to satisfy target customers.',
+     points:['Product: Physical good or service — design, features, branding, packaging','Price: Amount charged — pricing strategy, discounts','Place (Distribution): Making product available — channels, logistics','Promotion: Communication to persuade — advertising, sales promotion, PR, personal selling']
+    },
+    {title:'Functions of Marketing',icon:'🔧',
+     body:'Marketing performs several critical business functions.',
+     points:['Gathering and analysing market information','Marketing planning','Product designing and development','Standardisation and grading','Packaging and labelling','Branding','Pricing of products','Promotion and selling','Physical distribution','Transportation','Storage and warehousing','Risk-taking']
+    },
+    {title:'Branding',icon:'🏷️',
+     body:'Brand is a name, term, sign, symbol, or design that identifies a seller\'s product and differentiates it from competitors.',
+     points:['Brand Name: Verbal part (Apple, Nike)','Brand Mark: Symbol/logo (Apple logo, Nike Swoosh)','Trade Mark: Legally protected brand elements','Benefits: Customer loyalty, premium pricing, easy introduction of new products']
+    }
+  ],
+  keypoints:[
+    {title:'Difference: Selling vs Marketing',body:'Selling starts with the product and pushes it. Marketing starts with customer needs and builds products to satisfy them.'},
+    {title:'Packaging as 5th P',body:'Some scholars add Packaging as a 5th P because it serves multiple functions: protection, information, promotion, and convenience.'}
+  ],
+  diagram:'marketing-mix',
+  cases:[
+    {title:'Amul: Marketing Excellence',
+     body:'Amul (GCMMF) is India\'s largest dairy cooperative with ₹72,000 crore turnover. Its marketing: Product (diverse dairy range), Price (affordable for all income groups), Place (3.5 million retail outlets across India), Promotion (iconic "Amul Girl" ads since 1967). Amul\'s "cooperative marketing model" shows how social enterprise can use effective marketing.',
+     question:'How does Amul apply the 4Ps of Marketing Mix?',
+     answer:'Amul\'s 4Ps: Product (wide range: butter, cheese, ice cream, milk); Price (competitive, accessible pricing); Place (nationwide distribution to 3.5M outlets); Promotion (iconic Amul Girl topical ads, one of India\'s longest-running campaigns).'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Which marketing concept considers society\'s long-term interests along with customer satisfaction?',opts:['Product Concept','Selling Concept','Marketing Concept','Societal Marketing Concept'],ans:'Societal Marketing Concept',exp:'The Societal Marketing Concept aims to balance: (1) Company profits, (2) Consumer satisfaction, and (3) Society\'s long-term welfare — the most modern marketing philosophy.'},
+    {type:'MCQ',q:'The 4 Ps of Marketing Mix are:',opts:['Price, People, Place, Promotion','Product, Price, Place, Promotion','Product, Price, People, Publicity','Planning, Price, Place, Promotion'],ans:'Product, Price, Place, Promotion',exp:'The classic 4Ps marketing mix is: Product, Price, Place (Distribution), and Promotion. These are the four controllable variables in a marketing strategy.'},
+    {type:'MCQ',q:'A trade mark is:',opts:['Any brand name','Brand name given legal protection','A marketing technique','A type of advertising'],ans:'Brand name given legal protection',exp:'A trademark is a brand name, mark, or symbol that has been given legal protection, preventing competitors from using the same identity.'},
+    {type:'Scenario',case:'A new shampoo company sets low prices to capture market share quickly before raising prices once established.',q:'This is an example of which pricing strategy?',opts:['Skimming Pricing','Penetration Pricing','Competition-based Pricing','Cost-plus Pricing'],ans:'Penetration Pricing',exp:'Penetration pricing sets a low initial price to gain market share quickly. Once the market is captured, prices may be gradually increased.'}
+  ]
+},
+{
+  id:12, emoji:'🛡️',
+  title:'Consumer Protection',
+  theme:'Business Finance and Marketing',
+  desc:'Consumer rights, responsibilities, redressal forums and COPRA.',
+  concepts:[
+    {title:'Consumer Rights under COPRA 1986',icon:'🛡️',
+     body:'The Consumer Protection Act 1986 (updated 2019) protects consumer interests with six key rights.',
+     points:['Right to Safety: Protection from hazardous goods','Right to Information: Accurate information about quality, price, ingredients','Right to Choose: Access to variety at competitive prices','Right to be Heard: Consumer grievances considered','Right to Redress: Fair settlement of justified complaints','Right to Consumer Education: Awareness about rights and remedies']
+    },
+    {title:'Consumer Responsibilities',icon:'✅',
+     body:'Consumers also have responsibilities alongside rights.',
+     points:['Be quality conscious — check ISI, AGMARK, Hallmark','Demand bills and receipts','File complaints about unfair practices','Avoid black market purchases','Be environmental conscious in consumption']
+    },
+    {title:'Consumer Redressal Forums',icon:'⚖️',
+     body:'Three-tier quasi-judicial consumer dispute redressal system.',
+     points:['District Consumer Forum: Claims up to ₹50 lakh','State Consumer Commission: Claims ₹50 lakh to ₹2 crore','National Consumer Commission (NCDRC): Claims above ₹2 crore','Appeal: District → State → National → Supreme Court']
+    },
+    {title:'Consumer Protection Act 2019',icon:'📋',
+     body:'The updated 2019 Act strengthened consumer protection significantly.',
+     points:['Includes e-commerce under its ambit','Central Consumer Protection Authority (CCPA) established','Product liability provisions added','Stricter penalties for unfair trade practices','E-filing of complaints allowed','Simplifies procedures, faster resolution']
+    }
+  ],
+  keypoints:[
+    {title:'Quality Marks',body:'ISI Mark: Industrial products (electrical goods). AGMARK: Agricultural products. Hallmark: Gold jewellery. FPO: Processed fruit products. These certify product quality.'},
+    {title:'Who is a Consumer?',body:'A consumer is anyone who buys goods or services for personal use (not for commercial resale). Includes end users and those who receive goods as gifts.'}
+  ],
+  diagram:'consumer-forums',
+  cases:[
+    {title:'AMRAPALI GROUP: Consumer Protection Victory',
+     body:'Thousands of homebuyers filed complaints against Amrapali Group for not delivering flats despite full payment. The Supreme Court took suo motu action, and NCDRC ordered full refund with compensation. This landmark case showed how consumer protection mechanisms work at the highest level, protecting lakhs of consumers from builder fraud.',
+     question:'What consumer rights were violated by Amrapali, and how were they protected?',
+     answer:'Amrapali violated: (1) Right to Safety (substandard or incomplete construction); (2) Right to Redress (delayed possession); (3) Right to Information (false promises). Protection came through NCDRC and Supreme Court ordering compensation and refunds — demonstrating the three-tier redressal system.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'Which mark certifies the quality of gold jewellery in India?',opts:['ISI Mark','AGMARK','Hallmark','FPO Mark'],ans:'Hallmark',exp:'Hallmark (administered by BIS - Bureau of Indian Standards) certifies the quality and purity of gold jewellery sold in India.'},
+    {type:'MCQ',q:'A consumer complaint of ₹1.5 crore should be filed in:',opts:['District Consumer Forum','State Consumer Commission','National Consumer Commission','Supreme Court'],ans:'State Consumer Commission',exp:'State Consumer Commission handles complaints between ₹50 lakh and ₹2 crore. District Forum handles up to ₹50 lakh; National Commission above ₹2 crore.'},
+    {type:'MCQ',q:'Under Consumer Protection Act 2019, which of the following is newly included?',opts:['Physical retail stores','Manufacturing companies','E-commerce platforms','Street vendors'],ans:'E-commerce platforms',exp:'The Consumer Protection Act 2019 expanded the definition of consumer to include online purchases, bringing e-commerce platforms under the Act\'s ambit.'},
+    {type:'Scenario',case:'A consumer bought a refrigerator that caught fire, damaging property. The company refuses to compensate.',q:'Which consumer right has been violated?',opts:['Right to Choose','Right to Safety','Right to Information','Right to Consumer Education'],ans:'Right to Safety',exp:'The Right to Safety protects consumers from hazardous or unsafe products. A refrigerator catching fire due to manufacturing defect is a clear safety right violation.'}
+  ]
+},
+{
+  id:13, emoji:'🌱',
+  title:'Entrepreneurship Development',
+  theme:'Business Finance and Marketing',
+  desc:'Entrepreneurship, startup ecosystem, and innovation in business.',
+  concepts:[
+    {title:'Meaning of Entrepreneurship',icon:'🌱',
+     body:'Entrepreneurship is the process of designing, launching, and running a new business by taking financial risks in the hope of profit.',
+     points:['Entrepreneur: Person who organises, operates, and takes risks','Intrapreneur: Entrepreneur within an existing company','Key traits: Risk-taking, innovation, vision, leadership, resilience','Schumpeter: "Creative Destruction" — innovation displaces old with new']
+    },
+    {title:'Types of Entrepreneurs',icon:'👥',
+     body:'Entrepreneurs are classified based on their motivation and methods.',
+     points:['Innovative: Creates new products/processes (Steve Jobs)','Imitative: Copies successful innovations (local smartphone brands)','Fabian: Very cautious, adopts change only when necessary','Drone: Refuses to change, traditional mindset','Social Entrepreneur: Creates social value (not just profit)','Serial Entrepreneur: Starts multiple businesses']
+    },
+    {title:'Startup Ecosystem in India',icon:'🚀',
+     body:'India has the world\'s 3rd largest startup ecosystem.',
+     points:['Startup India Initiative (2016): Tax benefits, funding, mentoring','DPIIT: Department for Promotion of Industry and Internal Trade','Unicorns: Startups valued over $1 billion (India has 100+)','MSME sector: Backbone of Indian entrepreneurship','Incubators and Accelerators: Support early-stage startups']
+    }
+  ],
+  keypoints:[
+    {title:'Entrepreneur vs Manager',body:'Entrepreneur owns the business and bears risk. Manager is a hired employee who manages but doesn\'t bear personal financial risk.'},
+    {title:'Barriers to Entrepreneurship',body:'Key barriers: Lack of finance, fear of failure, limited market knowledge, regulatory complexity, social stigma around failure.'}
+  ],
+  diagram:'startup-ecosystem',
+  cases:[
+    {title:'BYJU\'S: EdTech Unicorn Journey',
+     body:'Byju Raveendran started by conducting free coaching classes in stadiums before founding BYJU\'S in 2011. The company grew to become the world\'s most valued EdTech startup (valued at $22 billion). It disrupted traditional education through mobile-first learning. This shows how entrepreneurial vision can create billion-dollar enterprises solving real problems.',
+     question:'What entrepreneurial qualities did Byju Raveendran demonstrate?',
+     answer:'Byju demonstrated: (1) Innovation (mobile-first EdTech); (2) Risk-taking (leaving stable career); (3) Vision (making quality education accessible); (4) Persistence (starting from free stadium classes); (5) Market sensing (understanding India\'s education gaps).'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'An "Intrapreneur" is:',opts:['A foreign entrepreneur','An entrepreneur inside a large organisation','A social entrepreneur','A government entrepreneur'],ans:'An entrepreneur inside a large organisation',exp:'An intrapreneur behaves like an entrepreneur within an existing company — innovating and taking risks, but using the company\'s resources rather than starting from scratch.'},
+    {type:'MCQ',q:'A startup is classified as a "Unicorn" when its valuation exceeds:',opts:['$100 million','$500 million','$1 billion','$10 billion'],ans:'$1 billion',exp:'A unicorn is a startup company valued at over $1 billion. The term was coined because such highly valued private companies were once extremely rare (like unicorns).'},
+    {type:'MCQ',q:'Schumpeter\'s concept of "Creative Destruction" means:',opts:['Destroying old factories to build new ones','New innovations replacing and making old products/processes obsolete','Destroying competition creatively','Creative marketing strategies'],ans:'New innovations replacing and making old products/processes obsolete',exp:'Creative Destruction describes how innovation continuously replaces old industries and technologies with new ones (e.g., smartphones replacing cameras, maps, clocks).'},
+    {type:'MCQ',q:'Startup India Initiative was launched in:',opts:['2014','2015','2016','2018'],ans:'2016',exp:'Prime Minister Narendra Modi launched the Startup India Initiative on January 16, 2016, to promote entrepreneurship and build a strong startup ecosystem.'}
+  ]
+},
+{
+  id:14, emoji:'🌐',
+  title:'International Business',
+  theme:'Business Finance and Marketing',
+  desc:'Trade theories, modes of entry, WTO and globalisation.',
+  concepts:[
+    {title:'Meaning and Benefits of International Business',icon:'🌐',
+     body:'International business involves all commercial transactions (trade, investment, licensing) between parties of different countries.',
+     points:['Enables access to larger markets','Earns foreign exchange for the country','Enables specialisation based on comparative advantage','Facilitates transfer of technology','Creates employment opportunities','Spreads business risk globally']
+    },
+    {title:'Modes of Entry into International Business',icon:'🚪',
+     body:'Firms can enter international markets through various modes depending on risk and control.',
+     points:['Exporting: Selling goods to foreign countries (lowest risk)','Licensing: Granting rights to use IP/brand','Franchising: Complete business model transfer','Joint Venture: Partnering with local firm','Wholly Owned Subsidiary: Full ownership (highest control, highest risk)','Contract Manufacturing: Outsourcing production abroad']
+    },
+    {title:'WTO (World Trade Organisation)',icon:'🏛️',
+     body:'WTO (established 1995, successor to GATT) governs international trade rules.',
+     points:['Promotes free trade by reducing tariffs and barriers','Resolves trade disputes between member nations','India is a founding member (156 countries)','Key principles: Non-discrimination (MFN), Reciprocity, Transparency','WTO replaced GATT in 1995']
+    },
+    {title:'Barriers to International Trade',icon:'🚧',
+     body:'Both tariff and non-tariff barriers restrict international trade.',
+     points:['Tariff Barriers: Import duties, export taxes, custom duties','Non-Tariff Barriers: Quotas, embargoes, licensing requirements, technical standards','Protectionism: Protecting domestic industry from foreign competition','India\'s stance: Balanced — open to trade but protecting strategic sectors']
+    }
+  ],
+  keypoints:[
+    {title:'Comparative Advantage',body:'Countries should specialise in producing goods where they have the lowest opportunity cost (comparative advantage), then trade — maximises global efficiency.'},
+    {title:'FDI vs FII',body:'FDI (Foreign Direct Investment) creates actual business operations. FII (Foreign Institutional Investment) is portfolio investment in stocks/bonds. FDI has more lasting economic impact.'}
+  ],
+  diagram:'modes-of-entry',
+  cases:[
+    {title:'McDonald\'s in India: Franchise Model',
+     body:'McDonald\'s entered India through the franchise model with two regional master franchisees: Hardcastle Restaurants (West/South) and Connaught Plaza Restaurants (North/East). It adapted the menu for India (McAloo Tikki, Maharaja Mac — no beef). This case shows franchise as an entry mode, cultural adaptation, and local partnership strategy.',
+     question:'What entry strategy did McDonald\'s use for India and why?',
+     answer:'McDonald\'s used franchising for India because: (1) Lower financial risk; (2) Local partners understand Indian regulations and culture; (3) Quick market penetration; (4) Menu localisation (no beef/pork) required local expertise; (5) Established brand combined with local execution knowledge.'}
+  ],
+  quiz:[
+    {type:'MCQ',q:'The safest/lowest risk mode of entry into international business is:',opts:['Wholly Owned Subsidiary','Joint Venture','Exporting','Franchising'],ans:'Exporting',exp:'Exporting involves the least financial investment and risk since the firm sells from its home country without establishing operations abroad.'},
+    {type:'MCQ',q:'WTO (World Trade Organisation) was established in:',opts:['1947','1991','1995','2001'],ans:'1995',exp:'WTO was established in 1995, replacing GATT (General Agreement on Tariffs and Trade, 1947) as the global body governing international trade rules.'},
+    {type:'MCQ',q:'In "franchising," the franchisee receives:',opts:['Only the brand name','Only the product','Complete business model including brand, processes, training and support','Manufacturing rights only'],ans:'Complete business model including brand, processes, training and support',exp:'Franchising involves the franchisor granting the franchisee the right to use its complete business model — brand, processes, training, and ongoing support.'},
+    {type:'Scenario',case:'An Indian IT company sets up a development centre in the USA with 100% Indian ownership.',q:'This is an example of:',opts:['Exporting','Licensing','Joint Venture','Wholly Owned Subsidiary'],ans:'Wholly Owned Subsidiary',exp:'A 100% owned foreign operation is a Wholly Owned Subsidiary — maximum control but also maximum investment and risk.'}
+  ]
+}
+];
+
+/* ===== MANAGEMENT THINKERS DATA ===== */
+const THINKERS = [
+  {name:'Henri Fayol',era:'1841–1925 | France',emoji:'🏛️',color:'linear-gradient(135deg,#e74c3c,#c0392b)',
+   desc:'Father of General Management. Gave 14 Principles of Management and identified 5 functions: Planning, Organising, Commanding, Coordinating, Controlling.',
+   tags:['14 Principles','5 Functions','Top Management Focus','Scalar Chain']},
+  {name:'F.W. Taylor',era:'1856–1915 | USA',emoji:'⚙️',color:'linear-gradient(135deg,#3498db,#2980b9)',
+   desc:'Father of Scientific Management. Replaced rule-of-thumb with scientific study of work. Developed time study, motion study, functional foremanship.',
+   tags:['Scientific Management','Time Study','Differential Wages','Shop Floor']},
+  {name:'Peter Drucker',era:'1909–2005 | USA',emoji:'📖',color:'linear-gradient(135deg,#27ae60,#229954)',
+   desc:'"Father of Modern Management." Coined Management by Objectives (MBO). Said managers must practise "effective decision-making" and focus on strengths.',
+   tags:['MBO','Knowledge Worker','Decentralisation','Effectiveness']},
+  {name:'Elton Mayo',era:'1880–1949 | Australia/USA',emoji:'👥',color:'linear-gradient(135deg,#9b59b6,#8e44ad)',
+   desc:'Conducted Hawthorne Experiments revealing that social factors and worker morale affect productivity more than physical conditions.',
+   tags:['Hawthorne Effect','Human Relations','Social Factors','Group Dynamics']},
+  {name:'Abraham Maslow',era:'1908–1970 | USA',emoji:'🔺',color:'linear-gradient(135deg,#f0a500,#d4a017)',
+   desc:'Created the Hierarchy of Needs theory (5 levels), fundamental to motivation in management.',
+   tags:['Need Hierarchy','Motivation','Self-Actualisation','Humanistic Psychology']},
+  {name:'Douglas McGregor',era:'1906–1964 | USA',emoji:'⚖️',color:'linear-gradient(135deg,#0d7377,#14a085)',
+   desc:'Proposed Theory X (workers are lazy, need control) and Theory Y (workers are motivated, seek responsibility) — opposite views of human nature at work.',
+   tags:['Theory X & Y','Human Nature','Motivation','Leadership Style']},
+  {name:'Frederick Herzberg',era:'1923–2000 | USA',emoji:'💡',color:'linear-gradient(135deg,#e67e22,#d35400)',
+   desc:'Two-Factor Theory: Hygiene factors (prevent dissatisfaction) vs Motivators (create satisfaction). Changed how companies design jobs.',
+   tags:['Two-Factor Theory','Hygiene Factors','Motivators','Job Enrichment']},
+  {name:'Max Weber',era:'1864–1920 | Germany',emoji:'🏢',color:'linear-gradient(135deg,#2c3e50,#34495e)',
+   desc:'Developed the concept of Bureaucracy as the ideal form of organisation with formal rules, hierarchy, and impersonal relationships.',
+   tags:['Bureaucracy','Formal Organisation','Hierarchy','Rational Authority']}
+];
+
+/* ===== APP STATE ===== */
+let currentChapter = null;
+let quizState = {questions:[], current:0, score:0, answered:false, chapterMode:false};
+let progress = JSON.parse(localStorage.getItem('bs12_progress') || '{}');
+let quizScores = JSON.parse(localStorage.getItem('bs12_scores') || '{}');
+
+/* ===== PARTICLES ===== */
+function createParticles(){
+  const c = document.getElementById('particles');
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 6 + Math.random()*20;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;
+      background:${['#f0a500','#0d7377','#3498db','#e74c3c'][Math.floor(Math.random()*4)]};
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${Math.random()*8}s;`;
+    c.appendChild(p);
+  }
+}
+createParticles();
+
+/* ===== NAVIGATION ===== */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const noNav = ['splash'];
+  document.getElementById('bottom-nav').style.display = noNav.includes(id) ? 'none' : 'flex';
+  window.scrollTo(0,0);
+  if(id==='home') renderHome();
+  if(id==='progress-screen') renderProgress();
+  if(id==='thinkers') renderThinkers();
+}
+
+function setNav(el){
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ===== HOME RENDER ===== */
+function renderHome(){
+  const done = Object.keys(progress).filter(k=>progress[k]).length;
+  document.getElementById('stat-done').textContent = done;
+  const pct = Math.round((done/CHAPTERS.length)*100);
+  document.getElementById('overall-progress').style.width = pct+'%';
+  
+  // Average quiz score
+  const scores = Object.values(quizScores);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  document.getElementById('stat-score').textContent = avg+'%';
+
+  // Chapters
+  const list = document.getElementById('chapters-list');
+  list.innerHTML = CHAPTERS.map((ch,i) => `
+    <div class="chapter-card" onclick="openChapter(${i})">
+      <div class="ch-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="ch-info">
+        <div class="ch-title">${ch.emoji} ${ch.title}</div>
+        <div class="ch-meta">${ch.theme}</div>
+      </div>
+      ${progress[ch.id] ? '<div class="ch-done">✓</div>' : '<div class="ch-arrow">›</div>'}
+    </div>
+  `).join('');
+}
+
+/* ===== CHAPTER OPEN ===== */
+function openChapter(idx){
+  currentChapter = CHAPTERS[idx];
+  document.getElementById('chapter-nav-title').textContent = 'Chapter '+(idx+1);
+  document.getElementById('ch-num').textContent = String(idx+1).padStart(2,'0');
+  document.getElementById('ch-title').textContent = currentChapter.emoji+' '+currentChapter.title;
+  document.getElementById('ch-desc').textContent = currentChapter.desc;
+
+  // Reset tabs
+  document.querySelectorAll('.ch-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);});
+  document.querySelectorAll('.ch-panel').forEach((p,i)=>{p.classList.toggle('active',i===0);});
+
+  // Render concepts
+  renderConcepts();
+  renderDiagram();
+  renderCases();
+  renderChapterQuiz();
+
+  // Mark as visited
+  progress[currentChapter.id] = true;
+  localStorage.setItem('bs12_progress', JSON.stringify(progress));
+
+  showScreen('chapter');
+}
+
+function showChTab(panel, btn){
+  document.querySelectorAll('.ch-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ch-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+panel).classList.add('active');
+}
+
+function renderConcepts(){
+  const ch = currentChapter;
+  let html = '';
+  ch.concepts.forEach(c => {
+    html += `<div class="concept-box">
+      <h3>${c.icon} ${c.title}</h3>
+      <p>${c.body}</p>
+      ${c.points ? '<ul>'+c.points.map(p=>`<li>${p}</li>`).join('')+'</ul>' : ''}
+    </div>`;
+  });
+  ch.keypoints?.forEach(kp => {
+    html += `<div class="key-point">
+      <strong>💡 Key Point: ${kp.title}</strong>
+      <p>${kp.body}</p>
+    </div>`;
+  });
+  document.getElementById('panel-concepts').innerHTML = html;
+}
+
+function renderDiagram(){
+  const ch = currentChapter;
+  const diagrams = {
+    'mgmt-levels': `
+      <div class="diagram-box">
+        <div class="diagram-title">📊 Levels of Management</div>
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f0a500"/><stop offset="100%" style="stop-color:#d4a017"/></linearGradient>
+          <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#0d7377"/><stop offset="100%" style="stop-color:#14a085"/></linearGradient>
+          <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#1a3a6b"/><stop offset="100%" style="stop-color:#2a5298"/></linearGradient></defs>
+          <polygon points="160,15 280,185 40,185" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <polygon points="160,15 220,95 100,95" fill="url(#g1)"/>
+          <polygon points="100,95 220,95 255,155 65,155" fill="url(#g2)"/>
+          <polygon points="65,155 255,155 280,185 40,185" fill="url(#g3)"/>
+          <text x="160" y="62" text-anchor="middle" fill="#0a1628" font-size="10" font-weight="bold">TOP LEVEL</text>
+          <text x="160" y="73" text-anchor="middle" fill="#0a1628" font-size="8">CEO, Directors</text>
+          <text x="160" y="130" text-anchor="middle" fill="white" font-size="10" font-weight="bold">MIDDLE LEVEL</text>
+          <text x="160" y="141" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="8">Dept. Managers</text>
+          <text x="160" y="172" text-anchor="middle" fill="white" font-size="10" font-weight="bold">LOWER LEVEL</text>
+          <text x="160" y="183" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="8">Supervisors, Foremen</text>
+        </svg>
+      </div>`,
+    'fayol-principles': `
+      <div class="diagram-box">
+        <div class="diagram-title">📋 Fayol's 14 Principles (Summary)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;">
+          ${['Division of Work','Authority & Responsibility','Discipline','Unity of Command','Unity of Direction','Subordination','Remuneration','Centralisation'].map((p,i)=>`
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px;font-size:12px;color:var(--text);">
+            <span style="color:var(--accent);font-weight:700;">${i+1}.</span> ${p}
+          </div>`).join('')}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;text-align:left;">
+          ${['Scalar Chain','Order','Equity','Stability of Tenure','Initiative','Esprit de Corps'].map((p,i)=>`
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px;font-size:12px;color:var(--text);">
+            <span style="color:var(--teal2);font-weight:700;">${i+9}.</span> ${p}
+          </div>`).join('')}
+        </div>
+      </div>`,
+    'pestle': `
+      <div class="diagram-box">
+        <div class="diagram-title">🌍 PESTLE Analysis Framework</div>
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="150" r="140" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <circle cx="150" cy="150" r="40" fill="#1a3a6b"/>
+          <text x="150" y="145" text-anchor="middle" fill="white" font-size="10" font-weight="bold">BUSINESS</text>
+          <text x="150" y="158" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">ENVIRONMENT</text>
+          ${[
+            {label:'P\nolitical',x:150,y:20,cx:150,cy:60,color:'#e74c3c'},
+            {label:'E\nconomic',x:270,y:85,cx:230,cy:95,color:'#f0a500'},
+            {label:'S\nocial',x:270,y:215,cx:230,cy:205,color:'#2ecc71'},
+            {label:'T\nechnology',x:150,y:280,cx:150,cy:240,color:'#3498db'},
+            {label:'L\negal',x:30,y:215,cx:70,cy:205,color:'#9b59b6'},
+            {label:'E\nnvironment',x:30,y:85,cx:70,cy:95,color:'#0d7377'},
+          ].map(item=>`
+            <circle cx="${item.cx}" cy="${item.cy}" r="28" fill="${item.color}" opacity="0.85"/>
+            <text x="${item.x}" y="${item.y}" text-anchor="middle" fill="white" font-size="9" font-weight="bold">${item.label.split('\n').join('')}</text>
+            <line x1="${item.cx}" y1="${item.cy}" x2="150" y2="150" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4"/>
+          `).join('')}
+        </svg>
+      </div>`,
+    'planning-process': `
+      <div class="diagram-box">
+        <div class="diagram-title">🗺️ Planning Process</div>
+        <div style="display:flex;flex-direction:column;gap:0;align-items:center;">
+          ${['Setting Objectives','Developing Premises','Identifying Alternatives','Evaluating Alternatives','Selecting Best Alternative','Implementing the Plan','Follow-up'].map((s,i,arr)=>`
+          <div style="background:${i%2===0?'linear-gradient(135deg,#1a3a6b,#2a5298)':'linear-gradient(135deg,#0d7377,#14a085)'};
+            border-radius:8px;padding:10px 24px;text-align:center;
+            font-size:12px;font-weight:600;color:white;width:240px;">
+            <span style="color:rgba(255,255,255,0.5);font-size:10px;">${i+1}.</span> ${s}
+          </div>
+          ${i<arr.length-1?'<div style="width:2px;height:12px;background:rgba(255,255,255,0.2);"></div>':''}
+          `).join('')}
+        </div>
+      </div>`,
+    'maslow': `
+      <div class="diagram-box">
+        <div class="diagram-title">🔺 Maslow's Hierarchy of Needs</div>
+        <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+          ${[
+            {label:'Self-Actualisation',sub:'Growth, Fulfillment',color:'#f0a500',pts:'160,10 210,50 110,50'},
+            {label:'Esteem Needs',sub:'Status, Recognition',color:'#e74c3c',pts:'110,55 210,55 240,95 80,95'},
+            {label:'Social Needs',sub:'Love, Belonging',color:'#9b59b6',pts:'80,100 240,100 270,140 50,140'},
+            {label:'Safety Needs',sub:'Security, Protection',color:'#3498db',pts:'50,145 270,145 295,180 25,180'},
+            {label:'Physiological Needs',sub:'Food, Water, Shelter',color:'#27ae60',pts:'25,185 295,185 310,215 10,215'},
+          ].map((layer,i)=>`
+            <polygon points="${layer.pts}" fill="${layer.color}" opacity="0.85"/>
+            <text x="160" y="${22+i*40}" text-anchor="middle" fill="white" font-size="9" font-weight="bold">${layer.label}</text>
+            <text x="160" y="${32+i*40}" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="7">${layer.sub}</text>
+          `).join('')}
+        </svg>
+      </div>`,
+    'controlling-process': `
+      <div class="diagram-box">
+        <div class="diagram-title">🎛️ Controlling Process (Cycle)</div>
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="8"/>
+          ${[0,72,144,216,288].map((angle,i)=>{
+            const steps=['Set Standards','Measure Performance','Compare Results','Analyse Deviations','Corrective Action'];
+            const colors=['#f0a500','#3498db','#9b59b6','#e74c3c','#27ae60'];
+            const r=100, x=150+r*Math.cos((angle-90)*Math.PI/180), y=150+r*Math.sin((angle-90)*Math.PI/180);
+            return `<circle cx="${x}" cy="${y}" r="28" fill="${colors[i]}"/>
+              <text x="${x}" y="${y-4}" text-anchor="middle" fill="white" font-size="7" font-weight="bold">${steps[i].split(' ')[0]}</text>
+              <text x="${x}" y="${y+6}" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="6">${steps[i].split(' ').slice(1).join(' ')}</text>
+              <text x="${x}" y="${y+14}" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8">${i+1}</text>`;
+          }).join('')}
+          <circle cx="150" cy="150" r="30" fill="#1a3a6b"/>
+          <text x="150" y="154" text-anchor="middle" fill="var(--accent)" font-size="9" font-weight="bold">CONTROL</text>
+        </svg>
+      </div>`,
+    'capital-structure': `
+      <div class="diagram-box">
+        <div class="diagram-title">💰 Capital Structure Components</div>
+        <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="280" height="160" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+          <text x="150" y="35" text-anchor="middle" fill="var(--accent)" font-size="12" font-weight="bold">TOTAL CAPITAL</text>
+          <rect x="25" y="50" width="115" height="100" rx="8" fill="linear-gradient(135deg,#27ae60,#229954)"/>
+          <rect x="25" y="50" width="115" height="100" rx="8" fill="#27ae60" opacity="0.8"/>
+          <text x="82" y="95" text-anchor="middle" fill="white" font-size="11" font-weight="bold">EQUITY</text>
+          <text x="82" y="108" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="8">Shares + Reserves</text>
+          <text x="82" y="120" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="7">No fixed obligation</text>
+          <rect x="155" y="50" width="115" height="100" rx="8" fill="#e74c3c" opacity="0.8"/>
+          <text x="212" y="95" text-anchor="middle" fill="white" font-size="11" font-weight="bold">DEBT</text>
+          <text x="212" y="108" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="8">Loans + Debentures</text>
+          <text x="212" y="120" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="7">Fixed interest obligation</text>
+        </svg>
+      </div>`,
+    'financial-markets': `
+      <div class="diagram-box">
+        <div class="diagram-title">📈 Financial Markets Structure</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--navy);padding:10px 40px;border-radius:8px;font-weight:800;font-size:14px;">FINANCIAL MARKETS</div>
+          <div style="width:2px;height:20px;background:rgba(255,255,255,0.2)"></div>
+          <div style="display:flex;gap:30px;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div style="background:var(--teal);color:white;padding:8px 20px;border-radius:8px;font-weight:700;font-size:12px;">MONEY MARKET</div>
+              <div style="width:2px;height:14px;background:rgba(255,255,255,0.2)"></div>
+              <div style="font-size:10px;color:var(--muted);text-align:center;">Treasury Bills<br>Commercial Paper<br>Call Money</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div style="background:#3498db;color:white;padding:8px 20px;border-radius:8px;font-weight:700;font-size:12px;">CAPITAL MARKET</div>
+              <div style="width:2px;height:14px;background:rgba(255,255,255,0.2)"></div>
+              <div style="display:flex;gap:10px">
+                <div style="font-size:10px;color:var(--accent2);text-align:center;">Primary<br>(IPO/FPO)</div>
+                <div style="font-size:10px;color:var(--accent2);text-align:center;">Secondary<br>(NSE/BSE)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`,
+    'marketing-mix': `
+      <div class="diagram-box">
+        <div class="diagram-title">🎯 Marketing Mix — The 4 Ps</div>
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="150" r="45" fill="#1a3a6b"/>
+          <text x="150" y="145" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="bold">TARGET</text>
+          <text x="150" y="160" text-anchor="middle" fill="white" font-size="9">MARKET</text>
+          ${[
+            {label:'PRODUCT',sub:'Design, Quality\nBrand, Packaging',color:'#e74c3c',cx:150,cy:45},
+            {label:'PRICE',sub:'Strategy\nDiscounts',color:'#f0a500',cx:255,cy:150},
+            {label:'PLACE',sub:'Channels\nDistribution',color:'#27ae60',cx:150,cy:255},
+            {label:'PROMOTION',sub:'Ads, PR\nPersonal Selling',color:'#3498db',cx:45,cy:150},
+          ].map(p=>`
+            <circle cx="${p.cx}" cy="${p.cy}" r="38" fill="${p.color}" opacity="0.85"/>
+            <text x="${p.cx}" y="${p.cy-6}" text-anchor="middle" fill="white" font-size="9" font-weight="bold">${p.label}</text>
+            ${p.sub.split('\n').map((s,i)=>`<text x="${p.cx}" y="${p.cy+6+i*10}" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="7">${s}</text>`).join('')}
+            <line x1="${p.cx}" y1="${p.cy}" x2="150" y2="150" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="5"/>
+          `).join('')}
+        </svg>
+      </div>`,
+    'consumer-forums': `
+      <div class="diagram-box">
+        <div class="diagram-title">⚖️ Three-Tier Consumer Redressal System</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+          ${[
+            {label:'NATIONAL COMMISSION (NCDRC)',sub:'Above ₹2 Crore | New Delhi',color:'#f0a500'},
+            {label:'STATE COMMISSION',sub:'₹50 Lakh – ₹2 Crore | State Capital',color:'#e74c3c'},
+            {label:'DISTRICT FORUM',sub:'Up to ₹50 Lakh | District Level',color:'#3498db'},
+          ].map((tier,i,arr)=>`
+            <div style="background:${tier.color};color:${tier.color==='#f0a500'?'#0a1628':'white'};
+              padding:12px 20px;border-radius:8px;text-align:center;
+              width:${280-i*40}px;font-weight:700;font-size:12px;">
+              ${tier.label}
+              <div style="font-size:10px;opacity:0.85;font-weight:400;margin-top:2px;">${tier.sub}</div>
+            </div>
+            ${i<arr.length-1?'<div style="width:2px;height:12px;background:rgba(255,255,255,0.2)"></div>':''}
+          `).join('')}
+          <div style="margin-top:12px;font-size:11px;color:var(--muted);">Appeal goes upward ↑</div>
+        </div>
+      </div>`,
+    'org-structure': `
+      <div class="diagram-box">
+        <div class="diagram-title">🏗️ Functional Organisational Structure</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+          <div class="org-node ceo">CEO / Managing Director</div>
+          <div style="width:2px;height:14px;background:rgba(255,255,255,0.2)"></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+            ${['Production Mgr','Finance Mgr','Marketing Mgr','HR Mgr'].map(m=>`
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+                <div class="org-node mgr" style="font-size:11px;padding:8px 12px;min-width:80px;">${m}</div>
+                <div style="width:2px;height:10px;background:rgba(255,255,255,0.15)"></div>
+                <div class="org-node" style="font-size:10px;padding:6px 10px;min-width:80px;">Team Members</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>`,
+    'staffing-process': `
+      <div class="diagram-box">
+        <div class="diagram-title">👥 Staffing Process</div>
+        <div style="display:flex;flex-direction:column;gap:0;align-items:center">
+          ${['Manpower Estimation','Recruitment','Selection','Placement & Orientation','Training & Development','Performance Appraisal','Promotion & Career Planning','Compensation'].map((s,i)=>`
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:${i%2===0?'var(--accent)':'var(--teal2)'};
+              display:flex;align-items:center;justify-content:center;
+              color:var(--navy);font-weight:800;font-size:10px;flex-shrink:0">${i+1}</div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+              border-radius:6px;padding:6px 14px;font-size:12px;color:var(--text)">${s}</div>
+          </div>
+          ${i<7?'<div style="width:2px;height:8px;background:rgba(255,255,255,0.15);margin-left:11px"></div>':''}
+          `).join('')}
+        </div>
+      </div>`,
+    'startup-ecosystem': `
+      <div class="diagram-box">
+        <div class="diagram-title">🚀 Indian Startup Ecosystem</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          ${[
+            {icon:'💡',label:'Innovation',sub:'New ideas & solutions'},
+            {icon:'💰',label:'Funding',sub:'VC, Angel, PE, Grants'},
+            {icon:'🏢',label:'Incubators',sub:'IIT, IIM based programs'},
+            {icon:'📋',label:'Startup India',sub:'Govt policy support'},
+            {icon:'🦄',label:'Unicorns',sub:'100+ valued at $1B+'},
+            {icon:'👥',label:'Mentorship',sub:'Expert guidance network'},
+          ].map(item=>`
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+              border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:22px">${item.icon}</div>
+              <div style="font-size:12px;font-weight:700;color:var(--white);margin-top:4px">${item.label}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">${item.sub}</div>
+            </div>`).join('')}
+        </div>
+      </div>`,
+    'modes-of-entry': `
+      <div class="diagram-box">
+        <div class="diagram-title">🌐 Modes of Entry — Risk vs Control</div>
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="180" x2="290" y2="180" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <line x1="20" y1="180" x2="20" y2="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <text x="155" y="198" text-anchor="middle" fill="var(--muted)" font-size="10">RISK →</text>
+          <text x="10" y="100" text-anchor="middle" fill="var(--muted)" font-size="10" transform="rotate(-90,10,100)">CONTROL →</text>
+          ${[
+            {label:'Export',x:50,y:155,color:'#27ae60'},
+            {label:'License',x:90,y:135,color:'#3498db'},
+            {label:'Franchise',x:130,y:115,color:'#9b59b6'},
+            {label:'Joint Venture',x:180,y:85,color:'#f0a500'},
+            {label:'WOS',x:240,y:45,color:'#e74c3c'},
+          ].map((m,i)=>`
+            <circle cx="${m.x}" cy="${m.y}" r="12" fill="${m.color}" opacity="0.9"/>
+            <text x="${m.x}" y="${m.y+3}" text-anchor="middle" fill="white" font-size="7" font-weight="bold">${i+1}</text>
+            <text x="${m.x+18}" y="${m.y+4}" fill="${m.color}" font-size="9">${m.label}</text>
+          `).join('')}
+        </svg>
+      </div>`
+  };
+  document.getElementById('panel-diagrams').innerHTML = diagrams[ch.diagram] || `<div class="concept-box"><p>Diagram for this chapter coming soon.</p></div>`;
+}
+
+function renderCases(){
+  const ch = currentChapter;
+  let html = ch.cases.map(c => `
+    <div class="case-study">
+      <div class="case-label">CASE STUDY</div>
+      <div class="case-title">💼 ${c.title}</div>
+      <div class="case-body">${c.body}</div>
+      <div class="case-question">
+        <strong>❓ Discussion Question:</strong>
+        <p>${c.question}</p>
+      </div>
+      <div class="key-point" style="margin-top:10px">
+        <strong>✅ Answer</strong>
+        <p>${c.answer}</p>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('panel-cases').innerHTML = html;
+}
+
+function renderChapterQuiz(){
+  const ch = currentChapter;
+  document.getElementById('panel-quiz').innerHTML = `
+    <div style="text-align:center;padding:10px 0 20px">
+      <div style="font-size:32px;margin-bottom:12px">📝</div>
+      <div style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:6px">${ch.title}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:20px">${ch.quiz.length} questions</div>
+      <button class="action-btn" onclick="startChapterQuiz()">Start Chapter Quiz</button>
+    </div>
+  `;
+}
+
+/* ===== QUIZ ENGINE ===== */
+function startChapterQuiz(){
+  quizState = {
+    questions: currentChapter.quiz,
+    current: 0, score: 0, answered: false,
+    chapterMode: true, chapterTitle: currentChapter.title
+  };
+  document.getElementById('quiz-hero-title').textContent = '📝 Chapter Quiz';
+  document.getElementById('quiz-hero-sub').textContent = currentChapter.title;
+  renderQuestion();
+  showScreen('quiz');
+}
+
+function startQuizAll(){
+  // Pull questions from all chapters
+  let all = [];
+  CHAPTERS.forEach(ch => {
+    ch.quiz.forEach(q => all.push({...q, chapterTitle: ch.title}));
+  });
+  // Shuffle and take 15
+  all = all.sort(()=>Math.random()-.5).slice(0,15);
+  quizState = {questions: all, current: 0, score: 0, answered: false, chapterMode: false};
+  document.getElementById('quiz-hero-title').textContent = '📝 Full Business Studies Quiz';
+  document.getElementById('quiz-hero-sub').textContent = 'Mixed questions from all chapters';
+  document.getElementById('quiz-card').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+  showScreen('quiz');
+}
+
+function renderQuestion(){
+  const {questions, current, score} = quizState;
+  const q = questions[current];
+  const total = questions.length;
+
+  document.getElementById('q-counter').textContent = `Q ${current+1}/${total}`;
+  document.getElementById('q-prog-fill').style.width = ((current+1)/total*100)+'%';
+  document.getElementById('live-score').textContent = `Score: ${score}`;
+  document.getElementById('q-type').textContent = q.type || 'MCQ';
+  document.getElementById('q-text').textContent = q.q;
+
+  const caseEl = document.getElementById('q-case');
+  if(q.case){ caseEl.textContent = q.case; caseEl.style.display='block'; }
+  else { caseEl.style.display='none'; }
+
+  const optEl = document.getElementById('quiz-options');
+  const letters = ['A','B','C','D'];
+  optEl.innerHTML = q.opts.map((opt,i) => `
+    <button class="quiz-opt" onclick="selectAnswer(this,'${opt.replace(/'/g,"\\'")}')">
+      <div class="opt-letter">${letters[i]}</div>
+      ${opt}
+    </button>
+  `).join('');
+
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('quiz-next-btn').style.display = 'none';
+  quizState.answered = false;
+
+  document.getElementById('quiz-card').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+}
+
+function selectAnswer(btn, chosen){
+  if(quizState.answered) return;
+  quizState.answered = true;
+
+  const q = quizState.questions[quizState.current];
+  const correct = chosen === q.ans;
+  if(correct) quizState.score++;
+
+  // Mark options
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    const txt = b.textContent.trim().substring(1).trim();
+    if(txt === q.ans) b.classList.add('correct');
+    else if(b === btn && !correct) b.classList.add('wrong');
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box show '+(correct?'feedback-correct':'feedback-wrong');
+  document.getElementById('feedback-title').textContent = correct ? '✅ Correct!' : '❌ Incorrect';
+  document.getElementById('feedback-exp').textContent = q.exp || (correct ? 'Great job!' : `Correct answer: ${q.ans}`);
+
+  document.getElementById('quiz-next-btn').style.display = 'block';
+  document.getElementById('live-score').textContent = `Score: ${quizState.score}`;
+}
+
+function nextQuestion(){
+  quizState.current++;
+  if(quizState.current >= quizState.questions.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult(){
+  const {score, questions, chapterMode, chapterTitle} = quizState;
+  const total = questions.length;
+  const pct = Math.round(score/total*100);
+
+  // Save score
+  const key = chapterMode ? chapterTitle : 'full_quiz';
+  quizScores[key] = pct;
+  localStorage.setItem('bs12_scores', JSON.stringify(quizScores));
+
+  document.getElementById('res-pct').textContent = pct+'%';
+
+  let title, msg;
+  if(pct>=90){title='🏆 Outstanding!';msg='Excellent performance! You have mastered this topic.';}
+  else if(pct>=75){title='🌟 Great Work!';msg='Very good understanding. Review the few missed concepts.';}
+  else if(pct>=60){title='👍 Good Effort!';msg='Decent performance. Revise concepts and case studies.';}
+  else if(pct>=40){title='📚 Keep Studying';msg='Review the chapter concepts carefully and try again.';}
+  else{title='💪 Don\'t Give Up!';msg='Read through all concepts and case studies, then retry.';}
+
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-msg').textContent = `You scored ${score}/${total}. ${msg}`;
+
+  document.getElementById('quiz-card').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+}
+
+function restartQuiz(){
+  if(quizState.chapterMode) startChapterQuiz();
+  else startQuizAll();
+}
+
+/* ===== SIMULATIONS ===== */
+function launchSim(type){
+  // Hide list, show specific panel
+  document.getElementById('sim-list').style.display = 'none';
+  document.querySelectorAll('.sim-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('sim-'+type).classList.add('active');
+
+  const renders = {mgmt: renderMgmtSim, org: renderOrgSim, mkt: renderMktSim, biz: renderBizSim, fin: renderFinSim};
+  renders[type]();
+}
+
+function backToSimList(){
+  document.getElementById('sim-list').style.display = 'flex';
+  document.getElementById('sim-list').style.flexDirection = 'column';
+  document.querySelectorAll('.sim-panel').forEach(p=>p.classList.remove('active'));
+}
+
+const MGMT_SCENARIOS = [
+  {title:'Production Bottleneck Crisis',
+   desc:'Your factory is producing 500 units/day but needs 800 units to meet a big order. Workers are stressed. Choose your management strategy:',
+   choices:[
+     {text:'Autocratic: Force overtime — 12 hours/day, mandatory weekends',result:'Short-term: Order fulfilled. Long-term: Worker burnout, high turnover. Morale drops 40%. Fayol\'s principle violated: No equity/stability.'},
+     {text:'Participative: Hold team meeting, identify bottleneck together, offer incentives',result:'Worker identifies machine calibration issue causing 30% inefficiency. Fixed within 2 days. Morale stays high. Esprit de Corps maintained. Best outcome!'},
+     {text:'Hire temporary workers quickly without training',result:'Quality falls. Customer complaints rise. Order partially cancelled. Cost overrun 25%. Staffing without training violates scientific management.'},
+   ]},
+  {title:'New Technology Adoption',
+   desc:'A new AI-powered inventory system costs ₹50 lakhs but could save ₹15 lakhs/year. Workers fear job loss. What do you do?',
+   choices:[
+     {text:'Implement immediately without consulting workers',result:'Workers resist, sabotage inputs. System fails within 3 months. ₹50 lakh loss. Violated Unity of Command and Communication principles.'},
+     {text:'Consult workers, retrain them for higher-value roles, phase implementation',result:'Workers become system administrators and data analysts. Efficiency increases 35%. ROI achieved in 3.3 years. Harmony not discord — Taylor\'s principle applied!'},
+     {text:'Reject the technology to avoid conflict',result:'Competitor adopts it. Market share falls 15% in 2 years. Loss of competitive advantage. Opportunity cost: ₹30 lakhs over 2 years.'},
+   ]}
+];
+
+let currentScenario = 0;
+function renderMgmtSim(){
+  const el = document.getElementById('sim-mgmt');
+  const sc = MGMT_SCENARIOS[currentScenario % MGMT_SCENARIOS.length];
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="backToSimList()" class="back-btn">← Back</button>
+      <div style="font-size:16px;font-weight:700;color:var(--white)">🎯 Management Decision Simulator</div>
+    </div>
+    <div style="background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.2);border-radius:10px;padding:10px 14px;font-size:11px;color:var(--accent2);margin-bottom:16px">
+      ⚠️ Choose your management strategy wisely — each decision has consequences!
+    </div>
+    <div class="mgmt-scenario">
+      <h3>📋 ${sc.title}</h3>
+      <p>${sc.desc}</p>
+      <div class="mgmt-choices">
+        ${sc.choices.map((c,i)=>`<button class="mgmt-choice" onclick="selectMgmt(this,'${i}')">${String.fromCharCode(65+i)}. ${c.text}</button>`).join('')}
+      </div>
+      <div class="mgmt-result" id="mgmt-result"></div>
+    </div>
+    <button onclick="nextMgmtScenario()" style="margin-top:12px;background:transparent;border:2px solid var(--accent);color:var(--accent);padding:10px 24px;border-radius:50px;font-weight:700;font-size:13px;cursor:pointer;width:100%">Next Scenario →</button>
+  `;
+}
+
+function selectMgmt(btn, idx){
+  document.querySelectorAll('.mgmt-choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const sc = MGMT_SCENARIOS[currentScenario % MGMT_SCENARIOS.length];
+  const res = document.getElementById('mgmt-result');
+  res.innerHTML = `<h4>📊 Outcome Analysis:</h4><p>${sc.choices[parseInt(idx)].result}</p>`;
+  res.classList.add('show');
+}
+
+function nextMgmtScenario(){ currentScenario++; renderMgmtSim(); }
+
+function renderOrgSim(){
+  const el = document.getElementById('sim-org');
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="backToSimList()" class="back-btn">← Back</button>
+      <div style="font-size:16px;font-weight:700;color:var(--white)">🏗️ Org Structure Builder</div>
+    </div>
+    <div class="concept-box">
+      <h3>🏢 Choose Your Organisation Type</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+        <button onclick="showOrgType('functional')" style="background:linear-gradient(135deg,#3498db,#2980b9);color:white;border:none;border-radius:10px;padding:12px;cursor:pointer;font-weight:700">Functional Structure</button>
+        <button onclick="showOrgType('divisional')" style="background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--navy);border:none;border-radius:10px;padding:12px;cursor:pointer;font-weight:700">Divisional Structure</button>
+      </div>
+    </div>
+    <div id="org-display"></div>
+  `;
+}
+
+function showOrgType(type){
+  const el = document.getElementById('org-display');
+  if(type==='functional'){
+    el.innerHTML = `
+      <div class="diagram-box">
+        <div class="diagram-title">Functional Organisational Structure</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+          <div class="org-node ceo">🏢 CEO / MD</div>
+          <div style="width:2px;height:14px;background:rgba(255,255,255,0.2)"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            ${['🏭 Production','💰 Finance','📢 Marketing','👥 HR','💻 IT'].map(d=>`
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div class="org-node mgr" style="font-size:11px;padding:8px;min-width:70px">${d}</div>
+                <div style="width:2px;height:10px;background:rgba(255,255,255,0.15)"></div>
+                <div class="org-node" style="font-size:10px;padding:6px;min-width:70px">Team</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:rgba(52,152,219,0.1);border-radius:8px;font-size:12px;color:var(--muted)">
+          ✅ Advantages: Specialisation, efficiency, clear reporting<br>
+          ❌ Disadvantages: Departmental silos, poor cross-functional coordination
+        </div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="diagram-box">
+        <div class="diagram-title">Divisional Organisational Structure</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+          <div class="org-node ceo">🏢 CEO</div>
+          <div style="width:2px;height:14px;background:rgba(255,255,255,0.2)"></div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            ${['📱 Electronics Div','🚗 Auto Div','🏠 Home Appliances'].map(d=>`
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div class="org-node mgr" style="font-size:11px;padding:8px">${d}</div>
+                <div style="width:2px;height:10px;background:rgba(255,255,255,0.15)"></div>
+                <div style="display:flex;gap:4px">
+                  ${['Prod','Fin','Mkt'].map(f=>`<div class="org-node" style="font-size:9px;padding:4px 6px;min-width:40px">${f}</div>`).join('')}
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:rgba(240,165,0,0.08);border-radius:8px;font-size:12px;color:var(--muted)">
+          ✅ Advantages: Product focus, accountability, suits diversified companies<br>
+          ❌ Disadvantages: Duplication of resources, inter-division conflicts
+        </div>
+      </div>`;
+  }
+}
+
+let mktValues = {product:50, price:50, promotion:50, place:50};
+function renderMktSim(){
+  const el = document.getElementById('sim-mkt');
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="backToSimList()" class="back-btn">← Back</button>
+      <div style="font-size:16px;font-weight:700;color:var(--white)">📢 Marketing Mix Simulator</div>
+    </div>
+    <div style="background:rgba(13,115,119,0.1);border:1px solid rgba(13,115,119,0.25);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--text);margin-bottom:16px">
+      Adjust the 4Ps and see how they affect business performance
+    </div>
+    <div class="mix-sliders">
+      ${[
+        {key:'product',label:'Product Quality',icon:'📦',desc:'Features, design, packaging'},
+        {key:'price',label:'Pricing Strategy',icon:'💰',desc:'Competitive pricing level'},
+        {key:'promotion',label:'Promotion Budget',icon:'📢',desc:'Advertising & sales promotion'},
+        {key:'place',label:'Distribution Reach',icon:'🚚',desc:'Channel coverage'},
+      ].map(p=>`
+        <div class="mix-row">
+          <div class="mix-label">${p.icon} ${p.label} <span id="v-${p.key}">50</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:8px">${p.desc}</div>
+          <input class="mix-slider" type="range" min="0" max="100" value="50"
+            oninput="updateMkt('${p.key}',this.value)">
+        </div>
+      `).join('')}
+    </div>
+    <div class="mix-result">
+      <div class="mix-result-title">📊 Business Performance Metrics</div>
+      <div class="mix-metric"><span class="mix-metric-lbl">Market Share</span><span class="mix-metric-val" id="m-share" style="color:var(--accent)">50%</span></div>
+      <div class="mix-metric"><span class="mix-metric-lbl">Customer Satisfaction</span><span class="mix-metric-val" id="m-sat" style="color:var(--teal2)">50/100</span></div>
+      <div class="mix-metric"><span class="mix-metric-lbl">Profitability Index</span><span class="mix-metric-val" id="m-profit" style="color:var(--green)">Moderate</span></div>
+      <div class="mix-metric"><span class="mix-metric-lbl">Brand Strength</span><span class="mix-metric-val" id="m-brand" style="color:#9b59b6">Average</span></div>
+      <div id="mix-advice" style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.04);border-radius:8px;font-size:12px;color:var(--muted)">
+        💡 Adjust sliders to see how different marketing strategies affect business outcomes
+      </div>
+    </div>
+  `;
+}
+
+function updateMkt(key, val){
+  mktValues[key] = parseInt(val);
+  document.getElementById('v-'+key).textContent = val;
+  
+  const avg = (mktValues.product+mktValues.price+mktValues.promotion+mktValues.place)/4;
+  const share = Math.round(avg*0.8+Math.random()*10);
+  const sat = Math.round(mktValues.product*0.5 + mktValues.price*0.3 + mktValues.promotion*0.2);
+  
+  document.getElementById('m-share').textContent = Math.min(95,share)+'%';
+  document.getElementById('m-sat').textContent = Math.min(100,sat)+'/100';
+  
+  const profitScore = mktValues.product*0.3 + (100-mktValues.price)*0.3 + mktValues.promotion*0.2 + mktValues.place*0.2;
+  const profits = ['Low','Below Average','Moderate','Good','Excellent'];
+  document.getElementById('m-profit').textContent = profits[Math.floor(profitScore/22)] || 'Excellent';
+  
+  const brands = ['Weak','Developing','Average','Strong','Market Leader'];
+  const brandScore = Math.floor((mktValues.product+mktValues.promotion)/40);
+  document.getElementById('m-brand').textContent = brands[brandScore] || 'Market Leader';
+  
+  let advice = '';
+  if(mktValues.product < 30) advice += '⚠️ Low product quality will hurt long-term brand. ';
+  if(mktValues.price > 80) advice += '⚠️ Very high pricing may reduce market share. ';
+  if(mktValues.promotion < 20) advice += '💡 Increase promotion for better brand awareness. ';
+  if(mktValues.place < 30) advice += '📦 Expand distribution channels for growth. ';
+  if(!advice) advice = '✅ Balanced marketing mix! Good overall strategy.';
+  document.getElementById('mix-advice').textContent = advice;
+}
+
+const SWOT_DATA = {
+  S:['Strong brand','Skilled workforce','Good technology','Cost advantage','Patent protection'],
+  W:['Limited capital','High employee turnover','Outdated infrastructure','Narrow product range'],
+  O:['Growing market','New technology','Government subsidies','Export opportunities','Changing consumer preferences'],
+  T:['New competitors','Economic slowdown','Regulatory changes','Substitute products','Currency fluctuation']
+};
+
+function renderBizSim(){
+  const el = document.getElementById('sim-biz');
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="backToSimList()" class="back-btn">← Back</button>
+      <div style="font-size:16px;font-weight:700;color:var(--white)">🌍 Business Environment Analyzer</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Select company sector:</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${['IT/Tech','Manufacturing','Retail','Banking','Healthcare'].map(s=>`
+          <button onclick="loadSWOT('${s}')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:var(--text);padding:8px 14px;border-radius:50px;font-size:12px;cursor:pointer;">${s}</button>
+        `).join('')}
+      </div>
+    </div>
+    <div id="swot-matrix">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        ${[
+          {key:'S',label:'Strengths 💪',color:'#27ae60'},
+          {key:'W',label:'Weaknesses ⚠️',color:'#e74c3c'},
+          {key:'O',label:'Opportunities 🚀',color:'#3498db'},
+          {key:'T',label:'Threats ⚡',color:'#f0a500'},
+        ].map(q=>`
+          <div style="background:${q.color}22;border:1px solid ${q.color}44;border-radius:12px;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:${q.color};margin-bottom:8px">${q.label}</div>
+            <ul style="padding-left:14px;font-size:11px;color:var(--text);line-height:2">
+              ${SWOT_DATA[q.key].slice(0,3).map(i=>`<li>${i}</li>`).join('')}
+            </ul>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px;background:var(--card);border-radius:12px;font-size:12px;color:var(--muted);line-height:1.6">
+      💡 <strong style="color:var(--accent2)">SWOT Analysis</strong> helps businesses understand their internal capabilities (S,W) and external environment (O,T) to formulate effective strategies.
+    </div>
+  `;
+}
+
+function loadSWOT(sector){
+  showToast('Loading SWOT for '+sector);
+}
+
+let finChoices = {funding:'equity', investment:'growth', risk:'moderate'};
+function renderFinSim(){
+  const el = document.getElementById('sim-fin');
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="backToSimList()" class="back-btn">← Back</button>
+      <div style="font-size:16px;font-weight:700;color:var(--white)">💰 Financial Decision Simulator</div>
+    </div>
+    
+    <div class="concept-box" style="margin-bottom:12px">
+      <h3>💼 Funding Source</h3>
+      <div class="fin-options">
+        ${[
+          {key:'equity',icon:'📈',title:'Equity',desc:'Issue shares, no interest'},
+          {key:'debt',icon:'🏦',title:'Bank Loan',desc:'Fixed interest, tax benefit'},
+          {key:'retained',icon:'💰',title:'Retained Earnings',desc:'Internal funds'},
+          {key:'venture',icon:'🚀',title:'Venture Capital',desc:'High risk, high growth'},
+        ].map(o=>`
+          <div class="fin-opt ${finChoices.funding===o.key?'selected':''}" onclick="setFin('funding','${o.key}',this)">
+            <div class="fin-opt-icon">${o.icon}</div>
+            <div class="fin-opt-title">${o.title}</div>
+            <div class="fin-opt-desc">${o.desc}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="concept-box" style="margin-bottom:12px">
+      <h3>📊 Investment Strategy</h3>
+      <div class="fin-options">
+        ${[
+          {key:'growth',icon:'🌱',title:'Growth',desc:'Expand operations'},
+          {key:'efficiency',icon:'⚙️',title:'Efficiency',desc:'Reduce costs'},
+          {key:'dividend',icon:'💸',title:'Dividend',desc:'Return to shareholders'},
+          {key:'reserve',icon:'🛡️',title:'Reserve',desc:'Safety buffer'},
+        ].map(o=>`
+          <div class="fin-opt ${finChoices.investment===o.key?'selected':''}" onclick="setFin('investment','${o.key}',this)">
+            <div class="fin-opt-icon">${o.icon}</div>
+            <div class="fin-opt-title">${o.title}</div>
+            <div class="fin-opt-desc">${o.desc}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="fin-meter">
+      <div class="fin-meter-title">📈 Financial Health Indicators</div>
+      ${[
+        {label:'Return on Investment',color:'var(--accent)',val:finCalc('roi')},
+        {label:'Liquidity Ratio',color:'var(--teal2)',val:finCalc('liq')},
+        {label:'Financial Risk Level',color:'var(--red)',val:finCalc('risk')},
+        {label:'Growth Potential',color:'var(--green)',val:finCalc('growth')},
+      ].map(m=>`
+        <div class="fin-bar-row">
+          <div class="fin-bar-label"><span>${m.label}</span><span style="color:${m.color}">${m.val}%</span></div>
+          <div class="fin-bar"><div class="fin-bar-fill" style="width:${m.val}%;background:${m.color}"></div></div>
+        </div>`).join('')}
+      <div id="fin-advice" style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.04);border-radius:8px;font-size:12px;color:var(--muted)">
+        ${getFinAdvice()}
+      </div>
+    </div>
+  `;
+}
+
+function finCalc(metric){
+  const f=finChoices.funding, i=finChoices.investment;
+  const scores = {
+    roi: (f==='debt'?65:f==='venture'?80:f==='retained'?55:50) + (i==='growth'?15:i==='efficiency'?20:0),
+    liq: (f==='equity'?75:f==='retained'?80:f==='debt'?45:50) + (i==='reserve'?15:i==='dividend'?-10:0),
+    risk: (f==='debt'?70:f==='venture'?65:f==='equity'?35:30) + (i==='growth'?10:i==='reserve'?-15:0),
+    growth: (f==='venture'?85:f==='equity'?70:f==='retained'?55:45) + (i==='growth'?15:i==='efficiency'?5:0),
+  };
+  return Math.min(95,Math.max(5,scores[metric]));
+}
+
+function getFinAdvice(){
+  const f=finChoices.funding, i=finChoices.investment;
+  if(f==='debt' && i==='growth') return '⚠️ High-risk strategy: Using debt for growth amplifies both gains and losses. Trading on equity — only advisable if ROI > interest rate.';
+  if(f==='equity' && i==='growth') return '✅ Balanced strategy: Equity financing with growth investment — no fixed interest burden, supports expansion.';
+  if(f==='retained' && i==='reserve') return '🛡️ Conservative strategy: Safe but may miss growth opportunities. Good for mature/stable businesses.';
+  if(f==='venture' && i==='growth') return '🚀 Aggressive growth strategy: High potential returns but high risk. Suitable for startups with strong business model.';
+  return '💡 Analyse your cost of capital vs expected ROI before finalising funding and investment decisions.';
+}
+
+function setFin(category, val, el){
+  finChoices[category] = val;
+  el.parentElement.querySelectorAll('.fin-opt').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  renderFinSim();
+}
+
+/* ===== PROGRESS ===== */
+function renderProgress(){
+  const done = Object.keys(progress).filter(k=>progress[k]).length;
+  const pct = Math.round((done/CHAPTERS.length)*100);
+  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('prog-sub').textContent = `${done} of ${CHAPTERS.length} chapters studied`;
+
+  const list = document.getElementById('prog-chapters-list');
+  list.innerHTML = CHAPTERS.map(ch => `
+    <div class="prog-ch-item">
+      <div class="prog-ch-icon">${ch.emoji}</div>
+      <div class="prog-ch-info">
+        <div class="prog-ch-title">${ch.title}</div>
+        <div class="prog-ch-sub">${quizScores[ch.title] ? `Quiz: ${quizScores[ch.title]}%` : 'Quiz not taken'}</div>
+      </div>
+      <div class="prog-ch-status">${progress[ch.id] ? '✅' : '⭕'}</div>
+    </div>
+  `).join('');
+}
+
+function resetProgress(){
+  if(confirm('Reset all progress and quiz scores?')){
+    progress = {}; quizScores = {};
+    localStorage.removeItem('bs12_progress');
+    localStorage.removeItem('bs12_scores');
+    renderProgress();
+    showToast('Progress reset successfully');
+  }
+}
+
+/* ===== THINKERS ===== */
+function renderThinkers(){
+  document.getElementById('thinkers-list').innerHTML = THINKERS.map(t=>`
+    <div class="thinker-card">
+      <div class="thinker-avatar" style="background:${t.color}">${t.emoji}</div>
+      <div class="thinker-info">
+        <h3>${t.name}</h3>
+        <div class="era">${t.era}</div>
+        <p>${t.desc}</p>
+        <div class="thinker-contrib">
+          ${t.tags.map(tag=>`<span class="contrib-tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ===== TOAST ===== */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+/* ===== INIT ===== */
+renderHome();
+</script>
+</body>
+</html>

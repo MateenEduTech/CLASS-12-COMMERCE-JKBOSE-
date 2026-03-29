@@ -1,0 +1,402 @@
+{
+  "class": "12",
+  "subject": "Entrepreneurship",
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Entrepreneurial Opportunity",
+      "icon": "🔍",
+      "color": "#FF6B35",
+      "description": "Identifying and evaluating viable business opportunities in the market",
+      "concepts": [
+        {
+          "heading": "What is Entrepreneurial Opportunity?",
+          "text": "An entrepreneurial opportunity is a favorable set of circumstances that creates a need for a new product, service, or business. It arises when an entrepreneur identifies a gap between what is currently available in the market and what customers actually need. Not every business idea is an opportunity — it must be viable, timely, and capable of generating profit."
+        },
+        {
+          "heading": "Sources of Opportunity",
+          "text": "Opportunities can emerge from: (1) Changes in Technology — new tech creates new possibilities (e.g., smartphones enabling app businesses). (2) Changes in Government Policy — new regulations open new sectors. (3) Social & Demographic Changes — population shifts create new demands. (4) Unsatisfied Needs — gaps in the market. (5) Competitive Weakness — exploiting competitors' limitations."
+        },
+        {
+          "heading": "Opportunity Assessment Framework (NABC)",
+          "text": "N - Need: What specific problem or need does your idea solve? A - Approach: What is your unique solution or approach? B - Benefits: What quantifiable benefits does it offer? C - Competition: How does it compare to alternatives? This framework helps entrepreneurs evaluate whether an idea is truly an opportunity."
+        },
+        {
+          "heading": "Trend Analysis & Opportunity Recognition",
+          "text": "PESTLE Analysis helps identify opportunities: Political factors (government policies, stability), Economic factors (income levels, inflation), Social factors (cultural trends, demographics), Technological factors (innovations, automation), Legal factors (new laws, deregulation), Environmental factors (sustainability trends). Entrepreneurs who track these trends spot opportunities early."
+        }
+      ],
+      "caseStudy": {
+        "title": "Byju's — Education Technology Opportunity",
+        "story": "Byju Raveendran noticed a gap in quality education delivery across India. While tutoring students, he realized that visual, interactive content dramatically improved learning outcomes. In 2011, he founded BYJU'S, using technology to deliver personalized learning. By identifying the opportunity at the intersection of EdTech, smartphone penetration, and India's education hunger, BYJU'S became India's first ed-tech unicorn.",
+        "lesson": "Opportunity recognition requires observing problems others face daily and asking 'Can I solve this better?'"
+      },
+      "diagram": {
+        "type": "opportunity_window",
+        "elements": ["Problem Identification", "Market Gap", "Solution Design", "Feasibility Check", "Business Opportunity"]
+      },
+      "quiz": [
+        {
+          "question": "What is the FIRST step in recognizing an entrepreneurial opportunity?",
+          "options": ["Starting production", "Identifying a market gap or problem", "Hiring employees", "Getting a bank loan"],
+          "answer": "Identifying a market gap or problem",
+          "explanation": "Opportunity recognition begins with identifying an unmet need or problem in the market."
+        },
+        {
+          "question": "Which framework uses Need, Approach, Benefits, and Competition to evaluate opportunities?",
+          "options": ["SWOT", "PEST", "NABC", "BCG"],
+          "answer": "NABC",
+          "explanation": "NABC (Need, Approach, Benefits, Competition) is a structured framework for opportunity assessment."
+        },
+        {
+          "question": "PESTLE analysis stands for:",
+          "options": ["Political, Economic, Social, Technological, Legal, Environmental", "Product, Economy, Sales, Trade, Legal, Earnings", "Planning, Execution, Strategy, Time, Labor, Efficiency", "None of the above"],
+          "answer": "Political, Economic, Social, Technological, Legal, Environmental",
+          "explanation": "PESTLE is an environmental scanning tool that helps identify macro-level opportunities."
+        },
+        {
+          "question": "An entrepreneurial opportunity must be:",
+          "options": ["Viable, timely, and profitable", "Cheap and easy", "Already existing in the market", "Government approved only"],
+          "answer": "Viable, timely, and profitable",
+          "explanation": "A genuine opportunity is one that is feasible, emerges at the right time, and can generate profit."
+        },
+        {
+          "question": "Which of the following is a source of entrepreneurial opportunity?",
+          "options": ["Changes in technology", "Unsatisfied market needs", "Competitive weaknesses", "All of the above"],
+          "answer": "All of the above",
+          "explanation": "All three are valid sources — technology, unmet needs, and gaps left by competitors create opportunities."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Enterprise Planning",
+      "icon": "📋",
+      "color": "#4ECDC4",
+      "description": "Creating comprehensive business plans and enterprise strategies",
+      "concepts": [
+        {
+          "heading": "What is Enterprise Planning?",
+          "text": "Enterprise planning is the systematic process of defining a business's objectives and determining the best approach to achieving them. It involves setting goals, identifying resources, forecasting challenges, and creating a roadmap for the business. A well-structured business plan serves as a guide for the entrepreneur and a convincing document for investors and lenders."
+        },
+        {
+          "heading": "Business Plan Components",
+          "text": "A comprehensive business plan includes: (1) Executive Summary — brief overview of the entire plan. (2) Company Description — what your business does and its legal structure. (3) Market Analysis — industry trends, target customers, competition. (4) Organization & Management — team structure and expertise. (5) Products/Services — what you offer and its unique value. (6) Marketing & Sales Strategy — how you will attract customers. (7) Financial Projections — revenue forecasts, break-even analysis, cash flow."
+        },
+        {
+          "heading": "Business Model Canvas",
+          "text": "Developed by Alexander Osterwalder, the Business Model Canvas is a one-page strategic tool with 9 building blocks: Key Partners, Key Activities, Key Resources, Value Propositions, Customer Relationships, Channels, Customer Segments, Cost Structure, and Revenue Streams. It helps entrepreneurs visualize, design, and pivot their business model rapidly."
+        },
+        {
+          "heading": "Project Planning Tools",
+          "text": "PERT (Program Evaluation Review Technique) — maps out tasks and their dependencies to estimate project duration. CPM (Critical Path Method) — identifies the longest sequence of dependent tasks. Gantt Charts — visual bars showing tasks over time. SWOT Analysis — Strengths, Weaknesses, Opportunities, Threats — used to assess the business environment before planning."
+        }
+      ],
+      "caseStudy": {
+        "title": "Amul — The Co-operative Planning Model",
+        "story": "Amul's success wasn't accidental — it was built on meticulous enterprise planning. Dr. Verghese Kurien planned the entire milk cooperative system from procurement to processing to distribution. The 'Anand Pattern' cooperative model he designed eliminated middlemen, ensured farmers received fair prices, and created a brand that could compete nationally. Strategic planning transformed a small dairy cooperative into a ₹72,000 crore brand.",
+        "lesson": "Thorough enterprise planning, including supply chain, pricing, and marketing, creates sustainable competitive advantage."
+      },
+      "diagram": {
+        "type": "business_model_canvas",
+        "elements": ["Key Partners", "Key Activities", "Value Proposition", "Customer Relationships", "Customer Segments", "Key Resources", "Channels", "Cost Structure", "Revenue Streams"]
+      },
+      "quiz": [
+        {
+          "question": "The Business Model Canvas was developed by:",
+          "options": ["Peter Drucker", "Alexander Osterwalder", "Philip Kotler", "Michael Porter"],
+          "answer": "Alexander Osterwalder",
+          "explanation": "Alexander Osterwalder created the Business Model Canvas as a strategic management template."
+        },
+        {
+          "question": "How many building blocks does the Business Model Canvas have?",
+          "options": ["7", "8", "9", "10"],
+          "answer": "9",
+          "explanation": "The BMC has exactly 9 building blocks covering all aspects of a business model."
+        },
+        {
+          "question": "SWOT stands for:",
+          "options": ["Strategy, Work, Operations, Timing", "Strengths, Weaknesses, Opportunities, Threats", "Sales, Workflow, Output, Targets", "None of above"],
+          "answer": "Strengths, Weaknesses, Opportunities, Threats",
+          "explanation": "SWOT is a planning framework that analyzes internal (S,W) and external (O,T) factors."
+        },
+        {
+          "question": "The Executive Summary in a business plan should be:",
+          "options": ["The longest section", "A brief overview of the entire plan", "Only financial data", "A product catalogue"],
+          "answer": "A brief overview of the entire plan",
+          "explanation": "The Executive Summary provides a concise overview that gives readers a quick understanding of the business."
+        },
+        {
+          "question": "PERT stands for:",
+          "options": ["Program Evaluation Review Technique", "Planning and Execution Resource Tool", "Project Enterprise Running Template", "None of the above"],
+          "answer": "Program Evaluation Review Technique",
+          "explanation": "PERT helps in project planning by mapping tasks and estimating project duration."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Enterprise Marketing",
+      "icon": "📣",
+      "color": "#A855F7",
+      "description": "Marketing strategies, consumer behavior, and brand building for enterprises",
+      "concepts": [
+        {
+          "heading": "Marketing Mix — The 4 Ps",
+          "text": "The 4 Ps of Marketing form the foundation of any marketing strategy: Product — what you're selling (features, quality, branding, packaging). Price — what customers pay (pricing strategies like penetration, skimming, competitive). Place — how the product reaches customers (distribution channels, location). Promotion — how you communicate (advertising, sales promotions, PR, digital marketing). Modern marketing extends this to 7 Ps by adding People, Process, and Physical Evidence."
+        },
+        {
+          "heading": "Market Segmentation",
+          "text": "Market segmentation divides a broad target market into subsets of consumers with common needs or characteristics. Types: (1) Demographic — age, gender, income, occupation, education. (2) Geographic — region, city size, climate. (3) Psychographic — lifestyle, values, personality. (4) Behavioral — usage rate, brand loyalty, purchase occasion. Segmentation helps entrepreneurs target the right customers with the right message."
+        },
+        {
+          "heading": "Consumer Behavior",
+          "text": "Understanding why consumers buy is crucial. The Consumer Decision Process: Problem Recognition → Information Search → Evaluation of Alternatives → Purchase Decision → Post-Purchase Behavior. Factors influencing behavior: Cultural (values, beliefs), Social (family, reference groups), Personal (age, income, lifestyle), Psychological (motivation, perception, learning, attitudes)."
+        },
+        {
+          "heading": "Digital Marketing for Startups",
+          "text": "Digital channels offer startups cost-effective marketing: SEO (Search Engine Optimization) — appearing in organic search results. Social Media Marketing — building community on Instagram, YouTube, LinkedIn. Content Marketing — blogs, videos, podcasts that provide value. Email Marketing — direct communication with subscribers. Performance Marketing — paid ads (Google Ads, Meta Ads) with measurable ROI. Growth Hacking — creative, low-cost strategies for rapid user acquisition."
+        }
+      ],
+      "caseStudy": {
+        "title": "OYO Rooms — Disruptive Marketing Strategy",
+        "story": "Ritesh Agarwal founded OYO at age 19, targeting the massive underserved budget accommodation market. His marketing insight: standardize the experience (clean rooms, free Wi-Fi, AC) and use digital channels to reach price-conscious travelers. OYO used aggressive pricing (penetration strategy), app-based booking, and user reviews to build trust. By clearly segmenting the market (budget travelers aged 18-35), OYO grew to become a global hospitality brand.",
+        "lesson": "Understanding your customer segment precisely and building your entire marketing strategy around their specific needs creates explosive growth."
+      },
+      "diagram": {
+        "type": "marketing_mix",
+        "elements": ["Product", "Price", "Place", "Promotion", "People", "Process", "Physical Evidence"]
+      },
+      "quiz": [
+        {
+          "question": "The 4 Ps of Marketing are:",
+          "options": ["Product, Price, Place, Promotion", "Planning, People, Process, Profit", "Product, Profit, Place, People", "None of the above"],
+          "answer": "Product, Price, Place, Promotion",
+          "explanation": "The 4 Ps (Product, Price, Place, Promotion) are the foundational elements of the marketing mix."
+        },
+        {
+          "question": "Dividing a market into groups based on age, gender, and income is called:",
+          "options": ["Geographic segmentation", "Psychographic segmentation", "Demographic segmentation", "Behavioral segmentation"],
+          "answer": "Demographic segmentation",
+          "explanation": "Demographic segmentation uses population characteristics like age, gender, and income to group customers."
+        },
+        {
+          "question": "Which pricing strategy involves setting a low initial price to capture market share quickly?",
+          "options": ["Price skimming", "Premium pricing", "Penetration pricing", "Cost-plus pricing"],
+          "answer": "Penetration pricing",
+          "explanation": "Penetration pricing uses low prices to quickly attract customers and gain market share."
+        },
+        {
+          "question": "The first stage in the consumer decision process is:",
+          "options": ["Information search", "Purchase decision", "Problem recognition", "Post-purchase evaluation"],
+          "answer": "Problem recognition",
+          "explanation": "Consumers first recognize a need or problem before beginning to search for solutions."
+        },
+        {
+          "question": "SEO stands for:",
+          "options": ["Sales and Earnings Output", "Search Engine Optimization", "Social Engagement Operations", "Strategic Enterprise Objective"],
+          "answer": "Search Engine Optimization",
+          "explanation": "SEO is the practice of optimizing content to rank higher in search engine results organically."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Enterprise Growth Strategies",
+      "icon": "🚀",
+      "color": "#F59E0B",
+      "description": "Scaling businesses, growth models, and strategic expansion approaches",
+      "concepts": [
+        {
+          "heading": "Ansoff's Growth Matrix",
+          "text": "The Ansoff Matrix provides four growth strategies: (1) Market Penetration — selling existing products in existing markets (lowest risk). (2) Product Development — creating new products for existing markets. (3) Market Development — selling existing products in new markets. (4) Diversification — new products in new markets (highest risk). Entrepreneurs use this matrix to choose the right growth path based on risk appetite and resources."
+        },
+        {
+          "heading": "Porter's Competitive Strategies",
+          "text": "Michael Porter identified three generic competitive strategies: (1) Cost Leadership — becoming the lowest cost producer (e.g., Walmart). (2) Differentiation — offering unique products/services that command premium pricing (e.g., Apple). (3) Focus — targeting a specific niche market with either cost or differentiation (e.g., luxury watch brands). Startups typically begin with a focus strategy before expanding."
+        },
+        {
+          "heading": "Scaling Strategies",
+          "text": "Scaling means growing revenue faster than costs. Key scaling strategies: Franchising — licensing your business model to others. Licensing — allowing others to use your IP for royalties. Strategic Alliances — partnering with complementary businesses. Mergers & Acquisitions — buying other businesses to gain capabilities/customers. Joint Ventures — collaborative business entities for specific projects."
+        },
+        {
+          "heading": "Innovation for Growth",
+          "text": "Clayton Christensen's Disruptive Innovation Theory: disruptive innovations start by targeting overlooked segments with simpler, cheaper solutions, then move upmarket displacing established players. Types of innovation: Process Innovation (improving how you make things), Product Innovation (improving what you make), Business Model Innovation (changing how you create/deliver/capture value). Innovation is the engine of sustainable enterprise growth."
+        }
+      ],
+      "caseStudy": {
+        "title": "Jio — Disruption as Growth Strategy",
+        "story": "When Reliance Jio entered the Indian telecom market in 2016, it chose radical disruption: free data and calls for months, then aggressively low prices. This was classic penetration pricing combined with market development — entering an existing market with a completely new approach. Within 6 months, Jio acquired 100 million subscribers, forcing competitors to merge, exit, or drastically cut prices. Jio's growth strategy combined technology investment, massive scale, and a clear understanding of India's price-sensitive market.",
+        "lesson": "A bold growth strategy backed by deep resources and market insight can completely reshape an industry."
+      },
+      "diagram": {
+        "type": "ansoff_matrix",
+        "elements": ["Market Penetration", "Product Development", "Market Development", "Diversification"]
+      },
+      "quiz": [
+        {
+          "question": "In Ansoff's Matrix, which strategy involves selling new products in new markets?",
+          "options": ["Market Penetration", "Product Development", "Market Development", "Diversification"],
+          "answer": "Diversification",
+          "explanation": "Diversification carries the highest risk as it involves both new products and new markets."
+        },
+        {
+          "question": "Porter's Cost Leadership strategy focuses on:",
+          "options": ["Targeting a niche", "Becoming the lowest cost producer", "Offering unique premium products", "Rapid product innovation"],
+          "answer": "Becoming the lowest cost producer",
+          "explanation": "Cost leadership means achieving the lowest production costs in the industry to compete on price."
+        },
+        {
+          "question": "Franchising as a growth strategy means:",
+          "options": ["Merging with competitors", "Licensing your business model to others", "Entering foreign markets directly", "Acquiring other businesses"],
+          "answer": "Licensing your business model to others",
+          "explanation": "Franchising allows others to operate under your brand and model in exchange for fees/royalties."
+        },
+        {
+          "question": "Disruptive innovation theory was proposed by:",
+          "options": ["Michael Porter", "Peter Drucker", "Clayton Christensen", "Philip Kotler"],
+          "answer": "Clayton Christensen",
+          "explanation": "Clayton Christensen introduced Disruptive Innovation Theory in his book 'The Innovator's Dilemma'."
+        },
+        {
+          "question": "Market Penetration in Ansoff's Matrix is considered:",
+          "options": ["Highest risk strategy", "Lowest risk strategy", "Moderate risk strategy", "Not a growth strategy"],
+          "answer": "Lowest risk strategy",
+          "explanation": "Market Penetration (existing products, existing markets) is the safest growth strategy."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Business Arithmetic",
+      "icon": "🔢",
+      "color": "#10B981",
+      "description": "Financial calculations, cost analysis, and business mathematics",
+      "concepts": [
+        {
+          "heading": "Revenue, Cost and Profit",
+          "text": "Revenue (Sales) = Price per unit × Quantity sold. Total Cost = Fixed Costs + Variable Costs. Profit = Revenue - Total Cost. Gross Profit = Revenue - Cost of Goods Sold. Net Profit = Gross Profit - Operating Expenses - Taxes. Gross Profit Margin = (Gross Profit / Revenue) × 100. Net Profit Margin = (Net Profit / Revenue) × 100. Understanding these relationships is fundamental to any business's financial health."
+        },
+        {
+          "heading": "Break-Even Analysis",
+          "text": "Break-even point is where total revenue equals total costs — no profit, no loss. Break-Even Units = Fixed Costs ÷ (Selling Price - Variable Cost per unit). The denominator (Selling Price - Variable Cost) is called Contribution Margin per unit. Break-Even Revenue = Fixed Costs ÷ Contribution Margin Ratio. Margin of Safety = Actual Sales - Break-Even Sales. It indicates how much sales can fall before a loss occurs."
+        },
+        {
+          "heading": "Working Capital Management",
+          "text": "Working Capital = Current Assets - Current Liabilities. It represents the capital available for day-to-day operations. Current Assets: cash, inventory, debtors. Current Liabilities: creditors, short-term loans. Working Capital Cycle: Cash → Raw Materials → Work-in-Progress → Finished Goods → Debtors → Cash. The faster this cycle, the less working capital needed. Inventory Turnover = Cost of Goods Sold ÷ Average Inventory."
+        },
+        {
+          "heading": "Financial Ratios",
+          "text": "Liquidity Ratios: Current Ratio = Current Assets / Current Liabilities (ideal: 2:1). Quick Ratio = (Current Assets - Inventory) / Current Liabilities (ideal: 1:1). Profitability Ratios: Return on Investment (ROI) = (Net Profit / Investment) × 100. Return on Equity (ROE) = Net Profit / Shareholders' Equity × 100. Efficiency Ratios: Asset Turnover = Revenue / Total Assets. These ratios help assess business performance and health."
+        }
+      ],
+      "caseStudy": {
+        "title": "A Local Bakery's Break-Even Journey",
+        "story": "Priya started a bakery in Srinagar with ₹3,00,000 fixed costs (rent, equipment EMIs, salaries). Each cake costs ₹150 to make (variable cost) and sells for ₹350. Contribution margin = ₹350 - ₹150 = ₹200 per cake. Break-even = ₹3,00,000 ÷ ₹200 = 1,500 cakes per month. Once Priya crossed 1,500 cakes, every additional cake generated pure profit of ₹200. Understanding this helped her set daily production targets and plan for profitable operation.",
+        "lesson": "Break-even analysis is not just a calculation — it's a decision-making tool that tells you exactly when you start making money."
+      },
+      "diagram": {
+        "type": "break_even_chart",
+        "elements": ["Fixed Costs", "Variable Costs", "Revenue", "Break-Even Point", "Profit Zone", "Loss Zone"]
+      },
+      "quiz": [
+        {
+          "question": "Break-Even Point formula is:",
+          "options": ["Revenue ÷ Fixed Costs", "Fixed Costs ÷ Contribution Margin per unit", "Variable Costs × Units", "Revenue - Variable Costs"],
+          "answer": "Fixed Costs ÷ Contribution Margin per unit",
+          "explanation": "BEP = Fixed Costs ÷ (Selling Price - Variable Cost per unit)"
+        },
+        {
+          "question": "Contribution Margin = ",
+          "options": ["Revenue - Fixed Costs", "Selling Price - Variable Cost per unit", "Profit - Tax", "Revenue - Total Cost"],
+          "answer": "Selling Price - Variable Cost per unit",
+          "explanation": "Contribution Margin represents the amount each unit contributes toward covering fixed costs and profit."
+        },
+        {
+          "question": "Working Capital = ",
+          "options": ["Fixed Assets - Long-term Liabilities", "Current Assets - Current Liabilities", "Revenue - Expenses", "Equity + Debt"],
+          "answer": "Current Assets - Current Liabilities",
+          "explanation": "Working Capital measures a company's short-term financial health and operational efficiency."
+        },
+        {
+          "question": "The ideal Current Ratio is considered to be:",
+          "options": ["1:1", "2:1", "3:1", "0.5:1"],
+          "answer": "2:1",
+          "explanation": "A current ratio of 2:1 means the company has twice the current assets to cover current liabilities — generally healthy."
+        },
+        {
+          "question": "ROI stands for:",
+          "options": ["Revenue on Investment", "Return on Investment", "Risk of Inflation", "Rate of Interest"],
+          "answer": "Return on Investment",
+          "explanation": "ROI = (Net Profit / Investment) × 100, measuring the efficiency of an investment."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Resource Mobilization",
+      "icon": "💰",
+      "color": "#EF4444",
+      "description": "Funding sources, financial planning, and resource acquisition for enterprises",
+      "concepts": [
+        {
+          "heading": "Sources of Finance",
+          "text": "Internal Sources: Owner's capital (retained earnings, personal savings). External Sources: (1) Debt Financing — Bank loans, debentures, public deposits. (2) Equity Financing — Angel investors, venture capital, IPO. (3) Government Schemes — MUDRA, Startup India, Stand Up India, MSME schemes. (4) Crowdfunding — Kickstarter, Indiegogo, Ketto (India). (5) Bootstrapping — growing business using revenues alone without external funding."
+        },
+        {
+          "heading": "Venture Capital & Angel Investing",
+          "text": "Angel Investors: High-net-worth individuals who invest personal funds in early-stage startups, typically ₹25 lakh to ₹5 crore, in exchange for equity (5-20%). Venture Capital (VC): Professional investment firms that invest institutional money in high-growth startups, typically ₹5 crore+. VCs also provide mentorship, networks, and expertise. Key difference: Angels invest their own money; VCs manage others' money. Both expect high returns (10x-100x) through exit events (IPO or acquisition)."
+        },
+        {
+          "heading": "Government Schemes for Startups",
+          "text": "MUDRA (Micro Units Development & Refinance Agency): Three tiers — Shishu (up to ₹50,000), Kishore (₹50,000 to ₹5 lakh), Tarun (₹5 lakh to ₹10 lakh). Startup India: Tax exemptions for 3 years, simplified compliance, IPR fast-tracking. Stand Up India: Loans of ₹10 lakh to ₹1 crore for SC/ST and women entrepreneurs. PM Employment Generation Programme (PMEGP): Subsidized loans for new manufacturing/service enterprises."
+        },
+        {
+          "heading": "Financial Planning for Startups",
+          "text": "Cash Flow Statement: Tracks actual cash coming in (inflows) and going out (outflows) — critical for survival. Profit & Loss Statement: Shows profitability over a period. Balance Sheet: Snapshot of assets, liabilities, and equity at a point in time. Burn Rate: Monthly cash being consumed by a startup before reaching profitability. Runway: How many months a startup can survive at current burn rate. Runway = Cash Available ÷ Monthly Burn Rate."
+        }
+      ],
+      "caseStudy": {
+        "title": "Flipkart's Funding Journey",
+        "story": "Sachin and Binny Bansal started Flipkart in 2007 with ₹4 lakhs of their own savings (bootstrapping). After proving the concept, they raised $1 million from Accel Partners (Series A). As they scaled, they raised from Tiger Global, Naspers, and others. Eventually, Walmart acquired Flipkart for $16 billion in 2018. Their resource mobilization journey — from bootstrapping to angels to VCs to strategic buyer — is a masterclass in startup financing.",
+        "lesson": "Match your funding source to your growth stage: bootstrap to prove concept, angel invest to establish, VC to scale, strategic buyers to exit."
+      },
+      "diagram": {
+        "type": "funding_ladder",
+        "elements": ["Bootstrapping", "Friends & Family", "Angel Investment", "Venture Capital", "IPO / Acquisition"]
+      },
+      "quiz": [
+        {
+          "question": "MUDRA's 'Shishu' category provides loans up to:",
+          "options": ["₹5 lakh", "₹50,000", "₹10 lakh", "₹1 lakh"],
+          "answer": "₹50,000",
+          "explanation": "MUDRA Shishu category provides micro-loans up to ₹50,000 for very small enterprises."
+        },
+        {
+          "question": "Bootstrapping means:",
+          "options": ["Getting government grants", "Growing using your own revenues without external funding", "Taking bank loans only", "Partnering with VCs"],
+          "answer": "Growing using your own revenues without external funding",
+          "explanation": "Bootstrapping means self-funding your business growth using its own generated revenues."
+        },
+        {
+          "question": "Angel investors typically invest their:",
+          "options": ["Bank's money", "Government grants", "Personal funds", "Institutional funds"],
+          "answer": "Personal funds",
+          "explanation": "Angel investors invest their own personal wealth in early-stage startups."
+        },
+        {
+          "question": "Startup Runway is calculated as:",
+          "options": ["Revenue ÷ Expenses", "Cash Available ÷ Monthly Burn Rate", "Profit × Months", "Investment ÷ ROI"],
+          "answer": "Cash Available ÷ Monthly Burn Rate",
+          "explanation": "Runway shows how many months a startup can operate before running out of cash."
+        },
+        {
+          "question": "Which scheme provides loans of ₹10 lakh to ₹1 crore specifically for SC/ST and women entrepreneurs?",
+          "options": ["MUDRA", "Startup India", "Stand Up India", "PMEGP"],
+          "answer": "Stand Up India",
+          "explanation": "Stand Up India specifically targets SC/ST and women entrepreneurs with loans from ₹10 lakh to ₹1 crore."
+        }
+      ]
+    }
+  ]
+}

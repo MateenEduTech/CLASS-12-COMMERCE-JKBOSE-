@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1628">
+<meta name="description" content="JKBOSE Class 12 Economics Interactive Learning App by Mateen Yousuf">
+<title>Class 12 Economics | JKBOSE | Mateen Yousuf</title>
+<link rel="manifest" href="manifest.json">
+<style>
+/* ============================================================
+   JKBOSE CLASS 12 ECONOMICS APP
+   Author: Mateen Yousuf | School Education Department, J&K
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --deep-navy: #0a1628;
+  --navy: #0f2044;
+  --blue-mid: #1a3a6b;
+  --accent: #f5a623;
+  --gold: #e8b84b;
+  --emerald: #00c896;
+  --crimson: #e84b4b;
+  --sky: #4fc3f7;
+  --text-primary: #f0f4ff;
+  --text-secondary: #a8b8d8;
+  --card-bg: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.1);
+  --gradient-1: linear-gradient(135deg, #0a1628 0%, #0f2044 50%, #1a3a6b 100%);
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--deep-navy);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--blue-mid); border-radius: 3px; }
+
+/* ============================================================
+   SCREENS
+   ============================================================ */
+.screen { display:none; min-height:100vh; }
+.screen.active { display:block; }
+
+/* ============================================================
+   SPLASH / TITLE SCREEN
+   ============================================================ */
+#splash-screen {
+  background: var(--gradient-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-bg-canvas {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+
+/* Animated grid */
+.splash-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(79,195,247,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,195,247,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove { to { background-position: 60px 60px; } }
+
+/* Floating economic icons */
+.float-icon {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.12;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity:0; }
+  10% { opacity:0.12; }
+  90% { opacity:0.12; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity:0; }
+}
+
+.splash-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+  max-width: 700px;
+}
+
+.splash-badge {
+  display: inline-block;
+  background: rgba(245,166,35,0.15);
+  border: 1px solid rgba(245,166,35,0.4);
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  animation: fadeInDown 0.8s ease;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  animation: fadeInDown 0.9s ease;
+}
+
+.splash-title span { color: var(--accent); }
+
+.splash-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  animation: fadeInDown 1s ease;
+}
+
+/* Economic SVG diagram on splash */
+.splash-diagram {
+  width: 280px;
+  height: 160px;
+  margin: 0 auto 2.5rem;
+  animation: fadeIn 1.2s ease;
+}
+
+/* Author card on splash */
+.author-card-splash {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 0.8rem 1.5rem;
+  margin: 0 auto 2.5rem;
+  width: fit-content;
+  animation: fadeIn 1.1s ease;
+  backdrop-filter: blur(10px);
+}
+
+.author-photo-splash {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--blue-mid);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+}
+
+.author-photo-splash img {
+  width:100%; height:100%; object-fit:cover;
+}
+
+.author-info-splash { text-align:left; }
+.author-name-splash { font-weight:700; font-size:0.95rem; color:var(--text-primary); }
+.author-role-splash { font-size:0.75rem; color:var(--text-secondary); }
+
+.btn-start {
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  color: var(--deep-navy);
+  border: none;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 30px rgba(245,166,35,0.4);
+  transition: all 0.3s ease;
+  animation: pulse-glow 2s ease infinite, fadeInUp 1.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-start::before {
+  content:'';
+  position:absolute;
+  top:-50%; left:-60%;
+  width:40%; height:200%;
+  background: rgba(255,255,255,0.3);
+  transform: rotate(30deg);
+  animation: shimmer 3s ease infinite;
+}
+@keyframes shimmer { 0%,100%{left:-60%} 50%{left:120%} }
+@keyframes pulse-glow {
+  0%,100%{ box-shadow:0 8px 30px rgba(245,166,35,0.4); }
+  50%{ box-shadow:0 8px 50px rgba(245,166,35,0.7); }
+}
+.btn-start:hover { transform: translateY(-3px) scale(1.03); }
+
+@keyframes fadeInDown {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+
+/* ============================================================
+   MAIN APP SHELL
+   ============================================================ */
+#main-app {
+  display: none;
+  min-height: 100vh;
+}
+#main-app.active { display: flex; flex-direction: column; }
+
+/* Top nav */
+.top-nav {
+  position: sticky; top:0; z-index:100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 0.8rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+}
+.nav-logo span { color: var(--text-primary); font-size:0.75rem; font-family:var(--font-body); display:block; font-weight:400; }
+
+.nav-actions { display:flex; gap:0.5rem; align-items:center; }
+.nav-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size:0.8rem;
+  cursor:pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+.nav-btn:hover { background:rgba(255,255,255,0.1); color:var(--text-primary); }
+
+/* Bottom tab bar */
+.tab-bar {
+  position: fixed; bottom:0; left:0; right:0; z-index:100;
+  background: rgba(10,22,40,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+}
+
+.tab-item {
+  flex:1;
+  display:flex; flex-direction:column; align-items:center; gap:0.2rem;
+  padding:0.4rem 0.3rem;
+  cursor:pointer;
+  color:var(--text-secondary);
+  font-size:0.65rem;
+  font-weight:500;
+  transition: all 0.2s;
+  border:none; background:none;
+  font-family: var(--font-body);
+}
+.tab-item .tab-icon { font-size:1.3rem; transition:transform 0.2s; }
+.tab-item.active { color:var(--accent); }
+.tab-item.active .tab-icon { transform: scale(1.2); }
+
+/* Main content area */
+.main-content {
+  flex:1;
+  padding: 1.5rem;
+  padding-bottom: 5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============================================================
+   SECTION VIEWS
+   ============================================================ */
+.view { display:none; }
+.view.active { display:block; }
+
+/* Section headers */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.section-title span { color:var(--accent); }
+.section-subtitle { color:var(--text-secondary); font-size:0.9rem; }
+
+/* ============================================================
+   DASHBOARD / HOME
+   ============================================================ */
+.dashboard-hero {
+  background: linear-gradient(135deg, rgba(26,58,107,0.6), rgba(15,32,68,0.8));
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  backdrop-filter: blur(10px);
+}
+
+.author-photo {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--blue-mid);
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem;
+}
+.author-photo img { width:100%; height:100%; object-fit:cover; }
+
+.hero-text h2 { font-family:var(--font-display); font-size:1.2rem; font-weight:700; }
+.hero-text p { color:var(--text-secondary); font-size:0.8rem; line-height:1.5; margin-top:0.3rem; }
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1rem;
+  text-align:center;
+}
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.stat-label { font-size:0.72rem; color:var(--text-secondary); margin-top:0.2rem; }
+
+/* Quick access grid */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.quick-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  display:flex; align-items:center; gap:0.8rem;
+}
+.quick-card:hover { background:rgba(255,255,255,0.09); transform:translateY(-2px); }
+.quick-card .qc-icon { font-size:1.8rem; }
+.quick-card .qc-text h4 { font-size:0.88rem; font-weight:600; }
+.quick-card .qc-text p { font-size:0.72rem; color:var(--text-secondary); margin-top:0.1rem; }
+
+/* Progress bar */
+.progress-section { margin-bottom:1.5rem; }
+.progress-label { display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.5rem; color:var(--text-secondary); }
+.progress-bar-wrap { background:rgba(255,255,255,0.07); border-radius:50px; height:8px; overflow:hidden; }
+.progress-bar-fill { height:100%; border-radius:50px; background:linear-gradient(90deg,var(--emerald),var(--sky)); transition:width 0.8s ease; }
+
+/* ============================================================
+   CHAPTERS LIST
+   ============================================================ */
+.chapter-list { display:flex; flex-direction:column; gap:0.8rem; }
+
+.chapter-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  cursor:pointer;
+  transition: all 0.25s;
+  display:flex; align-items:center; gap:1rem;
+}
+.chapter-card:hover { background:rgba(255,255,255,0.08); transform:translateX(4px); }
+.chapter-card.completed { border-color:rgba(0,200,150,0.3); }
+
+.chapter-num {
+  width:40px; height:40px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--blue-mid),var(--navy));
+  border:1px solid var(--card-border);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono);
+  font-size:0.85rem; font-weight:700; color:var(--accent);
+  flex-shrink:0;
+}
+.chapter-card.completed .chapter-num { background:linear-gradient(135deg,#004d3a,#006b4f); border-color:rgba(0,200,150,0.4); }
+
+.chapter-info { flex:1; }
+.chapter-info h3 { font-size:0.9rem; font-weight:600; line-height:1.3; }
+.chapter-info p { font-size:0.75rem; color:var(--text-secondary); margin-top:0.2rem; }
+
+.chapter-arrow { color:var(--text-secondary); font-size:1.1rem; }
+
+/* ============================================================
+   CHAPTER DETAIL
+   ============================================================ */
+#chapter-detail-view {
+  display:none;
+}
+#chapter-detail-view.active { display:block; }
+
+.back-btn {
+  background:none; border:none; color:var(--accent); cursor:pointer;
+  font-size:0.9rem; font-weight:600; display:flex; align-items:center; gap:0.4rem;
+  margin-bottom:1rem; font-family:var(--font-body); padding:0;
+}
+
+.chapter-detail-title {
+  font-family:var(--font-display);
+  font-size:1.6rem;
+  font-weight:700;
+  margin-bottom:1.5rem;
+  line-height:1.2;
+}
+
+.tabs-row {
+  display:flex; gap:0.5rem; margin-bottom:1.5rem;
+  overflow-x:auto; padding-bottom:0.3rem;
+  scrollbar-width:none;
+}
+.tabs-row::-webkit-scrollbar { display:none; }
+
+.tab-pill {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  color:var(--text-secondary);
+  padding:0.5rem 1rem;
+  border-radius:50px;
+  font-size:0.8rem;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.2s;
+  font-family:var(--font-body);
+  font-weight:500;
+}
+.tab-pill.active { background:var(--accent); color:var(--deep-navy); border-color:var(--accent); font-weight:700; }
+
+.content-panel { display:none; }
+.content-panel.active { display:block; }
+
+/* Concept content */
+.concept-block {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-left:3px solid var(--accent);
+  border-radius:12px;
+  padding:1.2rem;
+  margin-bottom:1rem;
+  line-height:1.7;
+  font-size:0.88rem;
+}
+.concept-block h3 {
+  font-family:var(--font-display);
+  font-size:1.1rem;
+  color:var(--accent);
+  margin-bottom:0.7rem;
+}
+.concept-block ul { padding-left:1.2rem; }
+.concept-block li { margin-bottom:0.4rem; }
+
+.formula-box {
+  background:rgba(79,195,247,0.08);
+  border:1px solid rgba(79,195,247,0.25);
+  border-radius:10px;
+  padding:1rem;
+  margin:1rem 0;
+  font-family:var(--font-mono);
+  font-size:0.85rem;
+  color:var(--sky);
+  text-align:center;
+}
+
+/* Graph diagram */
+.diagram-wrap {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:16px;
+  padding:1rem;
+  margin-bottom:1rem;
+  text-align:center;
+}
+.diagram-wrap h4 { font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.8rem; }
+
+/* Quiz */
+.quiz-container { }
+.quiz-question-block {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:16px;
+  padding:1.2rem;
+  margin-bottom:1rem;
+}
+.quiz-q-num { font-size:0.72rem; color:var(--text-secondary); margin-bottom:0.5rem; font-family:var(--font-mono); }
+.quiz-q-text { font-size:0.92rem; font-weight:600; margin-bottom:1rem; line-height:1.4; }
+.quiz-options { display:flex; flex-direction:column; gap:0.5rem; }
+.quiz-opt {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  padding:0.7rem 1rem;
+  cursor:pointer;
+  font-size:0.85rem;
+  transition:all 0.2s;
+  text-align:left;
+  width:100%;
+  color:var(--text-primary);
+  font-family:var(--font-body);
+}
+.quiz-opt:hover { background:rgba(255,255,255,0.09); border-color:rgba(255,255,255,0.2); }
+.quiz-opt.correct { background:rgba(0,200,150,0.15); border-color:var(--emerald); color:var(--emerald); }
+.quiz-opt.wrong { background:rgba(232,75,75,0.15); border-color:var(--crimson); color:var(--crimson); }
+.quiz-opt.disabled { pointer-events:none; }
+
+.quiz-feedback {
+  font-size:0.82rem;
+  padding:0.6rem 0.8rem;
+  border-radius:8px;
+  margin-top:0.7rem;
+  display:none;
+}
+.quiz-feedback.show { display:block; }
+.quiz-feedback.correct-fb { background:rgba(0,200,150,0.1); color:var(--emerald); }
+.quiz-feedback.wrong-fb { background:rgba(232,75,75,0.1); color:var(--crimson); }
+
+.quiz-score-panel {
+  text-align:center;
+  background:linear-gradient(135deg,rgba(26,58,107,0.5),rgba(10,22,40,0.8));
+  border:1px solid var(--card-border);
+  border-radius:20px;
+  padding:2rem;
+  display:none;
+}
+.quiz-score-panel.show { display:block; }
+.score-circle {
+  width:100px; height:100px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--emerald),var(--sky));
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 1rem;
+  font-family:var(--font-mono); font-size:1.8rem; font-weight:700; color:var(--deep-navy);
+}
+.score-msg { font-family:var(--font-display); font-size:1.4rem; font-weight:700; margin-bottom:0.5rem; }
+.score-sub { color:var(--text-secondary); font-size:0.85rem; }
+
+/* ============================================================
+   SIMULATIONS
+   ============================================================ */
+.sim-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+.sim-card {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:18px;
+  padding:1.5rem;
+  cursor:pointer;
+  transition:all 0.25s;
+  text-align:center;
+}
+.sim-card:hover { background:rgba(255,255,255,0.08); transform:translateY(-4px); box-shadow:var(--shadow); }
+.sim-card .sim-icon { font-size:2.5rem; margin-bottom:0.8rem; }
+.sim-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:0.4rem; }
+.sim-card p { font-size:0.78rem; color:var(--text-secondary); line-height:1.5; }
+
+/* Simulation Panel */
+.sim-panel {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:20px;
+  padding:1.5rem;
+  display:none;
+  margin-top:1rem;
+}
+.sim-panel.active { display:block; }
+
+.sim-title { font-family:var(--font-display); font-size:1.3rem; font-weight:700; margin-bottom:1.2rem; }
+.sim-title span { color:var(--accent); }
+
+.sim-controls { display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem; }
+.sim-control-row { display:flex; flex-direction:column; gap:0.4rem; }
+.sim-control-label {
+  font-size:0.82rem; color:var(--text-secondary); display:flex; justify-content:space-between;
+}
+.sim-control-label span { color:var(--sky); font-family:var(--font-mono); font-weight:600; }
+
+input[type=range] {
+  width:100%;
+  -webkit-appearance:none;
+  height:4px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.1);
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none;
+  width:18px; height:18px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:pointer;
+  box-shadow:0 0 8px rgba(245,166,35,0.5);
+}
+
+.sim-result {
+  background:rgba(0,200,150,0.08);
+  border:1px solid rgba(0,200,150,0.2);
+  border-radius:12px;
+  padding:1rem;
+}
+.sim-result-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0.5rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.sim-result-row:last-child { border-bottom:none; }
+.sim-result-label { font-size:0.82rem; color:var(--text-secondary); }
+.sim-result-value { font-family:var(--font-mono); font-size:1rem; font-weight:700; color:var(--emerald); }
+
+/* Canvas for simulations */
+.sim-canvas-wrap { margin-top:1rem; }
+.sim-canvas-wrap canvas {
+  width:100%; border-radius:12px; background:rgba(0,0,0,0.3);
+  border:1px solid var(--card-border);
+}
+
+/* ============================================================
+   INDICATORS DASHBOARD
+   ============================================================ */
+.indicators-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0.8rem;
+  margin-bottom:1.5rem;
+}
+
+.indicator-card {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:14px;
+  padding:1rem;
+}
+.indicator-name { font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.3rem; }
+.indicator-value { font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--sky); }
+.indicator-change { font-size:0.72rem; margin-top:0.2rem; }
+.indicator-change.up { color:var(--emerald); }
+.indicator-change.down { color:var(--crimson); }
+
+/* ============================================================
+   PROGRESS VIEW
+   ============================================================ */
+.progress-view { }
+.overall-score {
+  background:linear-gradient(135deg,rgba(0,200,150,0.1),rgba(79,195,247,0.1));
+  border:1px solid rgba(0,200,150,0.2);
+  border-radius:20px;
+  padding:1.5rem;
+  text-align:center;
+  margin-bottom:1.5rem;
+}
+.overall-score-num { font-family:var(--font-mono); font-size:3rem; font-weight:700; color:var(--emerald); }
+.overall-score-label { color:var(--text-secondary); font-size:0.85rem; margin-top:0.3rem; }
+
+.chapter-progress-list { display:flex; flex-direction:column; gap:0.8rem; }
+.cp-row { background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:1rem; }
+.cp-header { display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.82rem; }
+.cp-title { font-weight:600; }
+.cp-score { font-family:var(--font-mono); color:var(--accent); }
+.cp-bar-wrap { background:rgba(255,255,255,0.07); border-radius:50px; height:5px; }
+.cp-bar-fill { height:100%; border-radius:50px; background:linear-gradient(90deg,var(--accent),var(--gold)); transition:width 0.8s ease; }
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.badge {
+  display:inline-block; padding:0.2rem 0.6rem;
+  border-radius:50px; font-size:0.7rem; font-weight:700;
+}
+.badge-macro { background:rgba(79,195,247,0.15); color:var(--sky); }
+.badge-micro { background:rgba(0,200,150,0.15); color:var(--emerald); }
+.badge-dev { background:rgba(245,166,35,0.15); color:var(--gold); }
+
+.btn-primary {
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  color:var(--deep-navy);
+  border:none;
+  padding:0.7rem 1.5rem;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:var(--font-body);
+  font-size:0.88rem;
+  transition:all 0.2s;
+  letter-spacing:0.02em;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(245,166,35,0.35); }
+
+.btn-secondary {
+  background:var(--card-bg);
+  color:var(--text-primary);
+  border:1px solid var(--card-border);
+  padding:0.6rem 1.2rem;
+  border-radius:10px;
+  font-weight:500;
+  cursor:pointer;
+  font-family:var(--font-body);
+  font-size:0.85rem;
+  transition:all 0.2s;
+}
+.btn-secondary:hover { background:rgba(255,255,255,0.09); }
+
+.mt-1 { margin-top:0.5rem; }
+.mt-2 { margin-top:1rem; }
+.mb-1 { margin-bottom:0.5rem; }
+.mb-2 { margin-bottom:1rem; }
+
+/* Notification Toast */
+.toast {
+  position:fixed; bottom:5.5rem; left:50%; transform:translateX(-50%) translateY(30px);
+  background:rgba(0,200,150,0.9);
+  color:var(--deep-navy);
+  padding:0.6rem 1.5rem;
+  border-radius:50px;
+  font-size:0.85rem;
+  font-weight:700;
+  opacity:0;
+  transition:all 0.3s;
+  z-index:500;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* Modal */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.7);
+  display:flex; align-items:flex-end; justify-content:center;
+  z-index:200; opacity:0; pointer-events:none; transition:opacity 0.3s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-box {
+  background:var(--navy);
+  border:1px solid var(--card-border);
+  border-radius:24px 24px 0 0;
+  padding:1.5rem;
+  width:100%; max-width:600px;
+  max-height:80vh; overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform 0.3s ease;
+}
+.modal-overlay.open .modal-box { transform:translateY(0); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width:600px) {
+  .quick-grid { grid-template-columns:repeat(3,1fr); }
+  .stats-row { grid-template-columns:repeat(4,1fr); }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.slide-up { animation:slideUp 0.4s ease; }
+
+/* Graph explorer */
+.graph-canvas-container {
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--card-border);
+  border-radius:16px;
+  padding:1rem;
+  margin-bottom:1rem;
+  position:relative;
+}
+.graph-canvas-container canvas {
+  width:100%;
+  border-radius:8px;
+}
+
+.graph-selector {
+  display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;
+}
+.graph-btn {
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  color:var(--text-secondary);
+  padding:0.4rem 0.8rem;
+  border-radius:8px;
+  font-size:0.78rem;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:var(--font-body);
+}
+.graph-btn.active { background:rgba(79,195,247,0.15); border-color:var(--sky); color:var(--sky); }
+</style>
+</head>
+<body>
+
+<!-- ===================== SPLASH SCREEN ===================== -->
+<div id="splash-screen" class="screen active">
+  <div class="splash-grid"></div>
+
+  <!-- Floating economic icons -->
+  <div class="float-icon" style="left:8%;animation-duration:12s;animation-delay:0s;">📊</div>
+  <div class="float-icon" style="left:20%;animation-duration:15s;animation-delay:3s;">💰</div>
+  <div class="float-icon" style="left:35%;animation-duration:10s;animation-delay:1s;">📈</div>
+  <div class="float-icon" style="left:55%;animation-duration:13s;animation-delay:5s;">🏦</div>
+  <div class="float-icon" style="left:72%;animation-duration:11s;animation-delay:2s;">⚖️</div>
+  <div class="float-icon" style="left:85%;animation-duration:14s;animation-delay:4s;">🌐</div>
+  <div class="float-icon" style="left:50%;animation-duration:16s;animation-delay:7s;">📉</div>
+  <div class="float-icon" style="left:92%;animation-duration:9s;animation-delay:6s;">💹</div>
+
+  <div class="splash-content">
+    <div class="splash-badge">JKBOSE Class 12 | 2025–26</div>
+
+    <h1 class="splash-title">
+      Economics<br><span>Learning App</span>
+    </h1>
+    <p class="splash-subtitle">Macroeconomics · Indian Economy · Simulations</p>
+
+    <!-- Demand-Supply SVG -->
+    <svg class="splash-diagram" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
+      <!-- Axes -->
+      <line x1="30" y1="10" x2="30" y2="140" stroke="#4fc3f7" stroke-width="1.5"/>
+      <line x1="30" y1="140" x2="260" y2="140" stroke="#4fc3f7" stroke-width="1.5"/>
+      <!-- Demand curve -->
+      <path d="M40,20 Q140,80 250,135" stroke="#f5a623" stroke-width="2.5" fill="none" stroke-dasharray="0"/>
+      <!-- Supply curve -->
+      <path d="M40,135 Q140,80 250,20" stroke="#00c896" stroke-width="2.5" fill="none"/>
+      <!-- Equilibrium point -->
+      <circle cx="145" cy="78" r="5" fill="#e84b4b"/>
+      <line x1="145" y1="78" x2="145" y2="140" stroke="#e84b4b" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="30" y1="78" x2="145" y2="78" stroke="#e84b4b" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- Labels -->
+      <text x="15" y="15" fill="#4fc3f7" font-size="9" font-family="sans-serif">Price</text>
+      <text x="255" y="155" fill="#4fc3f7" font-size="9" font-family="sans-serif">Q</text>
+      <text x="255" y="25" fill="#f5a623" font-size="9" font-family="sans-serif">D</text>
+      <text x="255" y="135" fill="#00c896" font-size="9" font-family="sans-serif">S</text>
+      <text x="150" y="74" fill="#e84b4b" font-size="8" font-family="sans-serif">E</text>
+      <!-- GDP bar chart  -->
+      <rect x="60" y="100" width="12" height="35" fill="rgba(79,195,247,0.3)" rx="2"/>
+      <rect x="80" y="85" width="12" height="50" fill="rgba(79,195,247,0.4)" rx="2"/>
+      <rect x="100" y="72" width="12" height="63" fill="rgba(79,195,247,0.5)" rx="2"/>
+      <rect x="120" y="60" width="12" height="75" fill="rgba(79,195,247,0.6)" rx="2"/>
+    </svg>
+
+    <!-- Author card -->
+    <div class="author-card-splash">
+      <div class="author-photo-splash">
+        <img src="author.jpg" alt="Mateen Yousuf" onerror="this.parentElement.innerHTML='👨‍🏫'">
+      </div>
+      <div class="author-info-splash">
+        <div class="author-name-splash">Mateen Yousuf</div>
+        <div class="author-role-splash">Teacher · School Education Department, J&K</div>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startApp()">🚀 Start Learning</button>
+  </div>
+</div>
+
+<!-- ===================== MAIN APP ===================== -->
+<div id="main-app">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <div class="nav-logo" onclick="showView('dashboard')">
+      📐 EcoLearn
+      <span>JKBOSE Class 12</span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="showView('progress')">📊 Progress</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- ── DASHBOARD ── -->
+    <div id="view-dashboard" class="view active slide-up">
+      <div class="dashboard-hero">
+        <div class="author-photo">
+          <img src="author.jpg" alt="Mateen Yousuf" onerror="this.parentElement.innerHTML='👨‍🏫'">
+        </div>
+        <div class="hero-text">
+          <h2>Mateen Yousuf</h2>
+          <p>Teacher · School Education Department, Jammu and Kashmir<br>
+          <strong style="color:var(--gold)">Class 12 Economics · JKBOSE</strong> — NEP 2020 Aligned</p>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-chapters">10</div>
+          <div class="stat-label">Chapters</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-completed">0</div>
+          <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-score">0%</div>
+          <div class="stat-label">Quiz Score</div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Overall Progress</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="overall-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <div class="quick-card" onclick="showView('chapters')">
+          <span class="qc-icon">📚</span>
+          <div class="qc-text"><h4>Chapters</h4><p>10 topics covered</p></div>
+        </div>
+        <div class="quick-card" onclick="showView('simulations')">
+          <span class="qc-icon">🔬</span>
+          <div class="qc-text"><h4>Simulations</h4><p>5 interactive tools</p></div>
+        </div>
+        <div class="quick-card" onclick="showView('graphs')">
+          <span class="qc-icon">📈</span>
+          <div class="qc-text"><h4>Graph Explorer</h4><p>Key economic curves</p></div>
+        </div>
+        <div class="quick-card" onclick="showView('indicators')">
+          <span class="qc-icon">🌐</span>
+          <div class="qc-text"><h4>India Dashboard</h4><p>Macro indicators</p></div>
+        </div>
+      </div>
+
+      <!-- Quick info -->
+      <div class="concept-block">
+        <h3>📌 About This App</h3>
+        Aligned with the <strong>JKBOSE Class 12 Economics syllabus</strong> based on NCERT.<br>
+        Covers: <strong>Introductory Macroeconomics</strong> + <strong>Indian Economic Development</strong><br>
+        Pedagogical Framework: NEP 2020 · NCF · PARAKH · NCERT
+      </div>
+    </div>
+
+    <!-- ── CHAPTERS ── -->
+    <div id="view-chapters" class="view">
+      <div class="section-header">
+        <h2 class="section-title">📚 <span>Chapters</span></h2>
+        <p class="section-subtitle">JKBOSE Class 12 Economics — Complete Syllabus</p>
+      </div>
+
+      <div class="chapter-list" id="chapter-list"></div>
+    </div>
+
+    <!-- ── CHAPTER DETAIL ── -->
+    <div id="view-chapter-detail" class="view">
+      <button class="back-btn" onclick="showView('chapters')">← Back to Chapters</button>
+      <div id="chapter-detail-content"></div>
+    </div>
+
+    <!-- ── SIMULATIONS ── -->
+    <div id="view-simulations" class="view">
+      <div class="section-header">
+        <h2 class="section-title">🔬 <span>Simulation Lab</span></h2>
+        <p class="section-subtitle">Interactive Economic Tools</p>
+      </div>
+
+      <div class="sim-grid" id="sim-grid"></div>
+      <div id="sim-panel-area"></div>
+    </div>
+
+    <!-- ── GRAPH EXPLORER ── -->
+    <div id="view-graphs" class="view">
+      <div class="section-header">
+        <h2 class="section-title">📈 <span>Graph Explorer</span></h2>
+        <p class="section-subtitle">Key Economic Curves & Diagrams</p>
+      </div>
+
+      <div class="graph-selector" id="graph-selector"></div>
+      <div class="graph-canvas-container">
+        <canvas id="graph-canvas" height="300"></canvas>
+      </div>
+      <div id="graph-description" class="concept-block"></div>
+    </div>
+
+    <!-- ── INDICATORS ── -->
+    <div id="view-indicators" class="view">
+      <div class="section-header">
+        <h2 class="section-title">🌐 <span>India Macro Dashboard</span></h2>
+        <p class="section-subtitle">Key Macroeconomic Indicators (Reference Data)</p>
+      </div>
+      <div class="indicators-grid" id="indicators-grid"></div>
+
+      <div class="section-header mt-2">
+        <h2 class="section-title" style="font-size:1.3rem;">📊 GDP Growth Trend</h2>
+      </div>
+      <div class="graph-canvas-container">
+        <canvas id="gdp-chart" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- ── PROGRESS ── -->
+    <div id="view-progress" class="view">
+      <div class="section-header">
+        <h2 class="section-title">📊 <span>My Progress</span></h2>
+        <p class="section-subtitle">Track your learning journey</p>
+      </div>
+
+      <div class="overall-score">
+        <div class="overall-score-num" id="overall-score-num">0%</div>
+        <div class="overall-score-label">Overall Quiz Score</div>
+      </div>
+
+      <div class="chapter-progress-list" id="chapter-progress-list"></div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button class="btn-secondary" onclick="resetProgress()">🔄 Reset All Progress</button>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+
+  <!-- Bottom Tab Bar -->
+  <nav class="tab-bar">
+    <button class="tab-item active" onclick="switchTab('dashboard',this)">
+      <span class="tab-icon">🏠</span>Home
+    </button>
+    <button class="tab-item" onclick="switchTab('chapters',this)">
+      <span class="tab-icon">📚</span>Chapters
+    </button>
+    <button class="tab-item" onclick="switchTab('simulations',this)">
+      <span class="tab-icon">🔬</span>Lab
+    </button>
+    <button class="tab-item" onclick="switchTab('graphs',this)">
+      <span class="tab-icon">📈</span>Graphs
+    </button>
+    <button class="tab-item" onclick="switchTab('progress',this)">
+      <span class="tab-icon">📊</span>Progress
+    </button>
+  </nav>
+</div><!-- /main-app -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* ============================================================
+   DATA: JKBOSE CLASS 12 ECONOMICS CHAPTERS
+   ============================================================ */
+const CHAPTERS = [
+  {
+    id: 1,
+    title: "Introduction to Macroeconomics",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["What is Macroeconomics?","Difference from Microeconomics","Circular Flow of Income","Economic Aggregates"],
+    content: `Macroeconomics is the study of the economy as a whole. It examines aggregate variables such as total output, national income, overall price level, unemployment, and economic growth.
+
+Unlike microeconomics (which studies individual firms and consumers), macroeconomics focuses on the big picture — how the entire economy functions as a system.`,
+    keyPoints: [
+      "Macroeconomics studies economy-wide phenomena",
+      "Key variables: GDP, inflation, unemployment, interest rates",
+      "Circular flow shows money & goods flowing between households and firms",
+      "Open economy includes government & foreign sector"
+    ],
+    formula: "GDP = C + I + G + (X – M)",
+    formulaDesc: "Expenditure Approach to National Income",
+    diagram: "circular_flow",
+    quiz: [
+      { q:"What is the main focus of Macroeconomics?", opts:["Individual consumer behavior","Economy as a whole","Single market analysis","Firm-level decisions"], ans:0, explanation:"Macroeconomics studies aggregate economic variables of the entire economy." },
+      { q:"The formula GDP = C + I + G + (X–M) represents:", opts:["Income Approach","Value Added Approach","Expenditure Approach","Production Approach"], ans:2, explanation:"C=Consumption, I=Investment, G=Govt spending, X-M=Net Exports — this is the Expenditure Approach." },
+      { q:"In circular flow model, firms pay households in the form of:", opts:["Taxes","Factor payments (wages, rent, interest, profit)","Government transfers","Exports"], ans:1, explanation:"Firms use factors of production (land, labour, capital, enterprise) and pay factor incomes to households." },
+      { q:"Which sector is added to make it an open economy model?", opts:["Banking sector","Foreign sector","Industrial sector","Agricultural sector"], ans:1, explanation:"Adding the foreign sector (exports and imports) makes the circular flow an open economy model." },
+    ]
+  },
+  {
+    id: 2,
+    title: "National Income and Related Aggregates",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["GDP, GNP, NNP","NI, PI, DPI","Methods of measuring NI","Real vs Nominal GDP"],
+    content: `National Income is the total monetary value of all goods and services produced by the residents of a country in one year. It is measured using three methods: Product/Output Method, Income Method, and Expenditure Method.
+
+Key aggregates:
+• GDP (Gross Domestic Product): Total value produced within a country's borders
+• GNP (Gross National Product): GDP + Net Factor Income from Abroad
+• NNP (Net National Product): GNP – Depreciation
+• National Income (NI) = NNP at Factor Cost`,
+    keyPoints: [
+      "GDP measures domestic production; GNP measures national production",
+      "NNP = GNP – Depreciation (Consumption of Fixed Capital)",
+      "Three methods must give the same result (conceptually)",
+      "Real GDP adjusts for inflation; Nominal GDP does not",
+      "Per Capita Income = NI ÷ Population"
+    ],
+    formula: "GNP = GDP + NFIA\nNNP = GNP − Depreciation\nNI = NNP at Factor Cost",
+    formulaDesc: "Relationship between National Income Aggregates",
+    diagram: "gdp_components",
+    quiz: [
+      { q:"GDP + Net Factor Income from Abroad =", opts:["NNP","GNP","NI","PI"], ans:1, explanation:"GNP = GDP + NFIA (Net Factor Income from Abroad)" },
+      { q:"What is subtracted from GNP to get NNP?", opts:["Taxes","Subsidies","Depreciation","Transfer Payments"], ans:2, explanation:"NNP = GNP – Depreciation (also called consumption of fixed capital)" },
+      { q:"Real GDP differs from Nominal GDP because Real GDP:", opts:["Includes depreciation","Is adjusted for inflation using base year prices","Excludes government spending","Includes NFIA"], ans:1, explanation:"Real GDP uses constant base-year prices to remove the effect of price changes." },
+      { q:"Which method sums up all factor incomes (wages, rent, interest, profit)?", opts:["Expenditure Method","Value Added Method","Income Method","Output Method"], ans:2, explanation:"The Income Method adds up all factor payments: wages + rent + interest + profit." },
+    ]
+  },
+  {
+    id: 3,
+    title: "Money and Banking",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["Functions of Money","Money Supply (M1,M2,M3)","Commercial Banks","Central Bank & RBI","Credit Creation"],
+    content: `Money is anything that is generally accepted as a medium of exchange. The Reserve Bank of India (RBI) is the central bank that controls money supply and credit in the Indian economy.
+
+Money Supply Measures:
+• M1 = Currency in circulation + Demand Deposits + Other Deposits with RBI
+• M2 = M1 + Savings deposits with Post Office
+• M3 = M1 + Net Time Deposits of Commercial Banks (Broad Money)
+• M4 = M3 + Total deposits with Post Office
+
+Credit Creation: Commercial banks create credit through the money multiplier mechanism.
+Credit Multiplier = 1 / CRR`,
+    keyPoints: [
+      "Money performs: Medium of Exchange, Unit of Account, Store of Value, Standard of Deferred Payment",
+      "RBI controls monetary policy: CRR, SLR, Repo Rate, Reverse Repo",
+      "Credit Multiplier = 1/CRR",
+      "High Powered Money = Currency with public + Cash reserves of banks",
+      "Repo Rate: rate at which RBI lends to commercial banks"
+    ],
+    formula: "Credit Multiplier = 1 / CRR\nMoney Multiplier × High Powered Money = Money Supply",
+    formulaDesc: "Credit Creation Formula",
+    diagram: "money_supply",
+    quiz: [
+      { q:"M3 (Broad Money) = M1 + ?", opts:["Post Office Savings","Net Time Deposits of Banks","Foreign Reserves","Government Bonds"], ans:1, explanation:"M3 = M1 + Net Time Deposits of Commercial Banks. M3 is called Broad Money." },
+      { q:"Credit Multiplier when CRR = 10% is:", opts:["1","5","10","20"], ans:2, explanation:"Credit Multiplier = 1/CRR = 1/0.10 = 10" },
+      { q:"The Repo Rate is:", opts:["Rate at which banks lend to public","Rate at which RBI lends to commercial banks","Rate of return on government bonds","Rate at which banks accept deposits"], ans:1, explanation:"Repo Rate is the rate at which the RBI lends short-term funds to commercial banks." },
+      { q:"Which is NOT a function of money?", opts:["Medium of Exchange","Store of Value","Economic Planning","Standard of Deferred Payment"], ans:2, explanation:"Economic Planning is a function of government/planners, not money itself." },
+    ]
+  },
+  {
+    id: 4,
+    title: "Determination of Income and Employment",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["Aggregate Demand & Supply","Consumption Function","Investment Multiplier","Inflationary/Deflationary Gap"],
+    content: `In Keynesian economics, the equilibrium level of income and employment is determined where Aggregate Demand (AD) equals Aggregate Supply (AS).
+
+Consumption Function: C = C̄ + bY
+• C̄ = Autonomous Consumption
+• b = Marginal Propensity to Consume (MPC)
+• MPC + MPS = 1
+
+Investment Multiplier (K):
+K = 1 / (1 – MPC) = 1 / MPS
+
+A change in investment causes a multiplied change in income:
+ΔY = K × ΔI`,
+    keyPoints: [
+      "Equilibrium: AD = AS or Savings = Investment",
+      "MPC = ΔC/ΔY (change in consumption / change in income)",
+      "MPS = ΔS/ΔY = 1 – MPC",
+      "Multiplier K = 1/MPS — larger MPC means larger multiplier",
+      "Inflationary gap: AD > AS at full employment",
+      "Deflationary gap: AD < AS at full employment"
+    ],
+    formula: "K = 1 / MPS = 1 / (1 – MPC)\nΔY = K × ΔI",
+    formulaDesc: "Investment Multiplier Formula",
+    diagram: "keynesian_cross",
+    quiz: [
+      { q:"If MPC = 0.8, then the Investment Multiplier is:", opts:["2","4","5","8"], ans:2, explanation:"K = 1/(1-MPC) = 1/(1-0.8) = 1/0.2 = 5" },
+      { q:"The consumption function C = C̄ + bY, where 'b' represents:", opts:["Autonomous Consumption","MPC","MPS","Investment"], ans:1, explanation:"'b' is the slope of the consumption function, which equals MPC (Marginal Propensity to Consume)." },
+      { q:"MPC + MPS = ?", opts:["0","0.5","1","2"], ans:2, explanation:"Since every rupee of income is either consumed or saved: MPC + MPS = 1." },
+      { q:"Inflationary gap occurs when:", opts:["AD < AS at full employment","AD = AS","AD > AS at full employment","Savings > Investment"], ans:2, explanation:"When AD exceeds AS at full employment level, there is excess demand — called Inflationary Gap." },
+    ]
+  },
+  {
+    id: 5,
+    title: "Government Budget and the Economy",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["Types of Budget","Revenue & Capital Receipts","Revenue & Capital Expenditure","Fiscal Deficit","FRBM Act"],
+    content: `The Government Budget is the annual statement of estimated receipts and estimated expenditures of the government for the coming financial year (April 1 to March 31).
+
+Types of Budget:
+• Balanced Budget: Revenue = Expenditure
+• Surplus Budget: Revenue > Expenditure
+• Deficit Budget: Revenue < Expenditure
+
+Key Deficits:
+• Revenue Deficit = Revenue Expenditure – Revenue Receipts
+• Fiscal Deficit = Total Expenditure – Total Receipts (excl. borrowings)
+• Primary Deficit = Fiscal Deficit – Interest Payments`,
+    keyPoints: [
+      "Revenue receipts: tax revenue + non-tax revenue (do not create liability)",
+      "Capital receipts: borrowings, disinvestment (create liability or reduce assets)",
+      "Revenue expenditure: does not create assets (salaries, interest, subsidies)",
+      "Capital expenditure: creates assets (infrastructure, loans to states)",
+      "Fiscal Deficit indicates government's total borrowing requirement",
+      "Primary Deficit = Fiscal Deficit – Interest Payments"
+    ],
+    formula: "Fiscal Deficit = Total Expenditure − (Total Receipts − Borrowings)\nPrimary Deficit = Fiscal Deficit − Interest Payments",
+    formulaDesc: "Budget Deficit Formulas",
+    diagram: "budget_components",
+    quiz: [
+      { q:"Revenue Deficit = Revenue Expenditure – ?", opts:["Capital Receipts","Total Expenditure","Revenue Receipts","Fiscal Deficit"], ans:2, explanation:"Revenue Deficit = Revenue Expenditure – Revenue Receipts." },
+      { q:"Primary Deficit = Fiscal Deficit – ?", opts:["Revenue Deficit","Interest Payments","Capital Expenditure","Total Tax Revenue"], ans:1, explanation:"Primary Deficit = Fiscal Deficit – Interest Payments. It shows deficit excluding interest burden." },
+      { q:"Which is a Capital Receipt?", opts:["Corporate Tax","GST Revenue","Disinvestment Proceeds","Non-tax Revenue"], ans:2, explanation:"Disinvestment (selling government assets/shares) is a Capital Receipt as it reduces government assets." },
+      { q:"Fiscal Deficit measures:", opts:["Revenue gap only","Government's total borrowing requirement","Trade deficit","Savings-Investment gap"], ans:1, explanation:"Fiscal Deficit = Total Expenditure – Non-borrowing Receipts. It represents total borrowing needed." },
+    ]
+  },
+  {
+    id: 6,
+    title: "Balance of Payments",
+    badge: "macro",
+    badgeLabel: "Macroeconomics",
+    topics: ["Current Account","Capital Account","Foreign Exchange Rate","Determination of Exchange Rate"],
+    content: `The Balance of Payments (BoP) is a systematic record of all economic transactions between residents of a country and the rest of the world during a given period.
+
+Structure of BoP:
+• Current Account: Trade in goods & services, factor incomes, transfers
+• Capital Account: Foreign investment, loans, banking capital, NRI deposits
+• Official Reserve Transactions
+
+Exchange Rate:
+• Flexible rate: Determined by market forces (demand & supply of foreign exchange)
+• Fixed rate: Determined by government
+• Managed float: Mix of both`,
+    keyPoints: [
+      "Current Account deficit when imports > exports of goods & services",
+      "BoP always balances (current + capital + reserve transactions = 0)",
+      "Trade Balance = Exports – Imports of goods (visible items)",
+      "Foreign exchange demand: arises from imports, foreign travel, remittances abroad",
+      "Depreciation: domestic currency loses value; appreciation: gains value"
+    ],
+    formula: "BoP = Current Account + Capital Account + Errors & Omissions = 0",
+    formulaDesc: "Balance of Payments Identity",
+    diagram: "bop_diagram",
+    quiz: [
+      { q:"Trade Balance includes:", opts:["Both goods and services","Only visible trade (goods)","Only services","Capital flows"], ans:1, explanation:"Trade Balance (Balance of Trade) refers to the difference between exports and imports of goods (visible items) only." },
+      { q:"When domestic currency depreciates, exports become:", opts:["More expensive for foreigners","Cheaper for foreigners","No change","Less competitive"], ans:1, explanation:"When currency depreciates, our goods become cheaper for foreign buyers, making exports more competitive." },
+      { q:"Capital Account records:", opts:["Trade in goods","Trade in services","Foreign investment and loans","Factor incomes"], ans:2, explanation:"Capital Account records all international transactions involving financial assets — FDI, FPI, loans, banking capital." },
+      { q:"A BoP deficit in current account is financed by:", opts:["Increase in exports","Capital account surplus or reserve drawdown","Increase in taxes","Reduction in government expenditure"], ans:1, explanation:"Current account deficit is financed by capital inflows (FDI, FPI, loans) or by drawing down foreign exchange reserves." },
+    ]
+  },
+  {
+    id: 7,
+    title: "Development Experience (1947–1990)",
+    badge: "dev",
+    badgeLabel: "Indian Economy",
+    topics: ["Goals of Planning","Five Year Plans","Agriculture Policy","Industrial Policy","Foreign Trade Policy"],
+    content: `After Independence in 1947, India chose a mixed economy model with central planning. The Planning Commission was set up in 1950, and the first Five Year Plan began in 1951.
+
+Key Features of Pre-Reform Economy:
+• Import Substitution strategy
+• Public Sector dominance (commanding heights)
+• License Raj (industrial licensing)
+• Green Revolution (1960s) — wheat & rice revolution
+• Land Reforms (abolition of zamindari, land ceiling)
+
+India's growth was called the "Hindu Rate of Growth" (~3.5% annually) — modest but stable.`,
+    keyPoints: [
+      "Mixed economy: private sector + public sector coexist",
+      "Five Year Plans focused on: agriculture, industry, infrastructure",
+      "Green Revolution increased foodgrain production significantly",
+      "License Raj: businesses needed govt permission for expansion/production",
+      "Import substitution: produce domestically what was imported",
+      "By 1991: BoP crisis led to reforms"
+    ],
+    formula: "Hindu Rate of Growth ≈ 3.5% per annum (1950–1980)\nPost-1980 average ≈ 5–6%",
+    formulaDesc: "India's Growth Trajectory (Pre-Reform)",
+    diagram: "india_planning",
+    quiz: [
+      { q:"India adopted which economic model after independence?", opts:["Pure Capitalism","Pure Socialism","Mixed Economy","Command Economy"], ans:2, explanation:"India adopted a Mixed Economy combining elements of both capitalism (private sector) and socialism (public sector planning)." },
+      { q:"Green Revolution was associated with:", opts:["Dairy development","Foodgrain production (wheat & rice)","Fisheries","Oilseeds"], ans:1, explanation:"Green Revolution in 1960s–70s used HYV seeds, irrigation, fertilizers to dramatically increase wheat and rice production." },
+      { q:"'License Raj' refers to:", opts:["Taxation system","Industrial licensing system requiring govt permission","Import tariffs","Land revenue system"], ans:1, explanation:"License Raj was the elaborate system of licenses, regulations, and permits required to set up or run businesses in India." },
+      { q:"The 'Hindu Rate of Growth' refers to India's growth rate of approximately:", opts:["1%","3.5%","7%","10%"], ans:1, explanation:"India's slow growth rate of ~3.5% per year during 1950s–1980s was termed 'Hindu Rate of Growth' by economist Raj Krishna." },
+    ]
+  },
+  {
+    id: 8,
+    title: "Economic Reforms Since 1991",
+    badge: "dev",
+    badgeLabel: "Indian Economy",
+    topics: ["1991 Crisis","LPG Reforms","Liberalisation","Privatisation","Globalisation"],
+    content: `In 1991, India faced a severe Balance of Payments crisis — foreign exchange reserves fell to just 2 weeks of import cover. India approached the IMF and initiated landmark economic reforms.
+
+LPG Reforms:
+• Liberalisation: Removing unnecessary controls on industry & trade
+• Privatisation: Reducing public sector dominance, disinvestment
+• Globalisation: Integrating Indian economy with the world
+
+Key Reform Measures:
+• Industrial de-licensing (except defence, hazardous industries)
+• Reduction of import duties and tariffs
+• Foreign Direct Investment (FDI) allowed
+• Rupee made convertible on current account
+• SEBI strengthened for capital markets`,
+    keyPoints: [
+      "1991 crisis: fiscal deficit + BoP crisis + rising inflation",
+      "LPG = Liberalisation + Privatisation + Globalisation",
+      "De-licensing removed need for industrial licenses",
+      "Disinvestment: selling govt shareholding in PSUs",
+      "FDI: foreign companies investing in India",
+      "WTO replaced GATT in 1995 — India is a member"
+    ],
+    formula: "Fiscal Deficit ≈ 8.4% of GDP (1990–91)\nForeign Reserves: $1.1 billion (only 2 weeks of imports)",
+    formulaDesc: "1991 Crisis Statistics",
+    diagram: "reforms_timeline",
+    quiz: [
+      { q:"LPG Reforms stand for:", opts:["Large-scale, Progressive, Growth","Liberalisation, Privatisation, Globalisation","Licensing, Planning, Growth","Labour, Production, Globalisation"], ans:1, explanation:"LPG stands for Liberalisation (removing controls), Privatisation (reducing govt role), and Globalisation (world integration)." },
+      { q:"The 1991 economic crisis was triggered by:", opts:["Agricultural failure","BoP crisis and fiscal deficit","Banking collapse","Technological backwardness"], ans:1, explanation:"India faced a severe Balance of Payments crisis in 1991 with foreign reserves lasting only 2 weeks, leading to IMF loan and reforms." },
+      { q:"Disinvestment means:", opts:["Closing down PSUs","Selling government shareholding in PSUs","Nationalising private companies","Restricting FDI"], ans:1, explanation:"Disinvestment refers to selling the government's equity stake in Public Sector Undertakings (PSUs)." },
+      { q:"WTO (World Trade Organization) replaced which earlier body?", opts:["IMF","World Bank","GATT","UNCTAD"], ans:2, explanation:"The WTO replaced GATT (General Agreement on Tariffs and Trade) in 1995 to regulate international trade." },
+    ]
+  },
+  {
+    id: 9,
+    title: "Current Challenges Facing Indian Economy",
+    badge: "dev",
+    badgeLabel: "Indian Economy",
+    topics: ["Poverty","Unemployment","Infrastructure","Sustainable Development","Human Capital"],
+    content: `Despite impressive growth, India faces several structural challenges:
+
+Poverty:
+• Absolute poverty: living below minimum standard
+• Relative poverty: inequality between groups
+• PMGKY, MGNREGS, PM-Kisan — major poverty alleviation programs
+
+Unemployment Types:
+• Frictional, Structural, Cyclical
+• Disguised Unemployment (agriculture) — prevalent in India
+• Seasonal Unemployment
+
+Infrastructure Gaps:
+• Power, transport, communication, water
+• Smart Cities Mission, PM Gati Shakti`,
+    keyPoints: [
+      "Disguised unemployment: more workers than needed (mainly agriculture)",
+      "Human Development Index (HDI) = Health + Education + Income",
+      "MGNREGS guarantees 100 days of wage employment to rural households",
+      "PM-Kisan provides ₹6000/year income support to farmers",
+      "Pradhan Mantri Awas Yojana: housing for all by 2024",
+      "Sustainable Development: meeting present needs without compromising future"
+    ],
+    formula: "HDI = (Health Index + Education Index + Income Index) / 3\nPoverty Ratio = Poor population / Total population × 100",
+    formulaDesc: "Key Development Measurement Formulas",
+    diagram: "development_challenges",
+    quiz: [
+      { q:"Disguised unemployment is most common in:", opts:["Industry","Services sector","Agriculture","Banking sector"], ans:2, explanation:"Disguised unemployment (where marginal productivity of labour is zero) is prevalent in Indian agriculture — more workers than needed." },
+      { q:"MGNREGS guarantees how many days of employment per year?", opts:["50 days","75 days","100 days","150 days"], ans:2, explanation:"Mahatma Gandhi National Rural Employment Guarantee Scheme guarantees 100 days of wage employment to rural households." },
+      { q:"HDI measures development based on:", opts:["Only income","Income + Health + Education","Population + Income","Trade + Industry"], ans:1, explanation:"Human Development Index (HDI) by UNDP measures three dimensions: health (life expectancy), education, and income (GNI per capita)." },
+      { q:"Which type of unemployment refers to workers between jobs?", opts:["Structural","Cyclical","Frictional","Disguised"], ans:2, explanation:"Frictional unemployment occurs when workers are temporarily unemployed while searching for new jobs or transitioning between jobs." },
+    ]
+  },
+  {
+    id: 10,
+    title: "Development Experience of India — A Comparison",
+    badge: "dev",
+    badgeLabel: "Indian Economy",
+    topics: ["India vs Pakistan vs China","Development Indicators","Human Development","Way Forward"],
+    content: `India, Pakistan, and China were at similar levels of economic development at the time of their independence. Over the decades, they have taken different development paths with varying outcomes.
+
+Key Comparisons (Approximate):
+• China: High growth (~10% for decades), manufacturing-led, higher HDI
+• India: Service-led growth, democratic, slower but steady
+• Pakistan: Lower growth, political instability, lower HDI
+
+Development Indicators:
+• GDP per capita
+• Human Development Index (HDI)
+• Life expectancy
+• Literacy rate
+• Infant mortality rate`,
+    keyPoints: [
+      "China adopted market reforms in 1978 under Deng Xiaoping",
+      "Pakistan has lower HDI compared to India and China",
+      "India's service sector is its comparative advantage",
+      "China's manufacturing and export-led growth model",
+      "All three need to focus on reducing inequality and improving HDI",
+      "India's strength: large democratic market, IT sector, skilled workforce"
+    ],
+    formula: "HDI India ≈ 0.644 | HDI China ≈ 0.768 | HDI Pakistan ≈ 0.544\n(UNDP Human Development Report, recent estimates)",
+    formulaDesc: "HDI Comparison (India, China, Pakistan)",
+    diagram: "country_comparison",
+    quiz: [
+      { q:"China's economic reforms began in:", opts:["1947","1965","1978","1991"], ans:2, explanation:"China began its market-oriented economic reforms in 1978 under Deng Xiaoping's leadership with the 'Open Door Policy'." },
+      { q:"India's economic growth has been primarily led by:", opts:["Manufacturing sector","Agricultural sector","Service sector","Mining sector"], ans:2, explanation:"India's growth has been service-sector led (IT, BPO, finance, telecom) unlike China's manufacturing-driven growth." },
+      { q:"Among India, China and Pakistan, which has the highest HDI?", opts:["India","Pakistan","China","All equal"], ans:2, explanation:"China has the highest HDI (~0.768) among the three, followed by India (~0.644) and Pakistan (~0.544)." },
+      { q:"What is India's key comparative advantage in the global economy?", opts:["Cheap manufacturing","Service sector and skilled IT workforce","Natural resources","Agricultural exports"], ans:1, explanation:"India's comparative advantage lies in its skilled English-speaking IT and services workforce, making it a global services hub." },
+    ]
+  }
+];
+
+/* ============================================================
+   SIMULATIONS DATA
+   ============================================================ */
+const SIMULATIONS = [
+  {
+    id: "gdp_calc",
+    icon: "🏭",
+    title: "GDP Calculator",
+    desc: "Calculate GDP using Expenditure Approach: C + I + G + (X–M)",
+    controls: [
+      { id:"gdp_c", label:"Consumption (C)", min:100, max:1000, val:500, unit:"₹ Billion" },
+      { id:"gdp_i", label:"Investment (I)", min:50, max:500, val:200, unit:"₹ Billion" },
+      { id:"gdp_g", label:"Govt Spending (G)", min:50, max:400, val:150, unit:"₹ Billion" },
+      { id:"gdp_x", label:"Exports (X)", min:0, max:300, val:100, unit:"₹ Billion" },
+      { id:"gdp_m", label:"Imports (M)", min:0, max:300, val:80, unit:"₹ Billion" },
+    ],
+    compute: (vals) => {
+      const {gdp_c,gdp_i,gdp_g,gdp_x,gdp_m} = vals;
+      const gdp = gdp_c+gdp_i+gdp_g+(gdp_x-gdp_m);
+      return [
+        { label:"Gross Domestic Product (GDP)", value:"₹ "+gdp.toFixed(0)+" Bn" },
+        { label:"Net Exports (X–M)", value:"₹ "+(gdp_x-gdp_m).toFixed(0)+" Bn" },
+        { label:"Consumption Share", value:(gdp_c/gdp*100).toFixed(1)+"%" },
+        { label:"Investment Share", value:(gdp_i/gdp*100).toFixed(1)+"%" },
+      ];
+    }
+  },
+  {
+    id: "multiplier",
+    icon: "⚡",
+    title: "Multiplier Simulator",
+    desc: "See how an initial investment creates multiplied income through MPC",
+    controls: [
+      { id:"mlt_mpc", label:"MPC (Marginal Propensity to Consume)", min:10, max:95, val:75, unit:"%" },
+      { id:"mlt_inv", label:"Initial Investment (ΔI)", min:10, max:500, val:100, unit:"₹ Billion" },
+    ],
+    compute: (vals) => {
+      const mpc = vals.mlt_mpc / 100;
+      const mps = 1 - mpc;
+      const K = 1 / mps;
+      const deltaY = K * vals.mlt_inv;
+      return [
+        { label:"MPC", value: (mpc*100).toFixed(0)+"%" },
+        { label:"MPS = 1 – MPC", value: (mps*100).toFixed(0)+"%" },
+        { label:"Multiplier (K = 1/MPS)", value: K.toFixed(2) },
+        { label:"Change in Income (ΔY = K × ΔI)", value: "₹ "+deltaY.toFixed(0)+" Bn" },
+      ];
+    }
+  },
+  {
+    id: "money_supply",
+    icon: "🏦",
+    title: "Money Supply Simulator",
+    desc: "See how CRR affects credit creation by banks",
+    controls: [
+      { id:"ms_crr", label:"Cash Reserve Ratio (CRR)", min:3, max:25, val:4, unit:"%" },
+      { id:"ms_deposit", label:"Initial Deposit", min:100, max:10000, val:1000, unit:"₹ Cr" },
+    ],
+    compute: (vals) => {
+      const crr = vals.ms_crr / 100;
+      const multiplier = 1 / crr;
+      const totalCredit = vals.ms_deposit * multiplier;
+      const newMoney = totalCredit - vals.ms_deposit;
+      return [
+        { label:"Credit Multiplier (1/CRR)", value: multiplier.toFixed(2) },
+        { label:"Total Money Created", value: "₹ "+totalCredit.toFixed(0)+" Cr" },
+        { label:"New Credit Created", value: "₹ "+newMoney.toFixed(0)+" Cr" },
+        { label:"Cash Reserve Kept", value: "₹ "+(vals.ms_deposit*crr).toFixed(0)+" Cr" },
+      ];
+    }
+  },
+  {
+    id: "budget",
+    icon: "🏛️",
+    title: "Budget Simulator",
+    desc: "Understand government budget deficits and surpluses",
+    controls: [
+      { id:"bgt_tax", label:"Tax Revenue", min:100, max:2000, val:800, unit:"₹ Bn" },
+      { id:"bgt_nontax", label:"Non-Tax Revenue", min:10, max:300, val:100, unit:"₹ Bn" },
+      { id:"bgt_rev_exp", label:"Revenue Expenditure", min:100, max:2000, val:950, unit:"₹ Bn" },
+      { id:"bgt_cap_exp", label:"Capital Expenditure", min:50, max:1000, val:300, unit:"₹ Bn" },
+      { id:"bgt_int", label:"Interest Payments", min:50, max:500, val:200, unit:"₹ Bn" },
+    ],
+    compute: (vals) => {
+      const revRec = vals.bgt_tax + vals.bgt_nontax;
+      const revExp = vals.bgt_rev_exp;
+      const revDef = revExp - revRec;
+      const totalExp = revExp + vals.bgt_cap_exp;
+      const fiscalDef = totalExp - revRec;
+      const primaryDef = fiscalDef - vals.bgt_int;
+      return [
+        { label:"Revenue Deficit", value: (revDef>0?"–":"+")+Math.abs(revDef).toFixed(0)+" Bn" },
+        { label:"Fiscal Deficit", value: "₹ "+Math.max(0,fiscalDef).toFixed(0)+" Bn" },
+        { label:"Primary Deficit", value: "₹ "+Math.max(0,primaryDef).toFixed(0)+" Bn" },
+        { label:"Budget Status", value: fiscalDef > 0 ? "⚠ Deficit" : "✓ Surplus" },
+      ];
+    }
+  },
+  {
+    id: "bop",
+    icon: "🌐",
+    title: "Balance of Payments",
+    desc: "Simulate BoP components and see current account balance",
+    controls: [
+      { id:"bop_exp", label:"Exports of Goods", min:100, max:2000, val:700, unit:"$ Bn" },
+      { id:"bop_imp", label:"Imports of Goods", min:100, max:2000, val:800, unit:"$ Bn" },
+      { id:"bop_serv_exp", label:"Service Exports", min:50, max:500, val:250, unit:"$ Bn" },
+      { id:"bop_serv_imp", label:"Service Imports", min:50, max:500, val:150, unit:"$ Bn" },
+      { id:"bop_remit", label:"Remittances Inflow", min:0, max:200, val:83, unit:"$ Bn" },
+    ],
+    compute: (vals) => {
+      const tradeBal = vals.bop_exp - vals.bop_imp;
+      const servBal = vals.bop_serv_exp - vals.bop_serv_imp;
+      const currentAcc = tradeBal + servBal + vals.bop_remit;
+      return [
+        { label:"Trade Balance (Goods)", value: (tradeBal>=0?"+":`–`)+Math.abs(tradeBal)+" Bn" },
+        { label:"Services Balance", value: (servBal>=0?"+":"-")+Math.abs(servBal)+" Bn" },
+        { label:"Remittances", value: "+$"+vals.bop_remit+" Bn" },
+        { label:"Current Account Balance", value: (currentAcc>=0?"Surplus ":"Deficit ")+"$"+Math.abs(currentAcc)+" Bn" },
+      ];
+    }
+  }
+];
+
+/* ============================================================
+   ECONOMIC GRAPHS
+   ============================================================ */
+const GRAPHS = [
+  {
+    id:"demand_supply", label:"Demand & Supply",
+    description:"The intersection of Demand (downward sloping) and Supply (upward sloping) curves determines the Equilibrium Price and Quantity. At equilibrium, quantity demanded equals quantity supplied.",
+    draw: (ctx, w, h) => drawDemandSupply(ctx, w, h)
+  },
+  {
+    id:"keynesian", label:"Keynesian Cross",
+    description:"The Keynesian Cross shows equilibrium where Aggregate Expenditure (AE) equals National Income (Y). The 45° line represents Y=AE. Equilibrium occurs at their intersection.",
+    draw: (ctx, w, h) => drawKeynesianCross(ctx, w, h)
+  },
+  {
+    id:"multiplier", label:"Multiplier Effect",
+    description:"Shows how an initial increase in investment leads to a multiplied increase in income through successive rounds of spending. The multiplier K = 1/MPS.",
+    draw: (ctx, w, h) => drawMultiplierEffect(ctx, w, h)
+  },
+  {
+    id:"gdp_bar", label:"GDP Components",
+    description:"GDP using expenditure approach = Consumption + Investment + Government Spending + Net Exports. Consumption typically forms the largest share of GDP.",
+    draw: (ctx, w, h) => drawGDPComponents(ctx, w, h)
+  },
+  {
+    id:"production_function", label:"Production Function",
+    description:"Shows the relationship between input (labour) and output. The curve exhibits diminishing marginal returns — each additional unit of labour adds less to output.",
+    draw: (ctx, w, h) => drawProductionFunction(ctx, w, h)
+  },
+  {
+    id:"bop_flow", label:"BoP Structure",
+    description:"Balance of Payments records all economic transactions between residents and the rest of the world. Current Account + Capital Account + Reserve = 0 (always balances).",
+    draw: (ctx, w, h) => drawBopStructure(ctx, w, h)
+  }
+];
+
+/* ============================================================
+   INDICATORS DATA
+   ============================================================ */
+const INDICATORS = [
+  { name:"GDP Growth Rate", value:"6.4%", change:"+0.3%", up:true, desc:"FY 2024-25 Advance Estimate" },
+  { name:"Inflation (CPI)", value:"4.9%", change:"-0.4%", up:false, desc:"Consumer Price Index" },
+  { name:"Repo Rate", value:"6.50%", change:"0%", up:true, desc:"RBI Monetary Policy" },
+  { name:"Fiscal Deficit", value:"5.1%", change:"-0.5%", up:false, desc:"% of GDP (FY24)" },
+  { name:"Current A/C Deficit", value:"1.3%", change:"+0.2%", up:false, desc:"% of GDP" },
+  { name:"Forex Reserves", value:"$650 Bn", change:"+$12 Bn", up:true, desc:"Approx. 2025" },
+  { name:"Unemployment Rate", value:"7.8%", change:"-0.3%", up:false, desc:"CMIE Estimate" },
+  { name:"India HDI Rank", value:"134", change:"0", up:true, desc:"UNDP HDR 2023" },
+];
+
+const GDP_DATA = {
+  labels:["2014-15","2015-16","2016-17","2017-18","2018-19","2019-20","2020-21","2021-22","2022-23","2023-24"],
+  values:[7.4, 8.0, 8.3, 6.8, 6.5, 4.0, -6.6, 8.7, 7.2, 8.2]
+};
+
+/* ============================================================
+   APP STATE
+   ============================================================ */
+let state = {
+  completedChapters: JSON.parse(localStorage.getItem('eco_completed') || '[]'),
+  quizScores: JSON.parse(localStorage.getItem('eco_scores') || '{}'),
+  currentChapter: null,
+  currentSim: null,
+  currentGraph: 0,
+};
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function startApp() {
+  document.getElementById('splash-screen').style.display = 'none';
+  const app = document.getElementById('main-app');
+  app.style.display = 'flex';
+  app.classList.add('active');
+  initChapterList();
+  initSimGrid();
+  initGraphExplorer();
+  initIndicators();
+  updateDashboard();
+  updateProgressView();
+}
+
+function initChapterList() {
+  const container = document.getElementById('chapter-list');
+  container.innerHTML = CHAPTERS.map(ch => `
+    <div class="chapter-card ${state.completedChapters.includes(ch.id)?'completed':''}" onclick="openChapter(${ch.id})">
+      <div class="chapter-num">${String(ch.id).padStart(2,'0')}</div>
+      <div class="chapter-info">
+        <h3>${ch.title}</h3>
+        <p><span class="badge badge-${ch.badge}">${ch.badgeLabel}</span> &nbsp; ${ch.topics.slice(0,2).join(' · ')}...</p>
+      </div>
+      <div class="chapter-arrow">${state.completedChapters.includes(ch.id)?'✅':'›'}</div>
+    </div>
+  `).join('');
+}
+
+function openChapter(id) {
+  state.currentChapter = CHAPTERS.find(c=>c.id===id);
+  showView('chapter-detail');
+  renderChapterDetail();
+}
+
+function renderChapterDetail() {
+  const ch = state.currentChapter;
+  const score = state.quizScores[ch.id];
+
+  document.getElementById('chapter-detail-content').innerHTML = `
+    <div class="chapter-detail-title">${ch.title}</div>
+    <div class="tabs-row">
+      <button class="tab-pill active" onclick="showPanel('concept',this)">📖 Concepts</button>
+      <button class="tab-pill" onclick="showPanel('diagram',this)">📊 Diagram</button>
+      <button class="tab-pill" onclick="showPanel('quiz',this)">🧠 Quiz</button>
+      <button class="tab-pill" onclick="showPanel('casestudy',this)">🔍 Case Study</button>
+    </div>
+
+    <!-- CONCEPT PANEL -->
+    <div id="panel-concept" class="content-panel active">
+      <div class="concept-block">
+        <h3>📌 Overview</h3>
+        ${ch.content.replace(/\n/g,'<br>')}
+      </div>
+      <div class="concept-block">
+        <h3>✅ Key Points</h3>
+        <ul>${ch.keyPoints.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+      ${ch.formula ? `
+      <div class="formula-box">
+        ${ch.formula.replace(/\n/g,'<br>')}
+        <div style="font-size:0.75rem;margin-top:0.5rem;opacity:0.7;font-family:var(--font-body)">${ch.formulaDesc}</div>
+      </div>` : ''}
+      <div class="concept-block">
+        <h3>🗂️ Topics in This Chapter</h3>
+        <ul>${ch.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <!-- DIAGRAM PANEL -->
+    <div id="panel-diagram" class="content-panel">
+      <div class="diagram-wrap">
+        <h4>Economic Diagram — ${ch.title}</h4>
+        <canvas id="chapter-diagram" height="260"></canvas>
+      </div>
+      <div class="formula-box">${ch.formula ? ch.formula.replace(/\n/g,'<br>') : 'See diagram above'}</div>
+    </div>
+
+    <!-- QUIZ PANEL -->
+    <div id="panel-quiz" class="content-panel">
+      <div class="quiz-container" id="quiz-container-${ch.id}"></div>
+      <div class="quiz-score-panel" id="quiz-score-${ch.id}">
+        <div class="score-circle" id="score-circle-${ch.id}">0%</div>
+        <div class="score-msg" id="score-msg-${ch.id}">Well done!</div>
+        <div class="score-sub" id="score-sub-${ch.id}"></div>
+        <div class="mt-2">
+          <button class="btn-primary" onclick="retakeQuiz(${ch.id})">🔄 Retake Quiz</button>
+        </div>
+      </div>
+      <div id="quiz-submit-row-${ch.id}" style="margin-top:1rem;display:none;">
+        <button class="btn-primary" onclick="submitQuiz(${ch.id})">Submit Quiz</button>
+      </div>
+    </div>
+
+    <!-- CASE STUDY PANEL -->
+    <div id="panel-casestudy" class="content-panel">
+      <div class="concept-block">
+        <h3>🔍 Case Study: Real-World Application</h3>
+        ${getCaseStudy(ch.id)}
+      </div>
+      <div class="concept-block" style="border-left-color:var(--emerald)">
+        <h3 style="color:var(--emerald)">🌐 Policy Connection</h3>
+        ${getPolicyConnection(ch.id)}
+      </div>
+    </div>
+  `;
+
+  renderQuiz(ch.id);
+}
+
+function showPanel(name, btn) {
+  document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if(name==='diagram') {
+    setTimeout(()=>{
+      const canvas = document.getElementById('chapter-diagram');
+      if(canvas) drawChapterDiagram(canvas, state.currentChapter);
+    }, 100);
+  }
+}
+
+function getCaseStudy(id) {
+  const cases = {
+    1: "During the COVID-19 pandemic, India's GDP contracted by 6.6% in 2020-21, illustrating how macroeconomic shocks affect the entire economy. Government spending (G) was massively increased while private consumption (C) fell sharply.",
+    2: "India's GDP was approximately ₹293 lakh crore (nominal) in 2023-24. The difference between GDP (₹293 Lakh Cr) and GNP involves NFIA — Indian workers' remittances from abroad add significantly to India's GNP.",
+    3: "During demonetisation (Nov 2016), currency in circulation dropped sharply, affecting M1. The RBI had to manage money supply carefully. In 2020, RBI cut Repo Rate from 5.15% to 4% to boost liquidity during COVID.",
+    4: "The Indian government's PM GKAY (free food grain scheme) was a fiscal stimulus worth billions, boosting consumption (C) in the circular flow. The multiplier effect meant its economic impact was larger than the direct spending.",
+    5: "India's fiscal deficit was 9.2% of GDP in 2020-21 (COVID year), far above the FRBM target of 3%. Government increased capital expenditure (₹10 lakh crore in 2023-24) to boost infrastructure and create a multiplier effect.",
+    6: "India's Current Account Deficit widened when crude oil prices rose (higher import bill). In 2022-23, India's CAD was 2% of GDP. Depreciation of rupee (₹83/$ in 2023) was partly caused by this CAD pressure.",
+    7: "The Green Revolution of the 1960s-70s transformed India from a food-deficit nation to self-sufficiency. M.S. Swaminathan led the effort. Punjab became the 'Granary of India' with HYV wheat and rice cultivation.",
+    8: "After 1991 reforms: India's exports rose from $18 Bn (1991) to over $450 Bn (2022). FDI inflows reached $83 Bn in 2021-22. IT sector (Infosys, Wipro, TCS) emerged as a global leader — a direct result of liberalisation.",
+    9: "MGNREGS has provided employment to over 5 crore households annually. During COVID, over 7.55 crore households worked under it. It acts as an automatic stabiliser — demand rises when MGNREGS spending increases during downturns.",
+    10: "China's Shenzhen Special Economic Zone (1980) attracted global manufacturing. India's IT SEZs in Bangalore, Hyderabad attracted services. Different strategies — same goal of development through global integration."
+  };
+  return cases[id] || "Case study content for this chapter.";
+}
+
+function getPolicyConnection(id) {
+  const policies = {
+    1: "Government uses macroeconomic tools: Monetary Policy (RBI controls interest rates, money supply) and Fiscal Policy (budget spending & taxation) to manage the economy and achieve stability.",
+    2: "India's National Statistical Office (NSO) releases GDP estimates. Policy makers use these to plan budgets, set inflation targets, and evaluate economic performance.",
+    3: "RBI's Monetary Policy Committee (MPC) meets every 2 months to set the Repo Rate. Cutting rates stimulates borrowing and spending; raising rates controls inflation.",
+    4: "During recessions, governments use expansionary fiscal policy (deficit spending) to boost AD through the multiplier effect. This is Keynesian demand management.",
+    5: "FRBM Act (Fiscal Responsibility and Budget Management Act, 2003) mandates fiscal discipline. Target: Fiscal Deficit ≤ 3% of GDP, Revenue Deficit = 0.",
+    6: "India's foreign exchange management is guided by RBI. Intervention in forex markets to prevent excessive rupee volatility. FEMA (Foreign Exchange Management Act) governs all forex transactions.",
+    7: "India's Five Year Plans shaped economic development. NITI Aayog replaced Planning Commission in 2015 and focuses on cooperative federalism and 'India@2047' vision.",
+    8: "Make in India (2014), Startup India (2016), Digital India — post-LPG policies to attract investment and boost manufacturing. Production Linked Incentive (PLI) scheme supports 14 key sectors.",
+    9: "Sustainable Development Goals (SDGs) by UN target poverty elimination by 2030. India's programmes: PM-KISAN, PM Awas Yojana, Ayushman Bharat (health insurance) address these goals.",
+    10: "India's G20 Presidency (2023) and participation in BRICS, WTO shape its global economic engagement. 'Vasudhaiva Kutumbakam' — the world is one family — was India's G20 theme."
+  };
+  return policies[id] || "Policy connection content.";
+}
+
+/* ============================================================
+   QUIZ ENGINE
+   ============================================================ */
+function renderQuiz(chId) {
+  const ch = CHAPTERS.find(c=>c.id===chId);
+  const container = document.getElementById('quiz-container-'+chId);
+  const score = state.quizScores[chId];
+
+  if(score !== undefined) {
+    showQuizScore(chId, score, ch.quiz.length);
+    return;
+  }
+
+  container.innerHTML = ch.quiz.map((q,i) => `
+    <div class="quiz-question-block" id="qblock-${chId}-${i}">
+      <div class="quiz-q-num">Question ${i+1} of ${ch.quiz.length}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((opt,j) => `
+          <button class="quiz-opt" onclick="selectAnswer(${chId},${i},${j},this)">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="qfb-${chId}-${i}"></div>
+    </div>
+  `).join('');
+
+  document.getElementById('quiz-submit-row-'+chId).style.display='none';
+  ch.quiz.forEach((q,i) => {
+    ch.quiz[i]._answered = false;
+    ch.quiz[i]._correct = false;
+  });
+}
+
+function selectAnswer(chId, qIdx, optIdx, btn) {
+  const ch = CHAPTERS.find(c=>c.id===chId);
+  const q = ch.quiz[qIdx];
+  if(q._answered) return;
+  q._answered = true;
+  q._correct = optIdx === q.ans;
+
+  const block = document.getElementById(`qblock-${chId}-${qIdx}`);
+  const opts = block.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  opts[q.ans].classList.add('correct');
+  if(optIdx !== q.ans) opts[optIdx].classList.add('wrong');
+
+  const fb = document.getElementById(`qfb-${chId}-${qIdx}`);
+  fb.textContent = (q._correct ? '✅ Correct! ' : '❌ Incorrect. ') + q.explanation;
+  fb.className = 'quiz-feedback show ' + (q._correct?'correct-fb':'wrong-fb');
+
+  // Check if all answered
+  if(ch.quiz.every(q=>q._answered)) {
+    const submitRow = document.getElementById('quiz-submit-row-'+chId);
+    if(submitRow) submitRow.style.display='block';
+  }
+}
+
+function submitQuiz(chId) {
+  const ch = CHAPTERS.find(c=>c.id===chId);
+  const correctCount = ch.quiz.filter(q=>q._correct).length;
+  const pct = Math.round(correctCount / ch.quiz.length * 100);
+  state.quizScores[chId] = pct;
+  localStorage.setItem('eco_scores', JSON.stringify(state.quizScores));
+
+  if(pct >= 50 && !state.completedChapters.includes(chId)) {
+    state.completedChapters.push(chId);
+    localStorage.setItem('eco_completed', JSON.stringify(state.completedChapters));
+    showToast('🎉 Chapter marked as complete!');
+  }
+
+  document.getElementById('quiz-submit-row-'+chId).style.display='none';
+  showQuizScore(chId, pct, ch.quiz.length);
+  updateDashboard();
+  updateProgressView();
+}
+
+function showQuizScore(chId, pct, total) {
+  const container = document.getElementById('quiz-container-'+chId);
+  const scorePanel = document.getElementById('quiz-score-'+chId);
+  if(container) container.innerHTML='';
+  if(scorePanel) {
+    scorePanel.classList.add('show');
+    document.getElementById('score-circle-'+chId).textContent = pct+'%';
+    const msgs = pct>=80?"Excellent! Outstanding performance!":pct>=60?"Good Job! Keep it up!":pct>=40?"Fair attempt. Review and retry!":"Need more practice. Don't give up!";
+    document.getElementById('score-msg-'+chId).textContent = msgs;
+    document.getElementById('score-sub-'+chId).textContent = `Scored ${Math.round(pct*total/100)} out of ${total} questions`;
+  }
+}
+
+function retakeQuiz(chId) {
+  delete state.quizScores[chId];
+  const idx = state.completedChapters.indexOf(chId);
+  if(idx>-1) state.completedChapters.splice(idx,1);
+  localStorage.setItem('eco_scores', JSON.stringify(state.quizScores));
+  localStorage.setItem('eco_completed', JSON.stringify(state.completedChapters));
+  const scorePanel = document.getElementById('quiz-score-'+chId);
+  if(scorePanel) scorePanel.classList.remove('show');
+  renderQuiz(chId);
+  updateDashboard();
+  updateProgressView();
+}
+
+/* ============================================================
+   SIMULATIONS
+   ============================================================ */
+function initSimGrid() {
+  const grid = document.getElementById('sim-grid');
+  grid.innerHTML = SIMULATIONS.map(s => `
+    <div class="sim-card" onclick="openSim('${s.id}')">
+      <div class="sim-icon">${s.icon}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+    </div>
+  `).join('');
+}
+
+function openSim(id) {
+  const sim = SIMULATIONS.find(s=>s.id===id);
+  state.currentSim = sim;
+  const area = document.getElementById('sim-panel-area');
+  area.innerHTML = `
+    <div class="sim-panel active">
+      <button class="back-btn" onclick="closeSim()">← Back to Simulations</button>
+      <div class="sim-title">${sim.icon} <span>${sim.title}</span></div>
+      <div class="sim-controls" id="sim-controls-${id}">
+        ${sim.controls.map(c => `
+          <div class="sim-control-row">
+            <div class="sim-control-label">
+              ${c.label} (${c.unit})
+              <span id="val-${c.id}">${c.val}</span>
+            </div>
+            <input type="range" min="${c.min}" max="${c.max}" value="${c.val}"
+              oninput="updateSim('${id}',this,'${c.id}')"
+              id="range-${c.id}">
+          </div>
+        `).join('')}
+      </div>
+      <div class="sim-result" id="sim-result-${id}"></div>
+      <div class="sim-canvas-wrap">
+        <canvas id="sim-canvas-${id}" height="200"></canvas>
+      </div>
+    </div>
+  `;
+  document.getElementById('sim-grid').style.display='none';
+  computeSim(sim);
+  drawSimCanvas(sim);
+}
+
+function closeSim() {
+  document.getElementById('sim-panel-area').innerHTML='';
+  document.getElementById('sim-grid').style.display='grid';
+  state.currentSim=null;
+}
+
+function getSimVals(sim) {
+  const vals = {};
+  sim.controls.forEach(c => {
+    const el = document.getElementById('range-'+c.id);
+    vals[c.id] = el ? parseFloat(el.value) : c.val;
+  });
+  return vals;
+}
+
+function updateSim(id, input, cId) {
+  document.getElementById('val-'+cId).textContent = input.value;
+  const sim = SIMULATIONS.find(s=>s.id===id);
+  computeSim(sim);
+  drawSimCanvas(sim);
+}
+
+function computeSim(sim) {
+  const vals = getSimVals(sim);
+  const results = sim.compute(vals);
+  const container = document.getElementById('sim-result-'+sim.id);
+  if(!container) return;
+  container.innerHTML = results.map(r => `
+    <div class="sim-result-row">
+      <span class="sim-result-label">${r.label}</span>
+      <span class="sim-result-value">${r.value}</span>
+    </div>
+  `).join('');
+}
+
+function drawSimCanvas(sim) {
+  const canvas = document.getElementById('sim-canvas-'+sim.id);
+  if(!canvas) return;
+  canvas.width = canvas.offsetWidth || 600;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const w = canvas.width, h = canvas.height;
+  ctx.fillStyle = 'rgba(10,22,40,0.5)';
+  ctx.fillRect(0,0,w,h);
+
+  const vals = getSimVals(sim);
+
+  if(sim.id === 'multiplier') {
+    const mpc = vals.mlt_mpc/100;
+    const rounds = 8;
+    const barW = (w-60)/rounds;
+    let income = vals.mlt_inv;
+    ctx.fillStyle = 'rgba(245,166,35,0.1)';
+    for(let i=0;i<rounds;i++){
+      const bh = Math.max(2, income/vals.mlt_inv*(h-60));
+      const x = 30+i*barW;
+      const y = h-30-bh;
+      ctx.fillStyle = `rgba(245,166,35,${0.7-i*0.07})`;
+      ctx.fillRect(x+2,y,barW-4,bh);
+      income *= mpc;
+    }
+    ctx.fillStyle='#a8b8d8'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+    ctx.fillText('Rounds of Spending (Multiplier Effect)',w/2,h-8);
+  } else if(sim.id==='gdp_calc') {
+    const {gdp_c,gdp_i,gdp_g,gdp_x,gdp_m} = vals;
+    const items = [gdp_c,gdp_i,gdp_g,gdp_x-gdp_m];
+    const labels = ['C','I','G','NX'];
+    const colors = ['#f5a623','#00c896','#4fc3f7','#e84b4b'];
+    const total = items.reduce((a,b)=>a+Math.abs(b),0);
+    let cx=w/2,cy=h/2,r=Math.min(w,h)*0.38;
+    let angle=0;
+    items.forEach((v,i)=>{
+      const slice=Math.abs(v)/total*2*Math.PI;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,angle,angle+slice);
+      ctx.fillStyle=colors[i]; ctx.fill();
+      const mid=angle+slice/2;
+      ctx.fillStyle='#fff'; ctx.font='bold 12px DM Sans'; ctx.textAlign='center';
+      ctx.fillText(labels[i],cx+Math.cos(mid)*(r*0.65),cy+Math.sin(mid)*(r*0.65)+4);
+      angle+=slice;
+    });
+  } else if(sim.id==='money_supply') {
+    const crr = vals.ms_crr/100;
+    const rounds=8;
+    const barW=(w-60)/rounds;
+    let dep=vals.ms_deposit;
+    for(let i=0;i<rounds;i++){
+      const bh=Math.max(2,dep/vals.ms_deposit*(h-60));
+      ctx.fillStyle=`rgba(79,195,247,${0.8-i*0.08})`;
+      ctx.fillRect(30+i*barW+2,h-30-bh,barW-4,bh);
+      dep*=(1-crr);
+    }
+    ctx.fillStyle='#a8b8d8'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+    ctx.fillText('Credit Creation Rounds',w/2,h-8);
+  } else if(sim.id==='budget') {
+    const items=[
+      {label:'Tax Rev',val:vals.bgt_tax,color:'#00c896'},
+      {label:'Non-Tax',val:vals.bgt_nontax,color:'#4fc3f7'},
+      {label:'Rev Exp',val:vals.bgt_rev_exp,color:'#f5a623'},
+      {label:'Cap Exp',val:vals.bgt_cap_exp,color:'#e84b4b'},
+      {label:'Interest',val:vals.bgt_int,color:'#a78bfa'},
+    ];
+    const maxV=Math.max(...items.map(x=>x.val));
+    const barW=(w-60)/items.length;
+    items.forEach((item,i)=>{
+      const bh=item.val/maxV*(h-70);
+      const x=30+i*barW;
+      ctx.fillStyle=item.color+'80';
+      ctx.fillRect(x+4,h-40-bh,barW-8,bh);
+      ctx.fillStyle=item.color;
+      ctx.fillRect(x+4,h-40-bh,barW-8,4);
+      ctx.fillStyle='#a8b8d8'; ctx.font='9px DM Sans'; ctx.textAlign='center';
+      ctx.fillText(item.label,x+barW/2,h-22);
+      ctx.fillText(item.val,x+barW/2,h-40-bh-6);
+    });
+  } else if(sim.id==='bop') {
+    const tr=vals.bop_exp-vals.bop_imp;
+    const sr=vals.bop_serv_exp-vals.bop_serv_imp;
+    const rem=vals.bop_remit;
+    const items=[
+      {label:'Trade Bal',val:tr,color:tr>=0?'#00c896':'#e84b4b'},
+      {label:'Services',val:sr,color:sr>=0?'#00c896':'#e84b4b'},
+      {label:'Remit',val:rem,color:'#4fc3f7'},
+      {label:'Curr A/C',val:tr+sr+rem,color:(tr+sr+rem)>=0?'#00c896':'#e84b4b'}
+    ];
+    const maxV=Math.max(...items.map(x=>Math.abs(x.val)),1);
+    const mid=h/2;
+    const barW=(w-60)/items.length;
+    items.forEach((item,i)=>{
+      const bh=Math.abs(item.val)/maxV*(h/2-30);
+      const x=30+i*barW;
+      if(item.val>=0){
+        ctx.fillStyle=item.color+'60';
+        ctx.fillRect(x+4,mid-bh,barW-8,bh);
+      } else {
+        ctx.fillStyle=item.color+'60';
+        ctx.fillRect(x+4,mid,barW-8,bh);
+      }
+      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1;
+      ctx.strokeRect(x+4,mid-bh,barW-8,bh+(item.val<0?bh*2:0));
+      ctx.fillStyle='#a8b8d8'; ctx.font='9px DM Sans'; ctx.textAlign='center';
+      ctx.fillText(item.label,x+barW/2,h-8);
+    });
+    ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(20,mid); ctx.lineTo(w-10,mid); ctx.stroke();
+  }
+}
+
+/* ============================================================
+   GRAPH EXPLORER
+   ============================================================ */
+function initGraphExplorer() {
+  const sel = document.getElementById('graph-selector');
+  sel.innerHTML = GRAPHS.map((g,i) => `
+    <button class="graph-btn ${i===0?'active':''}" onclick="selectGraph(${i},this)">${g.label}</button>
+  `).join('');
+  setTimeout(()=>drawCurrentGraph(),200);
+}
+
+function selectGraph(idx,btn) {
+  state.currentGraph = idx;
+  document.querySelectorAll('.graph-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawCurrentGraph();
+  document.getElementById('graph-description').innerHTML = `<h3>📊 ${GRAPHS[idx].label}</h3>${GRAPHS[idx].description}`;
+}
+
+function drawCurrentGraph() {
+  const canvas = document.getElementById('graph-canvas');
+  if(!canvas) return;
+  canvas.width = canvas.offsetWidth || 700;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  GRAPHS[state.currentGraph].draw(ctx, canvas.width, canvas.height);
+  document.getElementById('graph-description').innerHTML = `<h3>📊 ${GRAPHS[state.currentGraph].label}</h3>${GRAPHS[state.currentGraph].description}`;
+}
+
+/* ============================================================
+   DRAWING FUNCTIONS
+   ============================================================ */
+function setupAxes(ctx, w, h, margin=50) {
+  ctx.strokeStyle = 'rgba(79,195,247,0.5)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(margin, margin/2);
+  ctx.lineTo(margin, h-margin);
+  ctx.lineTo(w-margin/2, h-margin);
+  ctx.stroke();
+  // Arrow heads
+  ctx.fillStyle='rgba(79,195,247,0.5)';
+  ctx.beginPath(); ctx.moveTo(margin,margin/2); ctx.lineTo(margin-5,margin/2+10); ctx.lineTo(margin+5,margin/2+10); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(w-margin/2,h-margin); ctx.lineTo(w-margin/2-10,h-margin-5); ctx.lineTo(w-margin/2-10,h-margin+5); ctx.fill();
+}
+
+function axisLabels(ctx,w,h,xLabel,yLabel,margin=50) {
+  ctx.fillStyle='rgba(168,184,216,0.8)';
+  ctx.font='12px DM Sans'; ctx.textAlign='center';
+  ctx.fillText(xLabel,w/2,h-8);
+  ctx.save(); ctx.translate(15,h/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel,0,0); ctx.restore();
+}
+
+function drawDemandSupply(ctx,w,h) {
+  const m=55;
+  ctx.fillStyle='rgba(10,22,40,0.3)';
+  ctx.fillRect(0,0,w,h);
+  setupAxes(ctx,w,h,m);
+  axisLabels(ctx,w,h,'Quantity','Price',m);
+  const pw=w-m*1.5, ph=h-m*1.5;
+
+  // Demand
+  ctx.strokeStyle='#f5a623'; ctx.lineWidth=2.5; ctx.beginPath();
+  ctx.moveTo(m,m); ctx.lineTo(w-m,h-m); ctx.stroke();
+  ctx.fillStyle='#f5a623'; ctx.font='bold 13px DM Sans'; ctx.textAlign='left';
+  ctx.fillText('D',w-m+4,h-m);
+
+  // Supply
+  ctx.strokeStyle='#00c896'; ctx.lineWidth=2.5; ctx.beginPath();
+  ctx.moveTo(m,h-m); ctx.lineTo(w-m,m); ctx.stroke();
+  ctx.fillStyle='#00c896';
+  ctx.fillText('S',w-m+4,m+4);
+
+  // Equilibrium
+  const ex=(m+(w-m))/2, ey=(m+(h-m))/2;
+  ctx.strokeStyle='rgba(232,75,75,0.6)'; ctx.lineWidth=1; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex,h-m); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(m,ey); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#e84b4b'; ctx.beginPath(); ctx.arc(ex,ey,6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.font='bold 11px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('E',ex,ey+4);
+  ctx.fillStyle='rgba(232,75,75,0.7)'; ctx.font='10px DM Sans';
+  ctx.fillText('P*',m-12,ey+3);
+  ctx.fillText('Q*',ex,h-m+14);
+}
+
+function drawKeynesianCross(ctx,w,h) {
+  const m=55;
+  ctx.fillStyle='rgba(10,22,40,0.3)'; ctx.fillRect(0,0,w,h);
+  setupAxes(ctx,w,h,m);
+  axisLabels(ctx,w,h,'National Income (Y)','Aggregate Expenditure (AE)',m);
+
+  // 45 degree line
+  ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(m,h-m); ctx.lineTo(w-m,m); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('45°',w-m-20,m+25);
+
+  // AE line (slope < 1)
+  ctx.strokeStyle='#f5a623'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(m,h-m-60); ctx.lineTo(w-m,m+40); ctx.stroke();
+  ctx.fillStyle='#f5a623'; ctx.font='bold 13px DM Sans'; ctx.textAlign='left';
+  ctx.fillText('AE=C+I+G',w-m-80,m+30);
+
+  // Equilibrium
+  const eqX = m+(w-m)*0.48, eqY = h-m-(h-m*2)*0.48;
+  ctx.strokeStyle='rgba(79,195,247,0.5)'; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(eqX,eqY); ctx.lineTo(eqX,h-m); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#4fc3f7'; ctx.beginPath(); ctx.arc(eqX,eqY,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#4fc3f7'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('Y* (Equilibrium)',eqX,h-m+14);
+}
+
+function drawMultiplierEffect(ctx,w,h) {
+  const m=50;
+  ctx.fillStyle='rgba(10,22,40,0.3)'; ctx.fillRect(0,0,w,h);
+  const rounds=7;
+  const barW=(w-m*1.5)/rounds;
+  let income=100;
+  const mpc=0.75;
+  const maxInc=100;
+  ctx.fillStyle='rgba(168,184,216,0.5)'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('Initial Investment ΔI → Multiplied Income (MPC=0.75)',w/2,20);
+  for(let i=0;i<rounds;i++){
+    const bh=income/maxInc*(h-m*2);
+    const x=m+i*barW;
+    const y=h-m-bh;
+    const alpha=0.8-i*0.09;
+    ctx.fillStyle=`rgba(245,166,35,${alpha})`;
+    ctx.fillRect(x+4,y,barW-8,bh);
+    ctx.fillStyle='rgba(168,184,216,0.7)'; ctx.font='9px DM Sans'; ctx.textAlign='center';
+    ctx.fillText(`R${i+1}`,x+barW/2,h-m+12);
+    ctx.fillText(income.toFixed(0),x+barW/2,y-4);
+    income*=mpc;
+  }
+  ctx.strokeStyle='rgba(79,195,247,0.4)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(m,h-m); ctx.lineTo(w-m/2,h-m); ctx.stroke();
+}
+
+function drawGDPComponents(ctx,w,h) {
+  const m=50;
+  ctx.fillStyle='rgba(10,22,40,0.3)'; ctx.fillRect(0,0,w,h);
+  const items=[
+    {label:'C\n(Consumption)',val:55,color:'#f5a623'},
+    {label:'I\n(Investment)',val:20,color:'#00c896'},
+    {label:'G\n(Govt)',val:15,color:'#4fc3f7'},
+    {label:'NX\n(Net Exp)',val:10,color:'#e84b4b'},
+  ];
+  const maxV=Math.max(...items.map(x=>x.val));
+  const barW=(w-m*1.5)/items.length;
+  items.forEach((item,i)=>{
+    const bh=item.val/maxV*(h-m*2.5);
+    const x=m+i*barW;
+    ctx.fillStyle=item.color+'40';
+    ctx.fillRect(x+8,h-m-bh,barW-16,bh);
+    ctx.fillStyle=item.color;
+    ctx.fillRect(x+8,h-m-bh,barW-16,4);
+    ctx.fillStyle='rgba(168,184,216,0.8)'; ctx.font='10px DM Sans'; ctx.textAlign='center';
+    const lines=item.label.split('\n');
+    lines.forEach((l,li)=>ctx.fillText(l,x+barW/2,h-m+12+li*13));
+    ctx.fillStyle=item.color; ctx.font='bold 12px DM Sans';
+    ctx.fillText(item.val+'%',x+barW/2,h-m-bh-8);
+  });
+  ctx.fillStyle='rgba(168,184,216,0.5)'; ctx.font='11px DM Sans';
+  ctx.fillText('GDP Components by % Share (Approx. India)',w/2,20);
+}
+
+function drawProductionFunction(ctx,w,h) {
+  const m=55;
+  ctx.fillStyle='rgba(10,22,40,0.3)'; ctx.fillRect(0,0,w,h);
+  setupAxes(ctx,w,h,m);
+  axisLabels(ctx,w,h,'Labour Input (L)','Output (Q)',m);
+  ctx.strokeStyle='#00c896'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let x=0;x<=1;x+=0.02){
+    const px=m+x*(w-m*1.5);
+    const py=h-m-Math.pow(x,0.5)*(h-m*1.5)*0.9;
+    if(x===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  ctx.fillStyle='#00c896'; ctx.font='bold 12px DM Sans';
+  ctx.fillText('Q = f(L)',w-m-10,m+30);
+  ctx.fillStyle='rgba(168,184,216,0.6)'; ctx.font='10px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('↑ Diminishing Marginal Returns',w/2,m+10);
+}
+
+function drawBopStructure(ctx,w,h) {
+  ctx.fillStyle='rgba(10,22,40,0.3)'; ctx.fillRect(0,0,w,h);
+  const items=[
+    {label:'Current Account',sub:'Goods + Services\n+ Factor Income\n+ Transfers',color:'#f5a623',x:w*0.25},
+    {label:'Capital Account',sub:'FDI + FPI\n+ Loans\n+ Banking Capital',color:'#00c896',x:w*0.75},
+  ];
+  items.forEach(item=>{
+    ctx.fillStyle=item.color+'20';
+    ctx.strokeStyle=item.color+'60'; ctx.lineWidth=1.5;
+    roundRect(ctx,item.x-90,h*0.2,180,h*0.55,12,true,true);
+    ctx.fillStyle=item.color; ctx.font='bold 12px DM Sans'; ctx.textAlign='center';
+    ctx.fillText(item.label,item.x,h*0.2+25);
+    ctx.fillStyle='rgba(168,184,216,0.7)'; ctx.font='10px DM Sans';
+    item.sub.split('\n').forEach((l,i)=>ctx.fillText(l,item.x,h*0.2+50+i*18));
+  });
+  ctx.fillStyle='rgba(168,184,216,0.7)'; ctx.font='11px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('BoP = Current A/C + Capital A/C + Reserve Changes = 0',w/2,h-20);
+  ctx.fillText('+',w/2,h/2);
+}
+
+function roundRect(ctx,x,y,w,h,r,fill,stroke){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+  ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);
+  ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);
+  ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+function drawChapterDiagram(canvas, ch) {
+  canvas.width = canvas.offsetWidth || 500;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='rgba(10,22,40,0.5)'; ctx.fillRect(0,0,w,h);
+
+  // Draw relevant diagram based on chapter
+  if(ch.id<=6) drawDemandSupply(ctx,w,h);
+  else drawGDPComponents(ctx,w,h);
+}
+
+/* ============================================================
+   INDICATORS
+   ============================================================ */
+function initIndicators() {
+  const grid = document.getElementById('indicators-grid');
+  grid.innerHTML = INDICATORS.map(ind => `
+    <div class="indicator-card">
+      <div class="indicator-name">${ind.name}</div>
+      <div class="indicator-value">${ind.value}</div>
+      <div class="indicator-change ${ind.up?'up':'down'}">${ind.up?'▲':'▼'} ${ind.change} — ${ind.desc}</div>
+    </div>
+  `).join('');
+
+  // GDP chart
+  setTimeout(drawGDPChart, 200);
+}
+
+function drawGDPChart() {
+  const canvas = document.getElementById('gdp-chart');
+  if(!canvas) return;
+  canvas.width = canvas.offsetWidth || 700;
+  const ctx = canvas.getContext('2d');
+  const w=canvas.width, h=canvas.height;
+  ctx.fillStyle='rgba(10,22,40,0.5)'; ctx.fillRect(0,0,w,h);
+  const m={t:30,r:20,b:40,l:40};
+  const pw=w-m.l-m.r, ph=h-m.t-m.b;
+  const data=GDP_DATA.values;
+  const minV=Math.min(...data), maxV=Math.max(...data);
+  const range=maxV-minV||1;
+  const barW=pw/data.length;
+
+  // Zero line
+  const zeroY=m.t+ph*(1-(0-minV)/range);
+  ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(m.l,zeroY); ctx.lineTo(w-m.r,zeroY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(168,184,216,0.5)'; ctx.font='9px DM Sans'; ctx.textAlign='right';
+  ctx.fillText('0%',m.l-4,zeroY+3);
+
+  data.forEach((v,i)=>{
+    const x=m.l+i*barW;
+    const y=m.t+ph*(1-(v-minV)/range);
+    const barH=Math.abs(y-zeroY);
+    ctx.fillStyle=v>=0?'rgba(0,200,150,0.6)':'rgba(232,75,75,0.6)';
+    if(v>=0) ctx.fillRect(x+2,y,barW-4,barH);
+    else ctx.fillRect(x+2,zeroY,barW-4,barH);
+    ctx.fillStyle='rgba(168,184,216,0.7)'; ctx.font='8px DM Sans'; ctx.textAlign='center';
+    ctx.fillText(GDP_DATA.labels[i].slice(-2),x+barW/2,h-8);
+    ctx.fillStyle=v>=0?'#00c896':'#e84b4b'; ctx.font='bold 8px DM Sans';
+    ctx.fillText(v+'%',x+barW/2,v>=0?y-4:zeroY+barH+10);
+  });
+  ctx.fillStyle='rgba(168,184,216,0.6)'; ctx.font='10px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('India GDP Growth Rate (%)',w/2,18);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el = document.getElementById('view-'+name);
+  if(el) {
+    el.classList.add('active');
+    el.classList.add('slide-up');
+    setTimeout(()=>el.classList.remove('slide-up'),400);
+  }
+
+  // Update tab bar highlight
+  const tabMap = {dashboard:'dashboard',chapters:'chapters',simulations:'simulations',graphs:'graphs',progress:'progress','chapter-detail':'chapters'};
+  const tabName = tabMap[name]||name;
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  const tabs = document.querySelectorAll('.tab-item');
+  const tabViews=['dashboard','chapters','simulations','graphs','progress'];
+  const idx = tabViews.indexOf(tabName);
+  if(idx>=0) tabs[idx].classList.add('active');
+
+  // Trigger canvas draws
+  if(name==='graphs') setTimeout(drawCurrentGraph,200);
+  if(name==='indicators') { setTimeout(drawGDPChart,200); }
+}
+
+function switchTab(viewName, btn) {
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  showView(viewName);
+}
+
+/* ============================================================
+   DASHBOARD & PROGRESS UPDATES
+   ============================================================ */
+function updateDashboard() {
+  const completed = state.completedChapters.length;
+  const total = CHAPTERS.length;
+  const scores = Object.values(state.quizScores);
+  const avgScore = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+
+  document.getElementById('stat-completed').textContent = completed;
+  document.getElementById('stat-score').textContent = avgScore+'%';
+  const pct = Math.round(completed/total*100);
+  document.getElementById('overall-progress').style.width = pct+'%';
+  document.getElementById('progress-pct').textContent = pct+'%';
+
+  // Refresh chapter list if visible
+  initChapterList();
+}
+
+function updateProgressView() {
+  const scores = state.quizScores;
+  const vals = Object.values(scores);
+  const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+  const el = document.getElementById('overall-score-num');
+  if(el) el.textContent = avg+'%';
+
+  const list = document.getElementById('chapter-progress-list');
+  if(list) {
+    list.innerHTML = CHAPTERS.map(ch => {
+      const sc = scores[ch.id];
+      const done = state.completedChapters.includes(ch.id);
+      return `
+        <div class="cp-row">
+          <div class="cp-header">
+            <span class="cp-title">${ch.title}</span>
+            <span class="cp-score">${sc!==undefined?sc+'%':'Not attempted'}</span>
+          </div>
+          <div class="cp-bar-wrap">
+            <div class="cp-bar-fill" style="width:${sc||0}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function resetProgress() {
+  if(!confirm('Reset all quiz scores and chapter progress?')) return;
+  state.completedChapters=[];
+  state.quizScores={};
+  localStorage.removeItem('eco_completed');
+  localStorage.removeItem('eco_scores');
+  updateDashboard();
+  updateProgressView();
+  showToast('Progress reset successfully');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* ============================================================
+   PWA SERVICE WORKER REGISTRATION
+   ============================================================ */
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+}
+
+/* ============================================================
+   WINDOW RESIZE
+   ============================================================ */
+window.addEventListener('resize', ()=>{
+  if(document.getElementById('view-graphs').classList.contains('active')) drawCurrentGraph();
+  if(document.getElementById('view-indicators').classList.contains('active')) drawGDPChart();
+});
+
+/* Init state display */
+updateDashboard();
+</script>
+</body>
+</html>

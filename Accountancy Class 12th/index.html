@@ -1,0 +1,2377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1a73e8" />
+  <meta name="description" content="Class 12 Accountancy Learning App – JKBOSE by Mateen Yousuf" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Class 12 Accountancy | JKBOSE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --bg: #0a0f1e;
+      --bg2: #0f172a;
+      --bg3: #1e293b;
+      --card: #162032;
+      --card2: #1c2b40;
+      --blue: #3b82f6;
+      --blue2: #1a73e8;
+      --gold: #f59e0b;
+      --gold2: #fbbf24;
+      --green: #10b981;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --text: #e2e8f0;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --border: rgba(255,255,255,0.07);
+      --radius: 16px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    button { cursor: pointer; border: none; font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       SCREENS
+    ============================================================ */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; }
+
+    /* ============================================================
+       SPLASH / TITLE SCREEN
+    ============================================================ */
+    #splash {
+      position: relative;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0f1e 0%, #0d1b35 50%, #091628 100%);
+      overflow: hidden;
+      padding: 20px;
+      text-align: center;
+    }
+    #splash.active { display: flex; }
+
+    /* Animated background grid */
+    .splash-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridScroll 20s linear infinite;
+    }
+    @keyframes gridScroll { to { transform: translateY(40px); } }
+
+    /* Floating financial icons */
+    .float-icon {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.15;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Animated SVG chart background */
+    .splash-chart {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      opacity: 0.08;
+    }
+
+    .splash-content { position: relative; z-index: 1; }
+
+    .splash-logo {
+      width: 90px; height: 90px;
+      background: linear-gradient(135deg, var(--blue2), var(--purple));
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 40px rgba(59,130,246,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 40px rgba(59,130,246,0.4); }
+      50% { box-shadow: 0 0 70px rgba(59,130,246,0.7); }
+    }
+
+    .splash-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(251,191,36,0.1));
+      border: 1px solid rgba(245,158,11,0.4);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .splash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff 40%, var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .splash-sub {
+      font-size: 1rem;
+      color: var(--text2);
+      margin-bottom: 12px;
+    }
+    .splash-jkbose {
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+
+    /* SVG Ledger Illustration */
+    .splash-illustration {
+      margin: 0 auto 32px;
+      max-width: 340px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 48px;
+      border-radius: 50px;
+      box-shadow: 0 8px 30px rgba(59,130,246,0.4);
+      transition: all 0.3s;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+    .start-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(59,130,246,0.6); }
+    .start-btn:active { transform: translateY(0); }
+
+    .splash-author-preview {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 20px 8px 8px;
+    }
+    .author-avatar-sm {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue2), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      overflow: hidden;
+    }
+    .author-avatar-sm img { width: 100%; height: 100%; object-fit: cover; }
+    .splash-author-preview span { font-size: 0.85rem; color: var(--text2); }
+    .splash-author-preview strong { color: var(--text); }
+
+    /* ============================================================
+       TOP NAV BAR
+    ============================================================ */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,15,30,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .back-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--bg3);
+      color: var(--text2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: var(--blue2); color: white; }
+    .topbar-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .topbar-right { display: flex; gap: 8px; }
+
+    /* ============================================================
+       DASHBOARD (HOME)
+    ============================================================ */
+    #dashboard {
+      background: var(--bg);
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #0d1b35, #0f172a);
+      padding: 28px 20px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-art {
+      position: absolute; right: -20px; top: -20px;
+      opacity: 0.07;
+      font-size: 120px;
+      pointer-events: none;
+    }
+    .hero-greeting {
+      font-size: 0.85rem;
+      color: var(--text3);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .hero-subtitle {
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 20px;
+    }
+
+    /* Progress ring */
+    .progress-card {
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-ring-wrap {
+      position: relative;
+      width: 64px; height: 64px;
+      flex-shrink: 0;
+    }
+    .progress-ring-wrap svg { transform: rotate(-90deg); }
+    .progress-ring-track { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 6; }
+    .progress-ring-fill {
+      fill: none; stroke: var(--blue); stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 163; stroke-dashoffset: 163;
+      transition: stroke-dashoffset 1.5s ease;
+    }
+    .progress-pct {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; color: var(--blue);
+    }
+    .progress-info h3 { font-size: 0.95rem; font-weight: 600; color: #fff; }
+    .progress-info p { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+    .progress-info .progress-bar {
+      margin-top: 8px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue2), var(--blue));
+      border-radius: 2px;
+      transition: width 1.5s ease;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+    .stat-icon { font-size: 24px; margin-bottom: 6px; }
+    .stat-val { font-size: 1.3rem; font-weight: 700; color: #fff; }
+    .stat-label { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
+
+    /* Section label */
+    .section-label {
+      padding: 0 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-label h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-label a {
+      font-size: 0.8rem;
+      color: var(--blue);
+    }
+
+    /* Quick actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 0 20px;
+      margin-bottom: 24px;
+    }
+    .qa-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .qa-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .qa-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .qa-card h3 { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .qa-card p { font-size: 0.75rem; color: var(--text3); }
+
+    /* Author card */
+    .author-card {
+      margin: 0 20px 24px;
+      background: linear-gradient(135deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .author-photo-wrap {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 3px solid var(--blue2);
+      box-shadow: 0 0 20px rgba(59,130,246,0.3);
+    }
+    .author-photo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .author-photo-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--blue2), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .author-info h3 { font-size: 1rem; font-weight: 700; color: #fff; }
+    .author-info p { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+    .author-info .author-dept {
+      font-size: 0.72rem;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    /* Chapters list */
+    .chapters-list { padding: 0 20px 100px; }
+    .chapter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .chapter-card:hover {
+      border-color: rgba(59,130,246,0.4);
+      transform: translateX(4px);
+    }
+    .chapter-card.completed { border-left: 3px solid var(--green); }
+    .ch-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .ch-info { flex: 1; min-width: 0; }
+    .ch-unit { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+    .ch-title { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-top: 2px; }
+    .ch-meta { display: flex; gap: 8px; margin-top: 4px; }
+    .ch-tag {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(59,130,246,0.15);
+      color: var(--blue);
+    }
+    .ch-done-badge {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(16,185,129,0.15);
+      color: var(--green);
+    }
+    .ch-arrow { color: var(--text3); font-size: 1rem; }
+
+    /* ============================================================
+       BOTTOM NAV
+    ============================================================ */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    .nav-btn {
+      flex: 1;
+      padding: 10px 4px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      background: transparent;
+      color: var(--text3);
+      font-size: 0.65rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-btn .nav-icon { font-size: 22px; }
+    .nav-btn.active { color: var(--blue); }
+    .nav-btn.active .nav-icon {
+      filter: drop-shadow(0 0 8px rgba(59,130,246,0.7));
+    }
+
+    /* ============================================================
+       CHAPTER DETAIL SCREEN
+    ============================================================ */
+    #chapter-detail { background: var(--bg); }
+    .chapter-hero {
+      padding: 24px 20px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .chapter-emoji-bg {
+      position: absolute; right: 20px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px; opacity: 0.12;
+      pointer-events: none;
+    }
+    .chapter-num {
+      font-size: 0.75rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .chapter-title-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .chapter-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .chapter-tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      background: var(--card);
+      color: var(--text2);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--blue2);
+      color: #fff;
+      border-color: var(--blue2);
+    }
+
+    .tab-content { display: none; padding: 0 20px 100px; }
+    .tab-content.active { display: block; }
+
+    /* Concept content */
+    .content-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      line-height: 1.7;
+      color: var(--text2);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+    .content-box strong { color: var(--text); }
+
+    .formula-box {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+    .formula-box h3 {
+      font-size: 0.8rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .formula-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--gold2);
+      padding: 8px 12px;
+      background: rgba(245,158,11,0.05);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .example-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .example-header {
+      background: rgba(59,130,246,0.1);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .example-body { padding: 16px; }
+    .example-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      margin-bottom: 6px;
+    }
+    .example-problem {
+      font-size: 0.87rem;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .solution-toggle {
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      width: 100%;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .solution-toggle:hover { background: rgba(16,185,129,0.2); }
+    .solution-body {
+      margin-top: 12px;
+      background: rgba(16,185,129,0.05);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green);
+      white-space: pre-line;
+      display: none;
+    }
+    .solution-body.open { display: block; }
+
+    /* Ledger Diagram */
+    .ledger-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .ledger-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 340px;
+    }
+    .ledger-table th {
+      font-size: 0.75rem;
+      color: var(--text3);
+      padding: 6px 10px;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ledger-table td {
+      font-size: 0.82rem;
+      color: var(--text2);
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .ledger-dr { color: var(--red) !important; }
+    .ledger-cr { color: var(--green) !important; }
+    .ledger-divider {
+      border-left: 2px solid var(--border);
+    }
+
+    /* ============================================================
+       QUIZ SCREEN
+    ============================================================ */
+    #quiz-screen { background: var(--bg); }
+    .quiz-hero {
+      padding: 24px 20px;
+      background: linear-gradient(135deg, #0d1b35, var(--bg2));
+    }
+    .quiz-chapter-name {
+      font-size: 0.8rem;
+      color: var(--text3);
+      margin-bottom: 4px;
+    }
+    .quiz-progress-bar-wrap {
+      margin-top: 14px;
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+    }
+    .quiz-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue2), var(--blue));
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .quiz-counter {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--text3);
+    }
+
+    .quiz-body { padding: 20px 20px 100px; }
+    .quiz-question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .quiz-q-num {
+      font-size: 0.72rem;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .quiz-question {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+    .quiz-option {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 0.88rem;
+      text-align: left;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quiz-option:hover:not(:disabled) { border-color: var(--blue); background: rgba(59,130,246,0.08); }
+    .quiz-option.correct { border-color: var(--green); background: rgba(16,185,129,0.1); color: var(--green); }
+    .quiz-option.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); color: var(--red); }
+    .quiz-option:disabled { cursor: default; }
+    .option-letter {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .quiz-option.correct .option-letter { background: rgba(16,185,129,0.2); }
+    .quiz-option.wrong .option-letter { background: rgba(239,68,68,0.2); }
+
+    .quiz-explanation {
+      margin-top: 14px;
+      background: rgba(59,130,246,0.06);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      color: var(--text2);
+      display: none;
+    }
+    .quiz-explanation.show { display: block; }
+    .quiz-explanation strong { color: var(--blue); }
+
+    .quiz-nav-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      background: var(--blue2);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 16px;
+      display: none;
+    }
+    .quiz-nav-btn.show { display: block; }
+    .quiz-nav-btn:hover { background: var(--blue); }
+
+    /* Result screen */
+    .quiz-result {
+      text-align: center;
+      padding: 40px 20px 100px;
+      display: none;
+    }
+    .quiz-result.show { display: block; }
+    .result-emoji { font-size: 64px; margin-bottom: 16px; }
+    .result-score-circle {
+      width: 130px; height: 130px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: conic-gradient(var(--blue) 0%, transparent 0%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: 0 0 30px rgba(59,130,246,0.3);
+    }
+    .result-score-circle::before {
+      content: '';
+      position: absolute;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--bg2);
+    }
+    .result-score-inner {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .result-score-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    .result-score-total { font-size: 0.75rem; color: var(--text3); }
+    .result-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    .result-msg { color: var(--text2); font-size: 0.9rem; margin-bottom: 24px; }
+    .result-breakdown {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .rb-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .rb-row:last-child { border: none; }
+    .rb-label { color: var(--text2); }
+    .rb-val { font-weight: 700; }
+    .restart-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--blue2);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .retry-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       SIMULATIONS SCREEN
+    ============================================================ */
+    #simulations { background: var(--bg); padding-bottom: 100px; }
+    .sim-header { padding: 24px 20px; }
+    .sim-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .sim-header p { font-size: 0.85rem; color: var(--text2); margin-top: 4px; }
+
+    .sim-cards { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
+    .sim-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .sim-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      cursor: pointer;
+    }
+    .sim-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .sim-card-header h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .sim-card-header p { font-size: 0.78rem; color: var(--text3); margin-top: 2px; }
+    .sim-toggle { margin-left: auto; color: var(--text3); font-size: 1.2rem; transition: transform 0.3s; }
+    .sim-toggle.open { transform: rotate(180deg); }
+    .sim-body { display: none; padding: 0 16px 16px; }
+    .sim-body.open { display: block; }
+
+    /* Simulation UI elements */
+    .sim-input-group { margin-bottom: 12px; }
+    .sim-label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text3);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sim-input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'DM Mono', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sim-input:focus { border-color: var(--blue); }
+    .sim-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sim-calc-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+    .sim-calc-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(59,130,246,0.4); }
+    .sim-result-box {
+      margin-top: 12px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px;
+      padding: 14px;
+      display: none;
+    }
+    .sim-result-box.show { display: block; }
+    .sim-result-title {
+      font-size: 0.75rem;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .sim-result-lines { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--text2); }
+    .sim-result-lines .highlight { color: var(--green); font-weight: 700; }
+    .sim-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0;
+    }
+
+    /* ============================================================
+       FORMULA SHEET SCREEN
+    ============================================================ */
+    #formula-sheet { background: var(--bg); padding-bottom: 100px; }
+    .formula-screen-header { padding: 24px 20px; }
+    .formula-screen-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .formula-screen-header p { font-size: 0.85rem; color: var(--text2); margin-top: 4px; }
+
+    .formula-search-wrap { padding: 0 20px 16px; }
+    .formula-search {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+    }
+    .formula-search:focus { border-color: var(--blue); }
+    .formula-search::placeholder { color: var(--text3); }
+
+    .formula-section { padding: 0 20px; margin-bottom: 20px; }
+    .formula-section-title {
+      font-size: 0.78rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .formula-pill {
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.18);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--gold2);
+      margin-bottom: 6px;
+    }
+    .formula-pill-title {
+      font-size: 0.72rem;
+      color: var(--text3);
+      margin-bottom: 3px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ============================================================
+       RATIO CALCULATOR (inside Lab)
+    ============================================================ */
+    .ratio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .ratio-result {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .ratio-result .ratio-label { font-size: 0.72rem; color: var(--text3); margin-bottom: 4px; }
+    .ratio-result .ratio-val { font-size: 1.2rem; font-weight: 700; color: var(--blue); }
+    .ratio-result .ratio-ideal { font-size: 0.68rem; color: var(--text3); margin-top: 2px; }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-up { animation: slideUp 0.5s ease forwards; }
+
+    /* ============================================================
+       INSTALL BANNER
+    ============================================================ */
+    .install-banner {
+      position: fixed;
+      bottom: 72px; left: 16px; right: 16px;
+      background: linear-gradient(135deg, #1e3a5f, var(--card));
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 200;
+      box-shadow: var(--shadow);
+    }
+    .install-banner.show { display: flex; }
+    .install-icon { font-size: 28px; }
+    .install-text h4 { font-size: 0.88rem; font-weight: 600; color: #fff; }
+    .install-text p { font-size: 0.75rem; color: var(--text2); margin-top: 2px; }
+    .install-btns { display: flex; gap: 8px; margin-left: auto; flex-shrink: 0; }
+    .install-ok {
+      background: var(--blue2);
+      color: white;
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .install-dismiss {
+      background: transparent;
+      color: var(--text3);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+    }
+
+    /* Offline indicator */
+    .offline-bar {
+      background: rgba(239,68,68,0.9);
+      color: white;
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 6px;
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+    }
+    .offline-bar.show { display: block; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+
+    /* Responsive tweaks */
+    @media (min-width: 480px) {
+      .quick-actions { grid-template-columns: repeat(2, 1fr); }
+      .stats-row { max-width: 400px; margin: 0 auto; }
+    }
+    @media (min-width: 768px) {
+      .chapters-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .chapter-card { margin-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Offline indicator -->
+<div class="offline-bar" id="offlineBar">📡 You are offline – App works offline!</div>
+
+<!-- ============================================================
+     SPLASH SCREEN
+============================================================ -->
+<div id="splash" class="active">
+  <div class="splash-grid"></div>
+
+  <!-- Floating icons -->
+  <span class="float-icon" style="left:10%;animation-duration:8s;animation-delay:0s">₹</span>
+  <span class="float-icon" style="left:25%;animation-duration:11s;animation-delay:2s">📊</span>
+  <span class="float-icon" style="left:60%;animation-duration:9s;animation-delay:1s">💹</span>
+  <span class="float-icon" style="left:80%;animation-duration:13s;animation-delay:3s">🏦</span>
+  <span class="float-icon" style="left:45%;animation-duration:10s;animation-delay:4s">📋</span>
+  <span class="float-icon" style="left:90%;animation-duration:7s;animation-delay:0.5s">⚖️</span>
+
+  <!-- Animated chart SVG -->
+  <svg class="splash-chart" viewBox="0 0 800 200" preserveAspectRatio="none">
+    <polyline points="0,180 80,140 160,150 240,100 320,110 400,60 480,80 560,40 640,55 720,20 800,30"
+      fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.5"/>
+    <polyline points="0,190 80,170 160,175 240,150 320,155 400,120 480,130 560,100 640,110 720,75 800,80"
+      fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.4"/>
+  </svg>
+
+  <div class="splash-content">
+    <div class="splash-logo">📊</div>
+    <div class="splash-badge">JKBOSE • Class XII</div>
+    <h1 class="splash-title">Accountancy<br>Learning App</h1>
+    <p class="splash-sub">Master Accounting with Interactive Simulations</p>
+    <p class="splash-jkbose">Aligned with NCERT • NEP 2020 • PARAKH</p>
+
+    <!-- SVG Ledger Illustration -->
+    <svg class="splash-illustration" viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Balance Sheet illustration -->
+      <rect x="10" y="10" width="145" height="100" rx="8" fill="rgba(59,130,246,0.1)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+      <rect x="185" y="10" width="145" height="100" rx="8" fill="rgba(139,92,246,0.1)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+      <!-- Labels -->
+      <text x="82" y="28" text-anchor="middle" fill="#3b82f6" font-size="9" font-family="DM Sans" font-weight="700">LIABILITIES</text>
+      <text x="257" y="28" text-anchor="middle" fill="#8b5cf6" font-size="9" font-family="DM Sans" font-weight="700">ASSETS</text>
+      <!-- Lines -->
+      <line x1="20" y1="34" x2="145" y2="34" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+      <line x1="190" y1="34" x2="320" y2="34" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+      <!-- Mock rows L -->
+      <rect x="20" y="40" width="80" height="6" rx="3" fill="rgba(59,130,246,0.3)"/>
+      <rect x="100" y="40" width="35" height="6" rx="3" fill="rgba(59,130,246,0.2)"/>
+      <rect x="20" y="52" width="65" height="6" rx="3" fill="rgba(59,130,246,0.2)"/>
+      <rect x="100" y="52" width="35" height="6" rx="3" fill="rgba(59,130,246,0.2)"/>
+      <rect x="20" y="64" width="75" height="6" rx="3" fill="rgba(59,130,246,0.2)"/>
+      <rect x="100" y="64" width="35" height="6" rx="3" fill="rgba(59,130,246,0.2)"/>
+      <!-- Total line L -->
+      <line x1="20" y1="82" x2="145" y2="82" stroke="rgba(59,130,246,0.4)" stroke-width="0.8"/>
+      <rect x="20" y="88" width="60" height="7" rx="3" fill="rgba(59,130,246,0.5)"/>
+      <rect x="100" y="88" width="35" height="7" rx="3" fill="rgba(59,130,246,0.5)"/>
+      <!-- Mock rows R -->
+      <rect x="195" y="40" width="80" height="6" rx="3" fill="rgba(139,92,246,0.3)"/>
+      <rect x="285" y="40" width="25" height="6" rx="3" fill="rgba(139,92,246,0.2)"/>
+      <rect x="195" y="52" width="65" height="6" rx="3" fill="rgba(139,92,246,0.2)"/>
+      <rect x="285" y="52" width="25" height="6" rx="3" fill="rgba(139,92,246,0.2)"/>
+      <rect x="195" y="64" width="70" height="6" rx="3" fill="rgba(139,92,246,0.2)"/>
+      <rect x="285" y="64" width="25" height="6" rx="3" fill="rgba(139,92,246,0.2)"/>
+      <line x1="190" y1="82" x2="320" y2="82" stroke="rgba(139,92,246,0.4)" stroke-width="0.8"/>
+      <rect x="195" y="88" width="60" height="7" rx="3" fill="rgba(139,92,246,0.5)"/>
+      <rect x="285" y="88" width="25" height="7" rx="3" fill="rgba(139,92,246,0.5)"/>
+      <!-- Center = sign -->
+      <text x="170" y="65" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="18" font-weight="700">=</text>
+    </svg>
+
+    <button class="start-btn" onclick="goToDashboard()">🚀 Start Learning</button>
+
+    <div class="splash-author-preview">
+      <div class="author-avatar-sm" id="splashAuthorAvatar">
+        <img src="author.jpg" alt="Mateen Yousuf" onerror="this.parentElement.innerHTML='👨‍🏫'" />
+      </div>
+      <span>By <strong>Mateen Yousuf</strong> · SED J&K</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
+<div id="dashboard" class="screen">
+  <div class="hero-section">
+    <div class="hero-bg-art">📊</div>
+    <p class="hero-greeting">Welcome to</p>
+    <h1 class="hero-title">Accountancy<br>Class XII</h1>
+    <p class="hero-subtitle">JKBOSE • Aligned with NCERT & NEP 2020</p>
+
+    <div class="progress-card">
+      <div class="progress-ring-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle class="progress-ring-track" cx="32" cy="32" r="26"/>
+          <circle class="progress-ring-fill" id="dashProgressRing" cx="32" cy="32" r="26"/>
+        </svg>
+        <div class="progress-pct" id="dashProgressPct">0%</div>
+      </div>
+      <div class="progress-info" style="flex:1">
+        <h3>Your Progress</h3>
+        <p id="dashProgressLabel">0 of 13 chapters completed</p>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="dashProgressBarFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">📚</div>
+      <div class="stat-val">13</div>
+      <div class="stat-label">Chapters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🧠</div>
+      <div class="stat-val" id="statQuizzes">0</div>
+      <div class="stat-label">Quizzes Done</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-val" id="statScore">0%</div>
+      <div class="stat-label">Avg Score</div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="section-label"><h2>Quick Access</h2></div>
+  <div class="quick-actions">
+    <div class="qa-card" onclick="showSimulations()">
+      <div class="qa-icon" style="background:rgba(59,130,246,0.15)">🔬</div>
+      <h3>Simulations</h3>
+      <p>Interactive accounting tools</p>
+    </div>
+    <div class="qa-card" onclick="showFormulaSheet()">
+      <div class="qa-icon" style="background:rgba(245,158,11,0.15)">📐</div>
+      <h3>Formula Sheet</h3>
+      <p>All key formulas</p>
+    </div>
+    <div class="qa-card" onclick="startGlobalQuiz()">
+      <div class="qa-icon" style="background:rgba(16,185,129,0.15)">🎯</div>
+      <h3>Practice Quiz</h3>
+      <p>Test your knowledge</p>
+    </div>
+    <div class="qa-card" onclick="showAuthorModal()">
+      <div class="qa-icon" style="background:rgba(139,92,246,0.15)">👨‍🏫</div>
+      <h3>About Author</h3>
+      <p>Mateen Yousuf</p>
+    </div>
+  </div>
+
+  <!-- Author card -->
+  <div class="author-card">
+    <div class="author-photo-wrap">
+      <img src="author.jpg" alt="Mateen Yousuf" onerror="this.parentElement.innerHTML='<div class=author-photo-placeholder>👨‍🏫</div>'" />
+    </div>
+    <div class="author-info">
+      <h3>Mateen Yousuf</h3>
+      <p>Accountancy Teacher</p>
+      <p class="author-dept">School Education Department, J&K</p>
+    </div>
+  </div>
+
+  <!-- Chapters -->
+  <div class="section-label" style="margin-top:8px"><h2>All Chapters</h2></div>
+  <div class="chapters-list" id="chaptersList"></div>
+</div>
+
+<!-- ============================================================
+     CHAPTER DETAIL
+============================================================ -->
+<div id="chapter-detail" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <span class="topbar-title" id="chapterTopbarTitle">Chapter</span>
+    </div>
+    <div class="topbar-right">
+      <button class="back-btn" onclick="markChapterComplete()" id="completeBtn" title="Mark complete">✓</button>
+    </div>
+  </div>
+
+  <div class="chapter-hero" id="chapterHero">
+    <div class="chapter-emoji-bg" id="chapterEmojiBg"></div>
+    <div class="chapter-num" id="chapterNum"></div>
+    <h1 class="chapter-title-big" id="chapterTitleBig"></h1>
+  </div>
+
+  <div class="chapter-tabs">
+    <button class="tab-btn active" onclick="switchTab('concept',this)">📖 Concept</button>
+    <button class="tab-btn" onclick="switchTab('formulas',this)">📐 Formulas</button>
+    <button class="tab-btn" onclick="switchTab('examples',this)">💡 Examples</button>
+    <button class="tab-btn" onclick="switchTab('ledger',this)">📋 Ledger</button>
+    <button class="tab-btn" onclick="switchTab('quiz',this)">🎯 Quiz</button>
+  </div>
+
+  <!-- Concept Tab -->
+  <div class="tab-content active" id="tab-concept">
+    <div class="content-box" id="conceptContent"></div>
+  </div>
+
+  <!-- Formulas Tab -->
+  <div class="tab-content" id="tab-formulas">
+    <div class="formula-box">
+      <h3>📐 Key Formulas</h3>
+      <div id="formulasList"></div>
+    </div>
+  </div>
+
+  <!-- Examples Tab -->
+  <div class="tab-content" id="tab-examples">
+    <div id="examplesList"></div>
+  </div>
+
+  <!-- Ledger Tab -->
+  <div class="tab-content" id="tab-ledger">
+    <div class="ledger-wrap">
+      <div class="ledger-title" id="ledgerTitle">Sample Ledger Account</div>
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>Dr Side</th>
+            <th style="text-align:right">Amount (₹)</th>
+            <th class="ledger-divider" style="padding-left:16px">Cr Side</th>
+            <th style="text-align:right">Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+    <div class="content-box" id="ledgerExplanation" style="font-size:0.82rem"></div>
+  </div>
+
+  <!-- Quiz Tab -->
+  <div class="tab-content" id="tab-quiz">
+    <div id="chapterQuizContainer"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SIMULATIONS SCREEN
+============================================================ -->
+<div id="simulations" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <span class="topbar-title">Accounting Lab</span>
+    </div>
+  </div>
+  <div class="sim-header">
+    <h1>🔬 Accounting Lab</h1>
+    <p>Interactive simulations for practical learning</p>
+  </div>
+
+  <div class="sim-cards">
+
+    <!-- 1. Journal Entry Simulator -->
+    <div class="sim-card">
+      <div class="sim-card-header" onclick="toggleSim('sim1')">
+        <div class="sim-icon" style="background:rgba(59,130,246,0.15)">📝</div>
+        <div>
+          <h3>Journal Entry Simulator</h3>
+          <p>Record financial transactions</p>
+        </div>
+        <span class="sim-toggle" id="sim1-toggle">▾</span>
+      </div>
+      <div class="sim-body" id="sim1">
+        <div class="sim-input-group">
+          <label class="sim-label">Select Transaction Type</label>
+          <select class="sim-input" id="journalType" onchange="updateJournalFields()">
+            <option value="">-- Choose Transaction --</option>
+            <option value="cash_purchase">Cash Purchase of Goods</option>
+            <option value="credit_sales">Credit Sales</option>
+            <option value="salary_paid">Salary Paid</option>
+            <option value="capital_intro">Capital Introduction</option>
+            <option value="bank_loan">Bank Loan Taken</option>
+            <option value="asset_purchase">Purchase Fixed Asset (Cash)</option>
+            <option value="interest_on_capital">Interest on Partner's Capital</option>
+          </select>
+        </div>
+        <div class="sim-input-group">
+          <label class="sim-label">Amount (₹)</label>
+          <input type="number" class="sim-input" id="journalAmount" placeholder="Enter amount" />
+        </div>
+        <div class="sim-input-group" id="journalPartyWrap" style="display:none">
+          <label class="sim-label" id="journalPartyLabel">Party Name</label>
+          <input type="text" class="sim-input" id="journalParty" placeholder="Name" />
+        </div>
+        <button class="sim-calc-btn" onclick="generateJournal()">Generate Journal Entry</button>
+        <div class="sim-result-box" id="journalResult">
+          <div class="sim-result-title">📝 Journal Entry</div>
+          <div class="sim-result-lines" id="journalLines"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Goodwill Calculator -->
+    <div class="sim-card">
+      <div class="sim-card-header" onclick="toggleSim('sim2')">
+        <div class="sim-icon" style="background:rgba(245,158,11,0.15)">⭐</div>
+        <div>
+          <h3>Goodwill Calculator</h3>
+          <p>All three methods</p>
+        </div>
+        <span class="sim-toggle" id="sim2-toggle">▾</span>
+      </div>
+      <div class="sim-body" id="sim2">
+        <div class="sim-input-group">
+          <label class="sim-label">Method</label>
+          <select class="sim-input" id="gwMethod">
+            <option value="avg">Average Profit Method</option>
+            <option value="super">Super Profit Method</option>
+            <option value="cap">Capitalisation of Super Profit</option>
+          </select>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Average Profit (₹)</label>
+            <input type="number" class="sim-input" id="gwAvgProfit" placeholder="50000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Years' Purchase</label>
+            <input type="number" class="sim-input" id="gwYears" placeholder="3" />
+          </div>
+        </div>
+        <div class="sim-row" id="gwExtraFields">
+          <div class="sim-input-group">
+            <label class="sim-label">Capital Employed (₹)</label>
+            <input type="number" class="sim-input" id="gwCapital" placeholder="300000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Normal Rate (%)</label>
+            <input type="number" class="sim-input" id="gwRate" placeholder="10" />
+          </div>
+        </div>
+        <button class="sim-calc-btn" onclick="calcGoodwill()">Calculate Goodwill</button>
+        <div class="sim-result-box" id="gwResult">
+          <div class="sim-result-title">⭐ Goodwill Calculation</div>
+          <div class="sim-result-lines" id="gwLines"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Partnership Ratio Calculator -->
+    <div class="sim-card">
+      <div class="sim-card-header" onclick="toggleSim('sim3')">
+        <div class="sim-icon" style="background:rgba(16,185,129,0.15)">🤝</div>
+        <div>
+          <h3>Partnership Ratio Simulator</h3>
+          <p>New ratio, sacrificing & gaining</p>
+        </div>
+        <span class="sim-toggle" id="sim3-toggle">▾</span>
+      </div>
+      <div class="sim-body" id="sim3">
+        <p style="font-size:0.8rem;color:var(--text3);margin-bottom:12px">Admission scenario: A & B admit C</p>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">A's Old Share (e.g. 3)</label>
+            <input type="number" class="sim-input" id="ratioA" placeholder="3" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">B's Old Share (e.g. 2)</label>
+            <input type="number" class="sim-input" id="ratioB" placeholder="2" />
+          </div>
+        </div>
+        <div class="sim-input-group">
+          <label class="sim-label">C's New Share (numerator, denom=5)</label>
+          <input type="number" class="sim-input" id="ratioC" placeholder="1" />
+        </div>
+        <div class="sim-input-group">
+          <label class="sim-label">Sacrifice: Equal or Old Ratio</label>
+          <select class="sim-input" id="sacrificeMode">
+            <option value="old">Proportionate to Old Ratio</option>
+            <option value="equal">Equal Sacrifice</option>
+          </select>
+        </div>
+        <button class="sim-calc-btn" onclick="calcRatios()">Calculate Ratios</button>
+        <div class="sim-result-box" id="ratioResult">
+          <div class="sim-result-title">🤝 Ratio Analysis</div>
+          <div class="sim-result-lines" id="ratioLines"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Ratio Analysis -->
+    <div class="sim-card">
+      <div class="sim-card-header" onclick="toggleSim('sim4')">
+        <div class="sim-icon" style="background:rgba(139,92,246,0.15)">📊</div>
+        <div>
+          <h3>Financial Ratio Calculator</h3>
+          <p>Liquidity, solvency & profitability</p>
+        </div>
+        <span class="sim-toggle" id="sim4-toggle">▾</span>
+      </div>
+      <div class="sim-body" id="sim4">
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Current Assets (₹)</label>
+            <input type="number" class="sim-input" id="rCA" placeholder="400000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Current Liabilities (₹)</label>
+            <input type="number" class="sim-input" id="rCL" placeholder="200000" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Inventory (₹)</label>
+            <input type="number" class="sim-input" id="rInv" placeholder="100000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Prepaid Expenses (₹)</label>
+            <input type="number" class="sim-input" id="rPrepaid" placeholder="20000" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Net Profit (₹)</label>
+            <input type="number" class="sim-input" id="rNP" placeholder="100000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Net Sales (₹)</label>
+            <input type="number" class="sim-input" id="rSales" placeholder="500000" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Long-term Debt (₹)</label>
+            <input type="number" class="sim-input" id="rDebt" placeholder="200000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Shareholders' Funds (₹)</label>
+            <input type="number" class="sim-input" id="rEquity" placeholder="400000" />
+          </div>
+        </div>
+        <button class="sim-calc-btn" onclick="calcRatios2()">Calculate All Ratios</button>
+        <div class="sim-result-box" id="ratioResult2">
+          <div class="sim-result-title">📊 Ratio Results</div>
+          <div id="ratioGrid" class="ratio-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Cash Flow Builder -->
+    <div class="sim-card">
+      <div class="sim-card-header" onclick="toggleSim('sim5')">
+        <div class="sim-icon" style="background:rgba(16,185,129,0.15)">💰</div>
+        <div>
+          <h3>Cash Flow Statement Builder</h3>
+          <p>Indirect method</p>
+        </div>
+        <span class="sim-toggle" id="sim5-toggle">▾</span>
+      </div>
+      <div class="sim-body" id="sim5">
+        <p style="font-size:0.8rem;color:var(--text3);margin-bottom:12px">Operating Activities (Indirect Method)</p>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Net Profit (₹)</label>
+            <input type="number" class="sim-input" id="cfNP" placeholder="100000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Depreciation (₹)</label>
+            <input type="number" class="sim-input" id="cfDep" placeholder="20000" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Increase in Debtors (₹)</label>
+            <input type="number" class="sim-input" id="cfDrInc" placeholder="15000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Decrease in Creditors (₹)</label>
+            <input type="number" class="sim-input" id="cfCrDec" placeholder="10000" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Purchase of Fixed Assets (₹)</label>
+            <input type="number" class="sim-input" id="cfFixedPurch" placeholder="50000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Sale of Fixed Assets (₹)</label>
+            <input type="number" class="sim-input" id="cfFixedSale" placeholder="0" />
+          </div>
+        </div>
+        <div class="sim-row">
+          <div class="sim-input-group">
+            <label class="sim-label">Issue of Shares (₹)</label>
+            <input type="number" class="sim-input" id="cfShareIssue" placeholder="100000" />
+          </div>
+          <div class="sim-input-group">
+            <label class="sim-label">Dividend Paid (₹)</label>
+            <input type="number" class="sim-input" id="cfDividend" placeholder="20000" />
+          </div>
+        </div>
+        <div class="sim-input-group">
+          <label class="sim-label">Opening Cash Balance (₹)</label>
+          <input type="number" class="sim-input" id="cfOpening" placeholder="30000" />
+        </div>
+        <button class="sim-calc-btn" onclick="buildCashFlow()">Build Cash Flow Statement</button>
+        <div class="sim-result-box" id="cfResult">
+          <div class="sim-result-title">💰 Cash Flow Statement</div>
+          <div class="sim-result-lines" id="cfLines"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sim-cards -->
+</div>
+
+<!-- ============================================================
+     FORMULA SHEET SCREEN
+============================================================ -->
+<div id="formula-sheet" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <span class="topbar-title">Formula Sheet</span>
+    </div>
+  </div>
+  <div class="formula-screen-header">
+    <h1>📐 Formula Sheet</h1>
+    <p>All key accounting formulas at a glance</p>
+  </div>
+  <div class="formula-search-wrap">
+    <input class="formula-search" id="formulaSearchInput" placeholder="🔍 Search formulas..." oninput="filterFormulas()" />
+  </div>
+  <div id="formulaSheetContent"></div>
+</div>
+
+<!-- ============================================================
+     QUIZ SCREEN (standalone)
+============================================================ -->
+<div id="quiz-screen" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <span class="topbar-title" id="quizScreenTitle">Quiz</span>
+    </div>
+  </div>
+  <div class="quiz-hero">
+    <p class="quiz-chapter-name" id="quizChapterName"></p>
+    <div class="quiz-progress-bar-wrap">
+      <div class="quiz-progress-bar-fill" id="quizProgressBar" style="width:0%"></div>
+    </div>
+    <div class="quiz-counter">
+      <span id="quizCounterLeft">Question 1 of 5</span>
+      <span id="quizCounterRight">Score: 0</span>
+    </div>
+  </div>
+  <div class="quiz-body">
+    <div id="quizQContainer"></div>
+    <div class="quiz-result" id="quizResultScreen"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     BOTTOM NAV
+============================================================ -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="nav-btn active" id="navHome" onclick="showDashboard()">
+    <span class="nav-icon">🏠</span>Home
+  </button>
+  <button class="nav-btn" id="navChapters" onclick="showDashboard()">
+    <span class="nav-icon">📚</span>Chapters
+  </button>
+  <button class="nav-btn" id="navLab" onclick="showSimulations()">
+    <span class="nav-icon">🔬</span>Lab
+  </button>
+  <button class="nav-btn" id="navFormulas" onclick="showFormulaSheet()">
+    <span class="nav-icon">📐</span>Formulas
+  </button>
+  <button class="nav-btn" id="navQuiz" onclick="startGlobalQuiz()">
+    <span class="nav-icon">🎯</span>Quiz
+  </button>
+</nav>
+
+<!-- Install Banner -->
+<div class="install-banner" id="installBanner">
+  <div class="install-icon">📲</div>
+  <div class="install-text">
+    <h4>Install App</h4>
+    <p>Add to home screen for offline use</p>
+  </div>
+  <div class="install-btns">
+    <button class="install-ok" onclick="installApp()">Install</button>
+    <button class="install-dismiss" onclick="dismissInstall()">✕</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   APP.JS – Class 12 Accountancy JKBOSE
+   Author: Mateen Yousuf
+   Technology: Vanilla HTML / CSS / JS (no frameworks)
+============================================================ */
+
+// ── State ──────────────────────────────────────────────────
+let chaptersData = [];
+let currentChapter = null;
+let currentScreen = 'splash';
+let prevScreen = 'dashboard';
+let quizState = { questions:[], current:0, score:0, chapterId:null, answers:[] };
+let deferredInstall = null;
+
+// ── LocalStorage helpers ────────────────────────────────────
+const LS = {
+  get: (k, def=null) => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):def; } catch(e){return def;} },
+  set: (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch(e){} }
+};
+
+// ── Boot ────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  // register SW
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  }
+  // offline detection
+  window.addEventListener('offline', () => document.getElementById('offlineBar').classList.add('show'));
+  window.addEventListener('online', () => document.getElementById('offlineBar').classList.remove('show'));
+  // load data
+  await loadChapters();
+  // floating icons animation stagger
+  document.querySelectorAll('.float-icon').forEach((el,i) => {
+    el.style.animationDelay = (i*1.5)+'s';
+  });
+  // PWA install prompt
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); deferredInstall = e;
+    setTimeout(() => document.getElementById('installBanner').classList.add('show'), 3000);
+  });
+});
+
+async function loadChapters() {
+  try {
+    const resp = await fetch('./data/accountancy_chapters.json');
+    const data = await resp.json();
+    chaptersData = data.chapters;
+  } catch(e) {
+    // Fallback: embedded minimal data
+    chaptersData = [{id:1,title:"Loading...",emoji:"📊",color:"#1a73e8",content:"Please ensure data file is present.",formulas:[],examples:[],quiz:[]}];
+  }
+}
+
+// ── Navigation ───────────────────────────────────────────────
+function showScreen(id) {
+  prevScreen = currentScreen;
+  currentScreen = id;
+  document.querySelectorAll('.screen, #splash').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // update nav
+  const navMap = { dashboard:'navHome', simulations:'navLab', 'formula-sheet':'navFormulas', 'quiz-screen':'navQuiz', 'chapter-detail':'navChapters' };
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const navId = navMap[id];
+  if (navId) document.getElementById(navId).classList.add('active');
+  // hide bottom nav on some screens
+  const hideNav = []; // show always
+  document.getElementById('bottomNav').style.display = '';
+  window.scrollTo(0,0);
+}
+
+function goToDashboard() {
+  showScreen('dashboard');
+  renderDashboard();
+}
+function showDashboard() { goToDashboard(); }
+
+function goBack() {
+  if (prevScreen === 'chapter-detail' && currentScreen === 'quiz-screen') {
+    openChapter(currentChapter);
+  } else {
+    showDashboard();
+  }
+}
+
+function showSimulations() { showScreen('simulations'); }
+function showFormulaSheet() { showScreen('formula-sheet'); buildFormulaSheet(); }
+
+// ── Dashboard ────────────────────────────────────────────────
+function renderDashboard() {
+  // progress
+  const completed = LS.get('completedChapters', []);
+  const pct = Math.round((completed.length / 13) * 100);
+  const circumference = 163;
+  const offset = circumference - (circumference * pct / 100);
+  const ring = document.getElementById('dashProgressRing');
+  if (ring) { ring.style.strokeDashoffset = offset; }
+  document.getElementById('dashProgressPct').textContent = pct+'%';
+  document.getElementById('dashProgressLabel').textContent = `${completed.length} of 13 chapters completed`;
+  document.getElementById('dashProgressBarFill').style.width = pct+'%';
+
+  // stats
+  const scores = LS.get('quizScores', {});
+  const scoreVals = Object.values(scores);
+  document.getElementById('statQuizzes').textContent = scoreVals.length;
+  if (scoreVals.length > 0) {
+    const avg = Math.round(scoreVals.reduce((a,b)=>a+b,0)/scoreVals.length);
+    document.getElementById('statScore').textContent = avg+'%';
+  }
+
+  // chapters list
+  renderChaptersList();
+}
+
+function renderChaptersList() {
+  const list = document.getElementById('chaptersList');
+  if (!list || !chaptersData.length) return;
+  const completed = LS.get('completedChapters', []);
+  list.innerHTML = chaptersData.map(ch => {
+    const done = completed.includes(ch.id);
+    return `
+    <div class="chapter-card ${done?'completed':''} fade-in" onclick="openChapter(${ch.id})">
+      <div class="ch-icon" style="background:${ch.color}22">${ch.emoji}</div>
+      <div class="ch-info">
+        <div class="ch-unit">${ch.unit ? ch.unit.split(':')[0] : ''}</div>
+        <div class="ch-title">${ch.title}</div>
+        <div class="ch-meta">
+          <span class="ch-tag">Ch ${ch.id}</span>
+          ${done ? '<span class="ch-done-badge">✓ Done</span>' : ''}
+        </div>
+      </div>
+      <span class="ch-arrow">›</span>
+    </div>`;
+  }).join('');
+}
+
+// ── Chapter Detail ────────────────────────────────────────────
+function openChapter(idOrObj) {
+  const ch = typeof idOrObj === 'number' ? chaptersData.find(c=>c.id===idOrObj) : chaptersData.find(c=>c.id===idOrObj.id);
+  if (!ch) return;
+  currentChapter = ch;
+
+  // set hero
+  document.getElementById('chapterTopbarTitle').textContent = `Ch ${ch.id}`;
+  document.getElementById('chapterNum').textContent = `Chapter ${ch.id} • ${ch.unit||''}`;
+  document.getElementById('chapterTitleBig').textContent = ch.title;
+  document.getElementById('chapterEmojiBg').textContent = ch.emoji;
+  document.getElementById('chapterHero').style.background = `linear-gradient(135deg,${ch.color}33,#0f172a)`;
+
+  // concept
+  const contentHtml = (ch.content||'').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  document.getElementById('conceptContent').innerHTML = contentHtml;
+
+  // formulas
+  const fl = document.getElementById('formulasList');
+  fl.innerHTML = (ch.formulas||[]).map(f=>`<div class="formula-item">${f}</div>`).join('');
+
+  // examples
+  const el = document.getElementById('examplesList');
+  el.innerHTML = (ch.examples||[]).map((ex,i)=>`
+    <div class="example-card fade-in">
+      <div class="example-header">💡 ${ex.title}</div>
+      <div class="example-body">
+        <div class="example-label">Problem</div>
+        <div class="example-problem">${ex.problem}</div>
+        <button class="solution-toggle" onclick="toggleSolution(${i})">▶ Show Solution</button>
+        <div class="solution-body" id="sol-${i}">${ex.solution}</div>
+      </div>
+    </div>`).join('') || '<div class="content-box">No examples for this chapter yet.</div>';
+
+  // ledger
+  buildLedger(ch);
+
+  // quiz
+  buildChapterQuiz(ch);
+
+  // reset tab
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);});
+  document.querySelectorAll('.tab-content').forEach((t,i)=>{t.classList.toggle('active',i===0);});
+
+  showScreen('chapter-detail');
+}
+
+function buildLedger(ch) {
+  // Build a contextual ledger based on chapter
+  const title = document.getElementById('ledgerTitle');
+  const body = document.getElementById('ledgerBody');
+  const exp = document.getElementById('ledgerExplanation');
+
+  const ledgers = {
+    1: {
+      title: "Partner's Capital Account (Fluctuating)",
+      rows: [
+        {dr:'To Drawings A/c', drAmt:'20,000', cr:'By Balance b/d', crAmt:'1,00,000'},
+        {dr:'To Interest on Drawings', drAmt:'1,200', cr:'By Interest on Capital', crAmt:'6,000'},
+        {dr:'To Balance c/d', drAmt:'91,800', cr:'By Share of Profit', crAmt:'7,000'},
+        {dr:'', drAmt:'<strong>1,13,000</strong>', cr:'', crAmt:'<strong>1,13,000</strong>'}
+      ],
+      exp: "This ledger shows a partner's Capital Account under Fluctuating Capital Method. All adjustments (drawings, interest, profit share) are recorded in the same account."
+    },
+    2: {
+      title: "Goodwill Account",
+      rows: [
+        {dr:'To Partners Capital A/c (Old Ratio)', drAmt:'60,000', cr:'By Partners Capital A/c (New Ratio)', crAmt:'60,000'},
+        {dr:'', drAmt:'<strong>60,000</strong>', cr:'', crAmt:'<strong>60,000</strong>'}
+      ],
+      exp: "Goodwill is raised in old ratio (Dr Goodwill A/c) and then written off in new ratio (Cr Partners A/c). The final effect is that new partner bears his share."
+    },
+    8: {
+      title: "Share Capital Account",
+      rows: [
+        {dr:'To Balance c/d', drAmt:'10,00,000', cr:'By Share Application A/c', crAmt:'3,00,000'},
+        {dr:'', drAmt:'', cr:'By Share Allotment A/c', crAmt:'7,00,000'},
+        {dr:'', drAmt:'<strong>10,00,000</strong>', cr:'', crAmt:'<strong>10,00,000</strong>'}
+      ],
+      exp: "Share Capital A/c is credited when application and allotment money is transferred. It represents the permanent equity capital of the company."
+    }
+  };
+
+  const lData = ledgers[ch.id] || {
+    title: `${ch.title} – Sample Account`,
+    rows: [
+      {dr:'To Opening Balance', drAmt:'', cr:'By Cash/Bank A/c', crAmt:''},
+      {dr:'To Expenses A/c', drAmt:'', cr:'By Income A/c', crAmt:''},
+      {dr:'To Closing Balance', drAmt:'', cr:'', crAmt:''}
+    ],
+    exp: `This is a sample ledger format for ${ch.title}. In practice, debit entries represent increases in assets/expenses, and credit entries represent increases in liabilities/income.`
+  };
+
+  title.textContent = lData.title;
+  body.innerHTML = lData.rows.map(r=>`
+    <tr>
+      <td class="ledger-dr">${r.dr||''}</td>
+      <td style="text-align:right">${r.drAmt||''}</td>
+      <td class="ledger-divider ledger-cr" style="padding-left:16px">${r.cr||''}</td>
+      <td style="text-align:right">${r.crAmt||''}</td>
+    </tr>`).join('');
+  exp.textContent = lData.exp;
+}
+
+function buildChapterQuiz(ch) {
+  const container = document.getElementById('chapterQuizContainer');
+  if (!ch.quiz || !ch.quiz.length) {
+    container.innerHTML = '<div class="content-box">No quiz available for this chapter.</div>';
+    return;
+  }
+  container.innerHTML = `
+    <div style="margin-bottom:16px">
+      <p style="font-size:0.85rem;color:var(--text2);margin-bottom:12px">${ch.quiz.length} questions • Tap to start</p>
+      <button class="sim-calc-btn" style="max-width:300px" onclick="startChapterQuiz(${ch.id})">
+        🎯 Start Chapter Quiz
+      </button>
+    </div>
+    <div style="font-size:0.82rem;color:var(--text3)">Previous best score: <strong style="color:var(--blue)">${getBestScore(ch.id)}</strong></div>`;
+}
+
+function getBestScore(chId) {
+  const scores = LS.get('quizScores', {});
+  return scores[chId] !== undefined ? scores[chId]+'%' : 'Not attempted';
+}
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+tabId).classList.add('active');
+}
+
+function toggleSolution(i) {
+  const el = document.getElementById('sol-'+i);
+  el.classList.toggle('open');
+  el.previousElementSibling.textContent = el.classList.contains('open') ? '▼ Hide Solution' : '▶ Show Solution';
+}
+
+function markChapterComplete() {
+  if (!currentChapter) return;
+  const completed = LS.get('completedChapters', []);
+  if (!completed.includes(currentChapter.id)) {
+    completed.push(currentChapter.id);
+    LS.set('completedChapters', completed);
+    document.getElementById('completeBtn').textContent = '✅';
+    setTimeout(() => { document.getElementById('completeBtn').textContent = '✓'; }, 2000);
+  }
+}
+
+// ── Quiz Engine ───────────────────────────────────────────────
+function startChapterQuiz(chId) {
+  const ch = chaptersData.find(c=>c.id===chId);
+  if (!ch || !ch.quiz.length) return;
+  quizState = { questions:[...ch.quiz], current:0, score:0, chapterId:chId, answers:[] };
+  document.getElementById('quizScreenTitle').textContent = `Ch ${chId} Quiz`;
+  document.getElementById('quizChapterName').textContent = ch.title;
+  prevScreen = 'chapter-detail';
+  showScreen('quiz-screen');
+  renderQuizQuestion();
+}
+
+function startGlobalQuiz() {
+  // mix questions from all chapters
+  let allQ = [];
+  chaptersData.forEach(ch => { if(ch.quiz) allQ.push(...ch.quiz.slice(0,2).map(q=>({...q,_ch:ch.title}))); });
+  // shuffle
+  allQ = allQ.sort(()=>Math.random()-0.5).slice(0,15);
+  quizState = { questions:allQ, current:0, score:0, chapterId:'all', answers:[] };
+  document.getElementById('quizScreenTitle').textContent = 'Practice Quiz';
+  document.getElementById('quizChapterName').textContent = 'All Chapters Mixed';
+  prevScreen = 'dashboard';
+  showScreen('quiz-screen');
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const { questions, current } = quizState;
+  const container = document.getElementById('quizQContainer');
+  const resultDiv = document.getElementById('quizResultScreen');
+
+  if (current >= questions.length) {
+    // show result
+    container.style.display = 'none';
+    resultDiv.classList.add('show');
+    showQuizResult();
+    return;
+  }
+
+  container.style.display = 'block';
+  resultDiv.classList.remove('show');
+  const q = questions[current];
+  const pct = ((current+1)/questions.length)*100;
+  document.getElementById('quizProgressBar').style.width = pct+'%';
+  document.getElementById('quizCounterLeft').textContent = `Question ${current+1} of ${questions.length}`;
+  document.getElementById('quizCounterRight').textContent = `Score: ${quizState.score}`;
+
+  const letters = ['A','B','C','D'];
+  container.innerHTML = `
+    <div class="quiz-question-card fade-in">
+      <div class="quiz-q-num">Question ${current+1}</div>
+      <div class="quiz-question">${q.question}</div>
+    </div>
+    <div class="quiz-options">
+      ${q.options.map((opt,i)=>`
+        <button class="quiz-option" onclick="answerQuiz(${i})" data-index="${i}">
+          <span class="option-letter">${letters[i]}</span>
+          ${opt}
+        </button>`).join('')}
+    </div>
+    <div class="quiz-explanation" id="quizExp">
+      <strong>💡 Explanation:</strong> ${q.explanation||''}
+    </div>
+    <button class="quiz-nav-btn" id="quizNextBtn" onclick="nextQuestion()">
+      ${current+1 < questions.length ? 'Next Question →' : 'See Results 🎉'}
+    </button>`;
+}
+
+function answerQuiz(selectedIdx) {
+  const q = quizState.questions[quizState.current];
+  const correct = q.answer;
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach(btn => btn.disabled = true);
+
+  const selectedOpt = q.options[selectedIdx];
+  const isCorrect = selectedOpt === correct;
+  if (isCorrect) quizState.score++;
+
+  options.forEach((btn, i) => {
+    if (q.options[i] === correct) btn.classList.add('correct');
+    else if (i === selectedIdx && !isCorrect) btn.classList.add('wrong');
+  });
+
+  document.getElementById('quizExp').classList.add('show');
+  document.getElementById('quizNextBtn').classList.add('show');
+  quizState.answers.push({ question: q.question, correct: isCorrect });
+}
+
+function nextQuestion() {
+  quizState.current++;
+  renderQuizQuestion();
+}
+
+function showQuizResult() {
+  const { questions, score, chapterId } = quizState;
+  const pct = Math.round((score/questions.length)*100);
+
+  // save score
+  if (chapterId !== 'all') {
+    const scores = LS.get('quizScores', {});
+    if (!scores[chapterId] || scores[chapterId] < pct) scores[chapterId] = pct;
+    LS.set('quizScores', scores);
+  }
+
+  const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '🎯' : pct >= 40 ? '📚' : '💪';
+  const msg = pct >= 80 ? 'Excellent work! Keep it up!' : pct >= 60 ? 'Good job! Review weak areas.' : pct >= 40 ? 'Keep practicing!' : 'Study more and try again!';
+
+  // conic gradient for score circle
+  const deg = (pct/100)*360;
+  document.getElementById('quizResultScreen').innerHTML = `
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-score-circle" style="background:conic-gradient(var(--blue) ${deg}deg, rgba(255,255,255,0.05) ${deg}deg)">
+      <div class="result-score-inner">
+        <div class="result-score-num">${score}</div>
+        <div class="result-score-total">/ ${questions.length}</div>
+      </div>
+    </div>
+    <div class="result-title">${pct}% Score</div>
+    <div class="result-msg">${msg}</div>
+    <div class="result-breakdown">
+      <div class="rb-row"><span class="rb-label">✅ Correct</span><span class="rb-val" style="color:var(--green)">${score}</span></div>
+      <div class="rb-row"><span class="rb-label">❌ Wrong</span><span class="rb-val" style="color:var(--red)">${questions.length-score}</span></div>
+      <div class="rb-row"><span class="rb-label">📊 Percentage</span><span class="rb-val" style="color:var(--blue)">${pct}%</span></div>
+    </div>
+    <button class="restart-btn" onclick="retryQuiz()">🔄 Retry Quiz</button>
+    <button class="retry-btn" onclick="goBack()">← Back</button>`;
+}
+
+function retryQuiz() {
+  quizState.current = 0;
+  quizState.score = 0;
+  quizState.answers = [];
+  quizState.questions = [...quizState.questions].sort(()=>Math.random()-0.5);
+  renderQuizQuestion();
+  document.getElementById('quizQContainer').style.display = 'block';
+  document.getElementById('quizResultScreen').classList.remove('show');
+}
+
+// ── Simulations ───────────────────────────────────────────────
+function toggleSim(id) {
+  const body = document.getElementById(id);
+  const toggle = document.getElementById(id+'-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function updateJournalFields() {
+  const type = document.getElementById('journalType').value;
+  const partyWrap = document.getElementById('journalPartyWrap');
+  const partyLabel = document.getElementById('journalPartyLabel');
+  if (type === 'credit_sales') { partyWrap.style.display='block'; partyLabel.textContent='Customer Name'; }
+  else if (type === 'bank_loan') { partyWrap.style.display='block'; partyLabel.textContent='Bank Name'; }
+  else if (type === 'interest_on_capital') { partyWrap.style.display='block'; partyLabel.textContent='Partner Name'; }
+  else { partyWrap.style.display='none'; }
+}
+
+function generateJournal() {
+  const type = document.getElementById('journalType').value;
+  const amt = parseFloat(document.getElementById('journalAmount').value) || 0;
+  const party = document.getElementById('journalParty').value || 'Party';
+  if (!type || !amt) { alert('Please select a transaction and enter an amount.'); return; }
+
+  const entries = {
+    cash_purchase: `Purchases A/c                    Dr    ₹${fmt(amt)}\n  To Cash A/c                              ₹${fmt(amt)}\n(Being goods purchased for cash)`,
+    credit_sales: `${party}'s A/c (Debtor)              Dr    ₹${fmt(amt)}\n  To Sales A/c                              ₹${fmt(amt)}\n(Being goods sold on credit to ${party})`,
+    salary_paid: `Salaries A/c                     Dr    ₹${fmt(amt)}\n  To Cash/Bank A/c                          ₹${fmt(amt)}\n(Being salary paid to employees)`,
+    capital_intro: `Cash/Bank A/c                    Dr    ₹${fmt(amt)}\n  To Capital A/c                            ₹${fmt(amt)}\n(Being capital introduced by proprietor)`,
+    bank_loan: `Bank A/c                          Dr    ₹${fmt(amt)}\n  To Bank Loan A/c                          ₹${fmt(amt)}\n(Being loan taken from ${party})`,
+    asset_purchase: `Fixed Asset A/c                  Dr    ₹${fmt(amt)}\n  To Cash/Bank A/c                          ₹${fmt(amt)}\n(Being fixed asset purchased for cash)`,
+    interest_on_capital: `P&L Appropriation A/c            Dr    ₹${fmt(amt)}\n  To ${party}'s Capital A/c                  ₹${fmt(amt)}\n(Being interest on ${party}'s capital credited)`
+  };
+
+  document.getElementById('journalLines').textContent = entries[type];
+  document.getElementById('journalResult').classList.add('show');
+}
+
+function calcGoodwill() {
+  const method = document.getElementById('gwMethod').value;
+  const avgP = parseFloat(document.getElementById('gwAvgProfit').value) || 0;
+  const yrs = parseFloat(document.getElementById('gwYears').value) || 0;
+  const cap = parseFloat(document.getElementById('gwCapital').value) || 0;
+  const rate = parseFloat(document.getElementById('gwRate').value) || 0;
+
+  let lines = '';
+  let gw = 0;
+
+  if (method === 'avg') {
+    gw = avgP * yrs;
+    lines = `Average Profit         = ₹${fmt(avgP)}\nYears' Purchase        = ${yrs}\n──────────────────────────────\nGoodwill               = ₹${fmt(gw)}`;
+  } else if (method === 'super') {
+    const normalP = cap * rate / 100;
+    const superP = avgP - normalP;
+    gw = superP * yrs;
+    lines = `Average Profit         = ₹${fmt(avgP)}\nNormal Profit (${rate}%)  = ₹${fmt(normalP)}\nSuper Profit           = ₹${fmt(superP)}\nYears' Purchase        = ${yrs}\n──────────────────────────────\nGoodwill               = ₹${fmt(gw)}`;
+  } else {
+    const normalP = cap * rate / 100;
+    const superP = avgP - normalP;
+    gw = superP * (100/rate);
+    lines = `Average Profit         = ₹${fmt(avgP)}\nNormal Profit (${rate}%)  = ₹${fmt(normalP)}\nSuper Profit           = ₹${fmt(superP)}\nCapitalisation (×100/${rate})= ₹${fmt(gw)}\n──────────────────────────────\nGoodwill               = ₹${fmt(gw)}`;
+  }
+
+  document.getElementById('gwLines').textContent = lines;
+  document.getElementById('gwResult').classList.add('show');
+}
+
+function calcRatios() {
+  const aOld = parseFloat(document.getElementById('ratioA').value) || 3;
+  const bOld = parseFloat(document.getElementById('ratioB').value) || 2;
+  const cNew_num = parseFloat(document.getElementById('ratioC').value) || 1;
+  const mode = document.getElementById('sacrificeMode').value;
+  const total = aOld + bOld;
+  const remaining = total - cNew_num; // denominator for A and B in new ratio
+
+  // Sacrificing ratio
+  let aSac, bSac;
+  if (mode === 'old') {
+    aSac = cNew_num * (aOld/total);
+    bSac = cNew_num * (bOld/total);
+  } else {
+    aSac = cNew_num/2;
+    bSac = cNew_num/2;
+  }
+
+  const aNew_num = aOld - aSac;
+  const bNew_num = bOld - bSac;
+
+  const lines = `OLD RATIO:\nA: ${aOld}/${total}  B: ${bOld}/${total}\n\nC's NEW SHARE: ${cNew_num}/${total}\n\nSACRIFICING RATIO (${mode==='old'?'Proportionate':'Equal'}):\nA sacrifices: ${fracStr(aSac,total)}  B sacrifices: ${fracStr(bSac,total)}\n\nNEW RATIO:\nA: ${fracStr(aNew_num,total)}  B: ${fracStr(bNew_num,total)}  C: ${cNew_num}/${total}\n\n= Simplified ≈ ${simplify(aNew_num,bNew_num,cNew_num)}`;
+
+  document.getElementById('ratioLines').textContent = lines;
+  document.getElementById('ratioResult').classList.add('show');
+}
+
+function calcRatios2() {
+  const CA = parseFloat(document.getElementById('rCA').value)||0;
+  const CL = parseFloat(document.getElementById('rCL').value)||0;
+  const inv = parseFloat(document.getElementById('rInv').value)||0;
+  const prep = parseFloat(document.getElementById('rPrepaid').value)||0;
+  const NP = parseFloat(document.getElementById('rNP').value)||0;
+  const sales = parseFloat(document.getElementById('rSales').value)||0;
+  const debt = parseFloat(document.getElementById('rDebt').value)||0;
+  const equity = parseFloat(document.getElementById('rEquity').value)||0;
+
+  const cr = CL ? (CA/CL).toFixed(2) : '–';
+  const qr = CL ? ((CA-inv-prep)/CL).toFixed(2) : '–';
+  const npm = sales ? ((NP/sales)*100).toFixed(1)+'%' : '–';
+  const der = equity ? (debt/equity).toFixed(2) : '–';
+
+  const crStatus = cr !== '–' ? (parseFloat(cr)>=2 ? '✅ Good' : '⚠️ Low') : '';
+  const qrStatus = qr !== '–' ? (parseFloat(qr)>=1 ? '✅ Good' : '⚠️ Low') : '';
+
+  document.getElementById('ratioGrid').innerHTML = `
+    <div class="ratio-result">
+      <div class="ratio-label">Current Ratio</div>
+      <div class="ratio-val">${cr}:1</div>
+      <div class="ratio-ideal">${crStatus} Ideal: 2:1</div>
+    </div>
+    <div class="ratio-result">
+      <div class="ratio-label">Quick Ratio</div>
+      <div class="ratio-val">${qr}:1</div>
+      <div class="ratio-ideal">${qrStatus} Ideal: 1:1</div>
+    </div>
+    <div class="ratio-result">
+      <div class="ratio-label">Net Profit Ratio</div>
+      <div class="ratio-val">${npm}</div>
+      <div class="ratio-ideal">Higher = Better</div>
+    </div>
+    <div class="ratio-result">
+      <div class="ratio-label">Debt-Equity</div>
+      <div class="ratio-val">${der}:1</div>
+      <div class="ratio-ideal">Ideal: ≤2:1</div>
+    </div>`;
+  document.getElementById('ratioResult2').classList.add('show');
+}
+
+function buildCashFlow() {
+  const NP = parseFloat(document.getElementById('cfNP').value)||0;
+  const dep = parseFloat(document.getElementById('cfDep').value)||0;
+  const drInc = parseFloat(document.getElementById('cfDrInc').value)||0;
+  const crDec = parseFloat(document.getElementById('cfCrDec').value)||0;
+  const fixedPurch = parseFloat(document.getElementById('cfFixedPurch').value)||0;
+  const fixedSale = parseFloat(document.getElementById('cfFixedSale').value)||0;
+  const shareIssue = parseFloat(document.getElementById('cfShareIssue').value)||0;
+  const dividend = parseFloat(document.getElementById('cfDividend').value)||0;
+  const opening = parseFloat(document.getElementById('cfOpening').value)||0;
+
+  const opAct = NP + dep - drInc - crDec;
+  const invAct = fixedSale - fixedPurch;
+  const finAct = shareIssue - dividend;
+  const netChange = opAct + invAct + finAct;
+  const closing = opening + netChange;
+
+  const lines = `A. OPERATING ACTIVITIES\n   Net Profit                    ₹${fmt(NP)}\n   Add: Depreciation              ₹${fmt(dep)}\n   Less: Increase in Debtors     (₹${fmt(drInc)})\n   Less: Decrease in Creditors   (₹${fmt(crDec)})\n   ─────────────────────────────────────\n   Net Cash from Operations      ₹${fmt(opAct)}\n\nB. INVESTING ACTIVITIES\n   Purchase of Fixed Assets      (₹${fmt(fixedPurch)})\n   Sale of Fixed Assets           ₹${fmt(fixedSale)}\n   ─────────────────────────────────────\n   Net Cash from Investing       ₹${fmt(invAct)}\n\nC. FINANCING ACTIVITIES\n   Issue of Shares                ₹${fmt(shareIssue)}\n   Dividend Paid                 (₹${fmt(dividend)})\n   ─────────────────────────────────────\n   Net Cash from Financing       ₹${fmt(finAct)}\n\n══════════════════════════════════════\n   Net Change in Cash            ₹${fmt(netChange)}\n   Opening Cash Balance          ₹${fmt(opening)}\n   CLOSING CASH BALANCE          ₹${fmt(closing)}`;
+
+  document.getElementById('cfLines').textContent = lines;
+  document.getElementById('cfResult').classList.add('show');
+}
+
+// ── Formula Sheet ─────────────────────────────────────────────
+function buildFormulaSheet() {
+  const container = document.getElementById('formulaSheetContent');
+  if (!chaptersData.length) return;
+
+  container.innerHTML = chaptersData.map(ch => `
+    <div class="formula-section" data-chapter="${ch.title.toLowerCase()}">
+      <div class="formula-section-title">${ch.emoji} ${ch.title}</div>
+      ${(ch.formulas||[]).map(f=>`
+        <div class="formula-pill">
+          <div class="formula-pill-title">${ch.title}</div>
+          ${f}
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function filterFormulas() {
+  const q = document.getElementById('formulaSearchInput').value.toLowerCase();
+  document.querySelectorAll('.formula-section').forEach(sec => {
+    const text = sec.textContent.toLowerCase();
+    sec.style.display = text.includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('.formula-pill').forEach(pill => {
+    const text = pill.textContent.toLowerCase();
+    pill.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+
+// ── Author Modal ──────────────────────────────────────────────
+function showAuthorModal() {
+  // Simple in-page info display
+  alert('👨‍🏫 Mateen Yousuf\n\nAccountancy Teacher\nSchool Education Department\nJammu and Kashmir\n\nThis app is designed to help Class 12 students master Accountancy through interactive learning, simulations, and quizzes aligned with JKBOSE curriculum and NCERT guidelines.\n\n📧 Developed with ❤️ for J&K students');
+}
+
+// ── PWA Install ───────────────────────────────────────────────
+function installApp() {
+  if (deferredInstall) {
+    deferredInstall.prompt();
+    deferredInstall.userChoice.then(() => { deferredInstall = null; });
+  }
+  document.getElementById('installBanner').classList.remove('show');
+}
+function dismissInstall() {
+  document.getElementById('installBanner').classList.remove('show');
+}
+
+// ── Utilities ─────────────────────────────────────────────────
+function fmt(n) {
+  return Number(n).toLocaleString('en-IN');
+}
+function fracStr(num, den) {
+  return `${num}/${den}`;
+}
+function simplify(a, b, c) {
+  // approximate
+  const scale = 20;
+  return `${Math.round(a*scale)}:${Math.round(b*scale)}:${Math.round(c*scale)} (approx)`;
+}
+
+// ── Initial Load ──────────────────────────────────────────────
+window.addEventListener('load', () => {
+  // Preload chapter data in background
+  setTimeout(async () => {
+    await loadChapters();
+  }, 500);
+});
+</script>
+
+</body>
+</html>
